@@ -49,7 +49,7 @@ const MODULES_LIST: ModuleDefinition[] = [
 
 export default function App() {
   const [profile, setProfile] = useState<UserProfile>({
-    name: 'Young Strategist',
+    name: 'Young Investor',
     avatar: '🦉',
     wallet: 5.00, // starting cash
     stars: 15,
