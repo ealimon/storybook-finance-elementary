@@ -1,0 +1,6 @@
+{
+  "name": "Storybook Financial Literacy",
+  "description": "Interactive money management and saving modules for elementary students.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
