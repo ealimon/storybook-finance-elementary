@@ -375,6 +375,9 @@ export default function App() {
             </div>
           </div>
         </div>
+        <div className="mt-6 mb-12 text-center text-xs text-slate-400 font-semibold tracking-wide">
+          © 2026 Storybook Education • All Rights Reserved
+        </div>
       </footer>
 
     </div>
