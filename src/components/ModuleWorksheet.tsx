@@ -392,16 +392,17 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
           @media print {
             body, html {
               background: white !important;
-              color: black !important;
+              color: #1e293b !important;
               margin: 0 !important;
               padding: 0 !important;
               -webkit-print-color-adjust: exact !important;
               print-color-adjust: exact !important;
               font-size: 11px !important;
+              font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
             }
             @page {
               size: letter;
-              margin: 0.4in 0.4in 0.4in 0.4in !important;
+              margin: 0.35in 0.4in 0.35in 0.4in !important;
             }
             .no-print {
               display: none !important;
@@ -415,64 +416,163 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               margin: 0 !important;
               width: 100% !important;
             }
+            
+            /* Header & Footer cleanups */
+            #print-worksheet-wrapper .border-b-4 {
+              border-bottom-width: 2px !important;
+              border-color: #cbd5e1 !important;
+              padding-bottom: 0.5rem !important;
+              margin-bottom: 0.75rem !important;
+            }
+            #print-worksheet-wrapper .border-t-4 {
+              border-top-width: 2px !important;
+              border-color: #cbd5e1 !important;
+              margin-top: 0.5rem !important;
+              padding-top: 0.4rem !important;
+            }
+
+            /* Student Name and Date: convert to classic elegant lines */
+            #print-worksheet-wrapper .bg-indigo-50\\/50 {
+              background: transparent !important;
+              border: none !important;
+              padding: 0 !important;
+              margin-bottom: 0.75rem !important;
+              gap: 1rem !important;
+            }
+            #print-worksheet-wrapper input#worksheet-student-name-input,
+            #print-worksheet-wrapper input#worksheet-date-input {
+              border-top: none !important;
+              border-left: none !important;
+              border-right: none !important;
+              border-bottom: 1px dashed #64748b !important;
+              border-radius: 0 !important;
+              background: transparent !important;
+              padding: 0 0 1px 0.25rem !important;
+              font-size: 0.8rem !important;
+              box-shadow: none !important;
+            }
+            #print-worksheet-wrapper input#worksheet-student-name-input::placeholder,
+            #print-worksheet-wrapper input#worksheet-date-input::placeholder {
+              color: transparent !important;
+            }
+
             /* Compress margins and paddings for single letter page fit */
             #print-worksheet-wrapper .space-y-6 {
               margin-top: 0 !important;
             }
             #print-worksheet-wrapper .space-y-6 > * + * {
-              margin-top: 0.4rem !important;
+              margin-top: 0.35rem !important;
             }
             #print-worksheet-wrapper h3 {
-              font-size: 1.25rem !important;
+              font-size: 1.35rem !important;
+              color: #1e1b4b !important;
               margin-top: 0.1rem !important;
+              font-weight: 800 !important;
             }
             #print-worksheet-wrapper h4 {
-              font-size: 0.75rem !important;
-              margin-bottom: 0.2rem !important;
+              font-size: 0.8rem !important;
+              margin-bottom: 0.25rem !important;
+              color: #1e293b !important;
+              line-height: 1.3 !important;
             }
-            #print-worksheet-wrapper input, #print-worksheet-wrapper textarea {
-              padding: 0.15rem 0.4rem !important;
-              font-size: 0.7rem !important;
-              border-radius: 4px !important;
-              border: 1px solid #cbd5e1 !important;
+            #print-worksheet-wrapper .text-slate-400 {
+              color: #64748b !important;
             }
-            #print-worksheet-wrapper textarea {
-              height: 2.2rem !important;
-              min-height: auto !important;
-            }
+            
+            /* Custom styling for question cards */
             #print-worksheet-wrapper .p-5 {
-              padding: 0.45rem 0.6rem !important;
+              padding: 0.45rem 0.65rem !important;
               border-radius: 8px !important;
-              border-width: 1px !important;
-              background: transparent !important;
+              border: 1px solid #e2e8f0 !important;
+              background: #f8fafc !important;
               page-break-inside: avoid !important;
+              box-shadow: none !important;
             }
-            #print-worksheet-wrapper .p-4 {
-              padding: 0.4rem 0.6rem !important;
-              margin-bottom: 0.4rem !important;
-              border-radius: 8px !important;
+            
+            /* Question badges */
+            #print-worksheet-wrapper .bg-indigo-100 {
+              background-color: #e0e7ff !important;
+              color: #4338ca !important;
+              font-weight: bold !important;
+              padding: 0.1rem 0.4rem !important;
+              border-radius: 4px !important;
             }
-            #print-worksheet-wrapper .mb-6 {
-              margin-bottom: 0.4rem !important;
+
+            /* Math Answer Inputs: convert to blank lines with custom label */
+            #print-worksheet-wrapper input[id^="input-worksheet-math-"] {
+              border-top: none !important;
+              border-left: none !important;
+              border-right: none !important;
+              border-bottom: 1px dashed #64748b !important;
+              border-radius: 0 !important;
+              background: transparent !important;
+              width: 150px !important;
+              padding: 0 0.25rem !important;
+              margin-left: 0.5rem !important;
+              font-size: 0.8rem !important;
+              font-weight: bold !important;
+              color: #0f172a !important;
+              box-shadow: none !important;
             }
-            #print-worksheet-wrapper .pb-4 {
-              padding-bottom: 0.2rem !important;
+            #print-worksheet-wrapper input[id^="input-worksheet-math-"]::placeholder {
+              color: transparent !important;
             }
-            #print-worksheet-wrapper .mt-6 {
+
+            /* Text explanation: convert to realistic lined paper feel for handwriting! */
+            #print-worksheet-wrapper textarea[id^="textarea-worksheet-text-"] {
+              border: none !important;
+              border-radius: 0 !important;
+              background: repeating-linear-gradient(transparent, transparent 18px, #e2e8f0 18px, #e2e8f0 19px) !important;
+              line-height: 19px !important;
+              height: 38px !important;
+              padding: 0 !important;
               margin-top: 0.4rem !important;
-              padding-top: 0.25rem !important;
+              box-shadow: none !important;
+              resize: none !important;
+              color: #0f172a !important;
+              font-weight: bold !important;
             }
-            /* Choice options styling for print */
+            #print-worksheet-wrapper textarea[id^="textarea-worksheet-text-"]::placeholder {
+              color: transparent !important;
+            }
+
+            /* Choice options styling: convert to actual test checkboxes */
             #print-worksheet-wrapper .grid-cols-2 {
               grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-              gap: 0.25rem !important;
+              gap: 0.3rem !important;
+              margin-top: 0.25rem !important;
             }
             #print-worksheet-wrapper .grid-cols-2 button {
-              padding: 0.2rem 0.4rem !important;
-              font-size: 0.7rem !important;
-              border-radius: 4px !important;
+              padding: 0.25rem 0.5rem !important;
+              font-size: 0.75rem !important;
+              border-radius: 6px !important;
               border: 1px solid #cbd5e1 !important;
-              background: #fff !important;
+              background: #ffffff !important;
+              color: #334155 !important;
+              text-align: left !important;
+              display: flex !important;
+              align-items: center !important;
+              justify-content: flex-start !important;
+              box-shadow: none !important;
+            }
+            /* Add standard checkbox or bubble circle before choice in print */
+            #print-worksheet-wrapper .grid-cols-2 button::before {
+              content: "○ " !important;
+              font-size: 0.85rem !important;
+              margin-right: 0.35rem !important;
+              color: #64748b !important;
+              font-weight: normal !important;
+            }
+            /* Highlighting selected option if pre-filled digitally before printing */
+            #print-worksheet-wrapper .grid-cols-2 button[class*="bg-indigo-100"] {
+              background: #f0fdf4 !important;
+              border-color: #86efac !important;
+              color: #166534 !important;
+              font-weight: bold !important;
+            }
+            #print-worksheet-wrapper .grid-cols-2 button[class*="bg-indigo-100"]::before {
+              content: "● " !important;
+              color: #15803d !important;
             }
           }
         `
