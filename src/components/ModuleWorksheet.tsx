@@ -397,6 +397,11 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               padding: 0 !important;
               -webkit-print-color-adjust: exact !important;
               print-color-adjust: exact !important;
+              font-size: 11px !important;
+            }
+            @page {
+              size: letter;
+              margin: 0.4in 0.4in 0.4in 0.4in !important;
             }
             .no-print {
               display: none !important;
@@ -409,6 +414,65 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               padding: 0 !important;
               margin: 0 !important;
               width: 100% !important;
+            }
+            /* Compress margins and paddings for single letter page fit */
+            #print-worksheet-wrapper .space-y-6 {
+              margin-top: 0 !important;
+            }
+            #print-worksheet-wrapper .space-y-6 > * + * {
+              margin-top: 0.4rem !important;
+            }
+            #print-worksheet-wrapper h3 {
+              font-size: 1.25rem !important;
+              margin-top: 0.1rem !important;
+            }
+            #print-worksheet-wrapper h4 {
+              font-size: 0.75rem !important;
+              margin-bottom: 0.2rem !important;
+            }
+            #print-worksheet-wrapper input, #print-worksheet-wrapper textarea {
+              padding: 0.15rem 0.4rem !important;
+              font-size: 0.7rem !important;
+              border-radius: 4px !important;
+              border: 1px solid #cbd5e1 !important;
+            }
+            #print-worksheet-wrapper textarea {
+              height: 2.2rem !important;
+              min-height: auto !important;
+            }
+            #print-worksheet-wrapper .p-5 {
+              padding: 0.45rem 0.6rem !important;
+              border-radius: 8px !important;
+              border-width: 1px !important;
+              background: transparent !important;
+              page-break-inside: avoid !important;
+            }
+            #print-worksheet-wrapper .p-4 {
+              padding: 0.4rem 0.6rem !important;
+              margin-bottom: 0.4rem !important;
+              border-radius: 8px !important;
+            }
+            #print-worksheet-wrapper .mb-6 {
+              margin-bottom: 0.4rem !important;
+            }
+            #print-worksheet-wrapper .pb-4 {
+              padding-bottom: 0.2rem !important;
+            }
+            #print-worksheet-wrapper .mt-6 {
+              margin-top: 0.4rem !important;
+              padding-top: 0.25rem !important;
+            }
+            /* Choice options styling for print */
+            #print-worksheet-wrapper .grid-cols-2 {
+              grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+              gap: 0.25rem !important;
+            }
+            #print-worksheet-wrapper .grid-cols-2 button {
+              padding: 0.2rem 0.4rem !important;
+              font-size: 0.7rem !important;
+              border-radius: 4px !important;
+              border: 1px solid #cbd5e1 !important;
+              background: #fff !important;
             }
           }
         `
