@@ -162,26 +162,31 @@ export default function ChoreBoard({ wallet, onAddMoney, onAddStars, onNextModul
 
               <div className="flex items-center gap-2">
                 {starsAwarded ? (
-                  <span className="text-xs text-yellow-700 font-bold bg-yellow-200 px-3 py-1.5 rounded-lg">
-                    Bonus Claimed!
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-yellow-800 font-bold bg-yellow-200 px-3 py-1.5 rounded-lg border border-yellow-300">
+                      Bonus Claimed! 🌟
+                    </span>
+                    {onNextModule && (
+                      <button
+                        id="btn-chores-next-module"
+                        onClick={onNextModule}
+                        className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce cursor-pointer"
+                      >
+                        NEXT: Magic Money Sprout <ArrowRight size={14} />
+                      </button>
+                    )}
+                  </div>
                 ) : (
-                  <button
-                    id="btn-chores-claim-bonus"
-                    onClick={claimBonus}
-                    className="bg-yellow-400 hover:bg-yellow-500 text-slate-800 font-display font-bold text-xs px-4 py-2 rounded-xl shadow-md"
-                  >
-                    Claim Bonus 🌟
-                  </button>
-                )}
-                {onNextModule && (
-                  <button
-                    id="btn-chores-next-module"
-                    onClick={onNextModule}
-                    className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
-                  >
-                    NEXT: Magic Money Sprout <ArrowRight size={14} />
-                  </button>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className="text-[10px] text-yellow-800 font-bold">👉 Step 1: Claim Reward</span>
+                    <button
+                      id="btn-chores-claim-bonus"
+                      onClick={claimBonus}
+                      className="bg-yellow-400 hover:bg-yellow-500 text-slate-800 font-display font-bold text-xs px-4 py-2 rounded-xl shadow-md border-b-2 border-yellow-600 cursor-pointer animate-bounce"
+                    >
+                      Claim Bonus 🌟
+                    </button>
+                  </div>
                 )}
               </div>
             </div>

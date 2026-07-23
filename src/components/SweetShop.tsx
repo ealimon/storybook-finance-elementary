@@ -201,15 +201,18 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
                   Change Back: ${checkoutChange.toFixed(2)}
                 </p>
                 {starsAwarded ? (
-                  <>
-                    <div className="bg-amber-50 border border-amber-300 rounded-xl p-2.5 mb-3 text-xs font-bold text-amber-900 flex items-center justify-center gap-1.5 shadow-sm">
-                      <span>🎉 Spent ${roundedSpent.toFixed(2)} — Added ${checkoutChange.toFixed(2)} Change to Wallet! +8 Stars! 💵</span>
+                  <div className="flex flex-col items-center justify-center gap-2 mt-2">
+                    <div className="bg-amber-50 border border-amber-300 rounded-xl p-2.5 text-xs font-bold text-amber-900 flex items-center justify-center gap-1.5 shadow-sm">
+                      <span>🎉 Spent ${roundedSpent.toFixed(2)} — Added ${checkoutChange.toFixed(2)} Change to Wallet! +8 Stars Claimed! 💵</span>
                     </div>
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-2">
+                    <p className="text-[11px] font-bold text-emerald-800">
+                      👉 Step 2: Continue to the next module!
+                    </p>
+                    <div className="flex flex-wrap items-center justify-center gap-2">
                       <button
                         id="btn-sweetshop-playagain"
                         onClick={handleClearCart}
-                        className="flex items-center gap-1 bg-white hover:bg-slate-100 text-slate-600 px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-200"
+                        className="flex items-center gap-1 bg-white hover:bg-slate-100 text-slate-600 px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-200 cursor-pointer"
                       >
                         <RefreshCw size={12} /> Buy New Sweets
                       </button>
@@ -217,31 +220,27 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
                         <button
                           id="btn-sweetshop-next-module"
                           onClick={onNextModule}
-                          className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
+                          className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-800 active:translate-y-0.5 transition-all cursor-pointer animate-pulse"
                         >
-                          NEXT: Chore Board Builder <ArrowRight size={14} />
+                          <span>NEXT: Chore Board Builder</span>
+                          <ArrowRight size={14} />
                         </button>
                       )}
                     </div>
-                  </>
+                  </div>
                 ) : (
-                  <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-2">
+                  <div className="flex flex-col items-center justify-center gap-1.5 mt-2">
+                    <p className="text-[11px] font-bold text-emerald-800">
+                      👉 Step 1: Claim your reward stars!
+                    </p>
                     <button
                       id="btn-sweetshop-claim-reward"
                       onClick={claimReward}
-                      className="bg-yellow-400 hover:bg-yellow-500 text-slate-800 text-xs font-bold px-4 py-2 rounded-xl shadow-md border-b-2 border-yellow-600 flex items-center gap-1"
+                      className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 text-xs font-bold px-5 py-2.5 rounded-xl shadow-md border-b-2 border-yellow-600 flex items-center gap-1.5 animate-bounce cursor-pointer"
                     >
-                      Claim 8 Stars + Coins <ArrowRight size={14} />
+                      <span>Claim 8 Stars + Coins</span>
+                      <ArrowRight size={14} />
                     </button>
-                    {onNextModule && (
-                      <button
-                        id="btn-sweetshop-next-module-direct"
-                        onClick={onNextModule}
-                        className="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-md border-b-2 border-emerald-700 flex items-center gap-1"
-                      >
-                        NEXT <ArrowRight size={14} />
-                      </button>
-                    )}
                   </div>
                 )}
               </div>

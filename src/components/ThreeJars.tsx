@@ -334,30 +334,37 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                {starsAwarded ? (
-                  <span className="bg-emerald-800/80 text-white text-xs font-bold px-3.5 py-2 rounded-xl border border-emerald-400">
-                    10 Stars Claimed! 🌟
-                  </span>
+              <div className="flex flex-col items-end gap-1.5">
+                {!starsAwarded ? (
+                  <>
+                    <span className="text-[11px] font-bold text-yellow-200">👉 Step 1: Claim Stars First</span>
+                    <button
+                      id="btn-threejars-claim-reward"
+                      onClick={claimReward}
+                      className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-xs px-4 py-2.5 rounded-xl shadow-md border-b-2 border-yellow-600 cursor-pointer animate-bounce flex items-center gap-1"
+                    >
+                      <span>Claim 10 Stars 🌟</span>
+                    </button>
+                  </>
                 ) : (
-                  <button
-                    id="btn-threejars-claim-reward"
-                    onClick={claimReward}
-                    className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-xs px-4 py-2.5 rounded-xl shadow-md border-b-2 border-yellow-600 cursor-pointer animate-bounce"
-                  >
-                    Claim 10 Stars 🌟
-                  </button>
-                )}
-
-                {onNextModule && (
-                  <button
-                    id="btn-threejars-next-module"
-                    onClick={onNextModule}
-                    className="flex items-center gap-1.5 bg-white text-emerald-800 hover:bg-emerald-50 font-display font-bold px-4 py-2.5 rounded-xl text-xs shadow-md border-b-2 border-emerald-200 cursor-pointer"
-                  >
-                    <span>NEXT: Sweet Shop</span>
-                    <ArrowRight size={14} />
-                  </button>
+                  <>
+                    <span className="bg-emerald-800/90 text-white text-xs font-bold px-3 py-1 rounded-lg border border-emerald-400">
+                      10 Stars Claimed! 🌟
+                    </span>
+                    {onNextModule && (
+                      <>
+                        <span className="text-[11px] font-bold text-emerald-100">👉 Step 2: Proceed to Next Lesson</span>
+                        <button
+                          id="btn-threejars-next-module"
+                          onClick={onNextModule}
+                          className="flex items-center gap-1.5 bg-white text-emerald-800 hover:bg-emerald-50 font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-200 cursor-pointer animate-pulse"
+                        >
+                          <span>NEXT: Sweet Shop</span>
+                          <ArrowRight size={14} />
+                        </button>
+                      </>
+                    )}
+                  </>
                 )}
               </div>
             </motion.div>

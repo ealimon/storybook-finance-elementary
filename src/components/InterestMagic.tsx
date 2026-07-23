@@ -183,31 +183,47 @@ export default function InterestMagic({ onAddStars, onNextModule }: InterestMagi
             <div className="flex items-center gap-2">
               {years >= 25 ? (
                 starsAwarded ? (
-                  <span className="text-xs font-bold text-yellow-700 bg-yellow-150 px-3 py-1 rounded-full border border-yellow-250">
-                    Reward claimed! 🌟
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-yellow-800 bg-yellow-100 px-3 py-1.5 rounded-lg border border-yellow-300">
+                      Reward claimed! 🌟
+                    </span>
+                    {onNextModule && (
+                      <button
+                        id="btn-interest-next-module"
+                        onClick={onNextModule}
+                        className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce cursor-pointer"
+                      >
+                        NEXT: Great Toy Trade-off <ArrowRight size={14} />
+                      </button>
+                    )}
+                  </div>
                 ) : (
-                  <button
-                    id="btn-interest-claim"
-                    onClick={claimReward}
-                    className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-xs px-4 py-2 rounded-xl shadow-md border-b-2 border-yellow-600"
-                  >
-                    Unlock 10 Stars 🌟
-                  </button>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className="text-[10px] text-yellow-800 font-bold">👉 Step 1: Claim Stars</span>
+                    <button
+                      id="btn-interest-claim"
+                      onClick={claimReward}
+                      className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-xs px-4 py-2 rounded-xl shadow-md border-b-2 border-yellow-600 animate-bounce cursor-pointer"
+                    >
+                      Unlock 10 Stars 🌟
+                    </button>
+                  </div>
                 )
               ) : (
-                <span className="text-[10px] text-slate-400 font-medium italic">
-                  Grow tree more for stars reward
-                </span>
-              )}
-              {onNextModule && (
-                <button
-                  id="btn-interest-next-module"
-                  onClick={onNextModule}
-                  className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
-                >
-                  NEXT: Great Toy Trade-off <ArrowRight size={14} />
-                </button>
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] text-slate-400 font-medium italic">
+                    Grow tree more for stars reward
+                  </span>
+                  {onNextModule && (
+                    <button
+                      id="btn-interest-next-module"
+                      onClick={onNextModule}
+                      className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 cursor-pointer"
+                    >
+                      NEXT: Great Toy Trade-off <ArrowRight size={14} />
+                    </button>
+                  )}
+                </div>
               )}
             </div>
           </div>

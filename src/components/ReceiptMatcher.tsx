@@ -179,30 +179,41 @@ export default function ReceiptMatcher({ onAddStars, onNextModule }: ReceiptMatc
 
             {correct ? (
               <div className="flex items-center gap-2">
-                {!starsAwarded && puzzleIdx === PUZZLES.length - 1 && (
-                  <button
-                    id="btn-receipt-claim"
-                    onClick={claimReward}
-                    className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm"
-                  >
-                    Claim 8 Stars 🌟
-                  </button>
-                )}
-                <button
-                  id="btn-receipt-next"
-                  onClick={handleNext}
-                  className="bg-sky-500 hover:bg-sky-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md transition-all active:scale-95"
-                >
-                  {puzzleIdx === PUZZLES.length - 1 ? 'Play Puzzles Again 🔄' : 'Next Puzzle ➡️'}
-                </button>
-                {puzzleIdx === PUZZLES.length - 1 && onNextModule && (
-                  <button
-                    id="btn-receipt-next-module"
-                    onClick={onNextModule}
-                    className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
-                  >
-                    NEXT: Donation Station <ArrowRight size={14} />
-                  </button>
+                {puzzleIdx === PUZZLES.length - 1 && !starsAwarded ? (
+                  <div className="flex flex-col items-end gap-1">
+                    <span className="text-[10px] text-amber-800 font-bold">👉 Step 1: Claim Stars</span>
+                    <button
+                      id="btn-receipt-claim"
+                      onClick={claimReward}
+                      className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 text-xs font-bold px-4 py-2 rounded-xl shadow-md border-b-2 border-yellow-600 animate-bounce cursor-pointer"
+                    >
+                      Claim 8 Stars 🌟
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    {puzzleIdx === PUZZLES.length - 1 && (
+                      <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1.5 rounded-lg border border-emerald-200">
+                        8 Stars Claimed! 🎓
+                      </span>
+                    )}
+                    <button
+                      id="btn-receipt-next"
+                      onClick={handleNext}
+                      className="bg-sky-500 hover:bg-sky-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md transition-all active:scale-95 cursor-pointer"
+                    >
+                      {puzzleIdx === PUZZLES.length - 1 ? 'Play Puzzles Again 🔄' : 'Next Puzzle ➡️'}
+                    </button>
+                    {puzzleIdx === PUZZLES.length - 1 && onNextModule && (
+                      <button
+                        id="btn-receipt-next-module"
+                        onClick={onNextModule}
+                        className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce cursor-pointer"
+                      >
+                        NEXT: Donation Station <ArrowRight size={14} />
+                      </button>
+                    )}
+                  </div>
                 )}
               </div>
             ) : (
