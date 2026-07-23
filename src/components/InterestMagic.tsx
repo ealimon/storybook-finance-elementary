@@ -211,16 +211,16 @@ export default function InterestMagic({ onAddStars, onNextModule }: InterestMagi
                 )
               ) : (
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] text-slate-400 font-medium italic">
-                    Grow tree more for stars reward
+                  <span className="text-xs text-amber-800 font-bold bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
+                    🌱 Move slider to 25+ yrs to unlock 10 Stars!
                   </span>
                   {onNextModule && (
                     <button
-                      id="btn-interest-next-module"
+                      id="btn-interest-next-module-skip"
                       onClick={onNextModule}
-                      className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 cursor-pointer"
+                      className="text-xs text-slate-500 hover:text-slate-700 font-bold underline px-2 py-1 cursor-pointer"
                     >
-                      NEXT: Great Toy Trade-off <ArrowRight size={14} />
+                      Skip ➡️
                     </button>
                   )}
                 </div>

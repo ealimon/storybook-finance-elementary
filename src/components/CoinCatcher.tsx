@@ -85,6 +85,9 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
     } else {
       // Completed all 5 scenarios!
       setIsAllCompleted(true);
+      setSelectedCoins([]);
+      setCurrentSum(0);
+      setSuccess(false);
     }
   };
 
@@ -272,7 +275,12 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
                 </button>
               </div>
 
-              {success ? (
+              {isAllCompleted ? (
+                <div className="bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-sm">
+                  <CheckCircle size={18} className="text-emerald-600 shrink-0" />
+                  <span>Module 1 Completed! All Stars & Coins Added to Piggy Bank 🏆</span>
+                </div>
+              ) : success ? (
                 <motion.button
                   id="btn-coin-claim-reward"
                   onClick={claimReward}
