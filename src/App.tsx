@@ -320,6 +320,11 @@ export default function App() {
                     wallet={profile.wallet}
                     onAddMoney={handleAddMoney}
                     onAddStars={handleAddStars}
+                    onNextModule={() => {
+                      setActiveModuleId('needs_wants');
+                      setViewingWorksheet(false);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
                   />
                 )}
                 {activeModuleId === 'needs_wants' && (
