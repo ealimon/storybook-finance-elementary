@@ -131,47 +131,53 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
         })}
       </div>
 
-      {isAllCompleted ? (
-        /* Celebration view after 5 scenarios completed */
+      {/* Optional Celebration view banner when all 5 scenarios are completed */}
+      {isAllCompleted && (
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="bg-gradient-to-br from-lime-50 via-emerald-50 to-teal-50 border-4 border-emerald-300 rounded-3xl p-8 text-center shadow-lg my-4"
+          className="bg-gradient-to-br from-lime-50 via-emerald-50 to-teal-50 border-4 border-emerald-300 rounded-3xl p-6 text-center shadow-lg mb-6"
         >
-          <div className="w-20 h-20 bg-yellow-400 text-yellow-950 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl shadow-md border-4 border-white animate-bounce">
-            🏆
-          </div>
-          <h3 className="text-3xl font-display font-extrabold text-slate-900 mb-2">
-            Fantastic Job! All 5 Scenarios Completed! 🎉
-          </h3>
-          <p className="text-base text-slate-700 max-w-lg mx-auto mb-6 leading-relaxed">
-            You matched all coin targets perfectly and earned bonus cash for your Piggy Wallet! You are now ready for the next financial step.
-          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-left">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 bg-yellow-400 text-yellow-950 rounded-full flex items-center justify-center text-3xl shadow-md border-2 border-white shrink-0">
+                🏆
+              </div>
+              <div>
+                <h3 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900">
+                  All 5 Scenarios Completed! 🎉
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-700 mt-0.5">
+                  Great job matching coins! You earned bonus stars for your Piggy Wallet.
+                </p>
+              </div>
+            </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            {onNextModule && (
+            <div className="flex items-center gap-3 w-full sm:w-auto shrink-0">
+              {onNextModule && (
+                <button
+                  id="btn-coin-next-module-banner"
+                  onClick={onNextModule}
+                  className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-display font-bold text-sm px-6 py-3 rounded-2xl shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 cursor-pointer border border-emerald-400/40"
+                >
+                  <span>Next: Needs vs. Wants</span>
+                  <span className="text-lg">➡️</span>
+                </button>
+              )}
               <button
-                id="btn-coin-next-module"
-                onClick={onNextModule}
-                className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-display font-bold text-base px-8 py-4 rounded-2xl shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-3 cursor-pointer border border-emerald-400/40"
+                id="btn-coin-replay-banner"
+                onClick={handlePlayAgain}
+                className="bg-white border-2 border-slate-300 hover:bg-slate-50 text-slate-700 font-display font-bold text-xs px-4 py-3 rounded-2xl transition-all cursor-pointer flex items-center justify-center gap-1.5 shrink-0"
               >
-                <span>Progress to Module 2: Needs vs. Wants</span>
-                <span className="text-xl">➡️</span>
+                <RefreshCw size={14} /> Replay
               </button>
-            )}
-
-            <button
-              id="btn-coin-replay"
-              onClick={handlePlayAgain}
-              className="w-full sm:w-auto bg-white border-2 border-slate-300 hover:bg-slate-50 text-slate-700 font-display font-bold text-sm px-6 py-3.5 rounded-2xl transition-all cursor-pointer flex items-center justify-center gap-2"
-            >
-              <RefreshCw size={16} /> Replay Scenarios
-            </button>
+            </div>
           </div>
         </motion.div>
-      ) : (
-        /* Active Game Interface */
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      )}
+
+      {/* Active Game Interface */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Coin Selection Rail */}
           <div className="lg:col-span-4 bg-lime-50 p-4 rounded-2xl border-2 border-lime-100 flex flex-col justify-between">
             <div>
@@ -252,13 +258,30 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
 
             {/* Controls & Success Display */}
             <div className="flex flex-wrap justify-between items-center gap-3 mt-auto pt-4 border-t border-slate-200">
-              <button
-                id="btn-coin-reset"
-                onClick={handleReset}
-                className="flex items-center gap-2 bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95 cursor-pointer"
-              >
-                <RefreshCw size={16} /> Reset Coins
-              </button>
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  id="btn-coin-reset"
+                  onClick={handleReset}
+                  className="flex items-center gap-2 bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95 cursor-pointer"
+                >
+                  <RefreshCw size={16} /> Reset Coins
+                </button>
+
+                {onNextModule && (
+                  <button
+                    id="btn-coin-next-actionbar"
+                    onClick={onNextModule}
+                    className={`flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-sm font-display font-bold shadow-md transition-all cursor-pointer border ${
+                      isAllCompleted || (level === TARGETS.length - 1 && success)
+                        ? 'bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white border-emerald-400 ring-2 ring-emerald-300 animate-pulse'
+                        : 'bg-indigo-600 hover:bg-indigo-700 text-white border-indigo-500'
+                    }`}
+                    title="Progress to Module 2: Needs vs. Wants"
+                  >
+                    <span>NEXT ➡️</span>
+                  </button>
+                )}
+              </div>
 
               {success ? (
                 <motion.button
@@ -290,7 +313,6 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
             </div>
           </div>
         </div>
-      )}
     </div>
   );
 }
