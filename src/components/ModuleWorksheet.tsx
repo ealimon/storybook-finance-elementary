@@ -922,21 +922,21 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               <BookOpen size={16} />
               <span>Elementary Financial Literacy Worksheet</span>
             </div>
-            <h3 className="text-2xl font-display text-slate-800 mt-1">{sheet.title}</h3>
-            <p className="text-xs text-slate-500 font-mono mt-0.5">Topic: {sheet.topic}</p>
+            <h3 className="text-2xl sm:text-3xl font-display text-slate-900 mt-1">{sheet.title}</h3>
+            <p className="text-sm sm:text-xs text-slate-600 font-mono mt-1">Topic: {sheet.topic}</p>
           </div>
-          <div className="no-print mt-3 sm:mt-0 flex gap-2">
+          <div className="no-print mt-3 sm:mt-0 flex gap-2.5 w-full sm:w-auto">
             <button
               id="btn-print-action"
               onClick={handlePrint}
-              className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md transition-all active:scale-95 cursor-pointer"
+              className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-display font-bold px-4 py-2.5 rounded-xl text-sm sm:text-xs shadow-md transition-all active:scale-95 cursor-pointer"
             >
-              <Printer size={14} /> Print Worksheet
+              <Printer size={16} /> Print Worksheet
             </button>
             <button
               id="btn-close-worksheet"
               onClick={onClose}
-              className="flex items-center gap-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-display font-bold px-4 py-2 rounded-xl text-xs transition-all active:scale-95 cursor-pointer"
+              className="flex-1 sm:flex-initial flex items-center justify-center gap-1 bg-slate-200 hover:bg-slate-300 text-slate-800 font-display font-bold px-4 py-2.5 rounded-xl text-sm sm:text-xs transition-all active:scale-95 cursor-pointer"
             >
               Back to Game
             </button>
@@ -944,7 +944,7 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
         </div>
 
         {/* Name and Date inputs for physical printing or digital filling */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-bold text-slate-700 mb-6 bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-base sm:text-sm font-bold text-slate-800 mb-6 bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100">
           <div className="flex items-center gap-2">
             <span className="whitespace-nowrap">Student Name:</span>
             <input
@@ -953,7 +953,7 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               value={studentName}
               onChange={(e) => setStudentName(e.target.value)}
               placeholder="Write name here..."
-              className="bg-white border border-slate-200 rounded-lg px-3 py-1 text-sm text-slate-800 focus:outline-none focus:border-indigo-400 w-full font-display"
+              className="bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-base sm:text-sm text-slate-800 focus:outline-none focus:border-indigo-500 w-full font-display"
             />
           </div>
           <div className="flex items-center gap-2">
@@ -964,7 +964,7 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               value={dateStr}
               onChange={(e) => setDateStr(e.target.value)}
               placeholder="Date..."
-              className="bg-white border border-slate-200 rounded-lg px-3 py-1 text-sm text-slate-800 focus:outline-none focus:border-indigo-400 w-full font-mono"
+              className="bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-base sm:text-sm text-slate-800 focus:outline-none focus:border-indigo-500 w-full font-mono"
             />
           </div>
         </div>
@@ -976,43 +976,43 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
             const currentAns = completedAnswers[answerKey] || '';
 
             return (
-              <div key={idx} className="bg-slate-50 border-2 border-slate-100 rounded-2xl p-5 shadow-inner">
-                <h4 className="font-display font-bold text-slate-800 text-sm mb-3 flex items-start gap-2">
-                  <span className="bg-indigo-100 text-indigo-800 px-2.5 py-0.5 rounded-full text-xs">Q{idx + 1}</span>
+              <div key={idx} className="bg-slate-50 border-2 border-slate-200 rounded-2xl p-5 shadow-inner">
+                <h4 className="font-display font-bold text-slate-900 text-base sm:text-sm mb-3 flex items-start gap-2.5 leading-snug">
+                  <span className="bg-indigo-100 text-indigo-800 px-2.5 py-0.5 rounded-full text-xs shrink-0 font-bold mt-0.5">Q{idx + 1}</span>
                   <span>{q.question.replace(/^Q\d+:\s*/, '')}</span>
                 </h4>
 
                 {/* Question interactive forms */}
                 {q.answerType === 'choice' && q.options && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-2.5">
                     {q.options.map((opt) => (
                       <button
                         key={opt}
                         id={`btn-worksheet-option-${idx}-${opt.replace(/\s+/g, '-').toLowerCase()}`}
                         onClick={() => handleInputChange(idx, opt)}
-                        className={`p-3 rounded-xl text-left border text-xs transition-all flex items-center justify-between ${
+                        className={`p-3.5 rounded-xl text-left border text-sm sm:text-xs transition-all flex items-center justify-between cursor-pointer ${
                           currentAns === opt
-                            ? 'bg-indigo-100 border-indigo-400 font-bold text-indigo-950 shadow-sm'
-                            : 'bg-white border-slate-200 hover:border-indigo-200 text-slate-700'
+                            ? 'bg-indigo-100 border-indigo-400 font-bold text-indigo-950 shadow-sm ring-1 ring-indigo-200'
+                            : 'bg-white border-slate-200 hover:border-indigo-300 text-slate-800'
                         }`}
                       >
-                        <span>{opt}</span>
-                        {currentAns === opt && <span className="no-print text-indigo-700">✏️ Selected</span>}
+                        <span className="leading-snug">{opt}</span>
+                        {currentAns === opt && <span className="no-print text-indigo-700 shrink-0 ml-2 font-bold text-xs">✏️ Selected</span>}
                       </button>
                     ))}
                   </div>
                 )}
 
                 {q.answerType === 'math' && (
-                  <div className="flex items-center gap-2 mt-2">
-                    <span className="text-xs font-bold text-slate-400 uppercase">Your Answer:</span>
+                  <div className="flex flex-wrap items-center gap-2.5 mt-3">
+                    <span className="text-xs font-bold text-slate-500 uppercase">Your Answer:</span>
                     <input
                       id={`input-worksheet-math-${idx}`}
                       type="text"
                       value={currentAns}
                       onChange={(e) => handleInputChange(idx, e.target.value)}
                       placeholder="Calculate sum..."
-                      className="bg-white border border-slate-200 rounded-xl px-4 py-2 text-xs text-slate-800 focus:outline-none focus:border-indigo-400 font-mono w-48 shadow-sm"
+                      className="bg-white border border-slate-300 rounded-xl px-4 py-2 text-sm sm:text-xs text-slate-900 focus:outline-none focus:border-indigo-500 font-mono w-52 shadow-sm font-bold"
                     />
                   </div>
                 )}
@@ -1024,7 +1024,7 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
                     value={currentAns}
                     onChange={(e) => handleInputChange(idx, e.target.value)}
                     placeholder="Write your answer or explanation here..."
-                    className="w-full bg-white border border-slate-200 rounded-xl p-3 text-xs text-slate-800 focus:outline-none focus:border-indigo-400 leading-relaxed resize-none shadow-sm"
+                    className="w-full bg-white border border-slate-300 rounded-xl p-3 text-sm sm:text-xs text-slate-900 focus:outline-none focus:border-indigo-500 leading-relaxed resize-none shadow-sm"
                   />
                 )}
 

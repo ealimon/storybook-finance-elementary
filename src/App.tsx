@@ -112,26 +112,26 @@ export default function App() {
     <div className="min-h-screen bg-slate-50 pb-16 font-sans print:bg-white print:p-0 print:m-0">
       
       {/* BRANDING TOP UTILITY BAR (HUMBLE & LITERAL LABELS) */}
-      <div className="bg-slate-900 text-slate-100 py-3.5 px-6 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-2 border-b border-slate-850 no-print">
-        <div className="flex items-center gap-2">
-          <span className="text-xl">🦉📜</span>
+      <div className="bg-slate-900 text-slate-100 py-3.5 px-6 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-3 border-b border-slate-850 no-print">
+        <div className="flex items-center gap-2.5">
+          <span className="text-2xl">🦉📜</span>
           <div>
-            <h1 className="text-sm font-display font-bold tracking-wider text-white">Storybook Education</h1>
-            <p className="text-[10px] text-slate-400">Transformative Kids Financial Literacy Applications</p>
+            <h1 className="text-base sm:text-sm font-display font-bold tracking-wider text-white">Storybook Education</h1>
+            <p className="text-xs sm:text-[10px] text-slate-300">Transformative Kids Financial Literacy Applications</p>
           </div>
         </div>
-        <div className="flex items-center gap-3 text-xs font-semibold text-slate-300">
+        <div className="flex items-center gap-3 text-xs font-semibold text-slate-300 flex-wrap justify-center">
           <button
             id="btn-tpt-kit-trigger"
             onClick={() => setIsTptOpen(true)}
-            className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-1.5 rounded-full transition-all text-[11px] font-bold shadow cursor-pointer border border-indigo-500/30"
+            className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 sm:px-3.5 sm:py-1.5 rounded-full transition-all text-xs sm:text-[11px] font-bold shadow cursor-pointer border border-indigo-500/30"
           >
             🍎 Teacher Resource Desk
           </button>
-          <span className="flex items-center gap-1 bg-slate-800 px-3 py-1.5 rounded-full text-lime-400 border border-slate-700">
+          <span className="flex items-center gap-1 bg-slate-800 px-3.5 py-2 sm:py-1.5 rounded-full text-lime-400 border border-slate-700 text-xs">
             🟢 Active Learning Suite
           </span>
-          <span className="text-slate-400 hidden sm:inline">Classroom Edition 2026</span>
+          <span className="text-slate-400 hidden sm:inline text-xs">Classroom Edition 2026</span>
         </div>
       </div>
 
@@ -143,49 +143,49 @@ export default function App() {
             🐷🪙🌟
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-5 relative z-10">
             <div>
-              <span className="text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-white/30 text-emerald-950">
+              <span className="text-xs sm:text-xs font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full bg-white/40 text-emerald-950 inline-block">
                 Elementary School Modules (K-5)
               </span>
-              <h1 className="text-3xl sm:text-4xl font-display font-extrabold mt-1 text-slate-950">
+              <h1 className="text-3xl sm:text-4xl font-display font-extrabold mt-2 text-slate-950">
                 Storybook Finance Suite
               </h1>
-              <p className="text-sm mt-1 font-medium max-w-xl text-slate-900">
+              <p className="text-base sm:text-sm mt-2 font-medium max-w-xl text-slate-900 leading-relaxed">
                 Start your adventure in money management! Earn coins completing chores, split budgets into 3 Jars, buy treats, grow savings sprouts, and claim your certified expert diploma!
               </p>
             </div>
 
             {/* Live profile stats */}
-            <div className="flex flex-wrap gap-3 items-center p-4 rounded-2xl shadow-md border-2 transition-all bg-white/90 border-white/40 text-slate-900">
+            <div className="flex flex-wrap gap-4 items-center p-4 rounded-2xl shadow-md border-2 transition-all bg-white/95 border-white/60 text-slate-900 w-full md:w-auto justify-around sm:justify-start">
               {/* Profile Avatar */}
-              <div className="flex items-center gap-2.5 border-r pr-3 border-slate-200">
+              <div className="flex items-center gap-2.5 border-r pr-3.5 border-slate-200">
                 <span className="text-3xl animate-soft-bounce">🦉</span>
                 <div>
-                  <span className="text-[10px] text-slate-400 font-bold uppercase block">Student Avatar</span>
+                  <span className="text-xs text-slate-500 font-bold uppercase block">Student Avatar</span>
                   <input
                     id="input-app-student-name"
                     type="text"
                     value={profile.name}
                     onChange={(e) => setProfile(prev => ({ ...prev, name: e.target.value }))}
-                    className="text-xs font-bold focus:outline-none bg-transparent rounded px-1 max-w-[100px] text-slate-800 hover:bg-slate-50"
+                    className="text-sm font-bold focus:outline-none bg-transparent rounded px-1 max-w-[120px] text-slate-900 hover:bg-slate-100"
                     title="Click to edit name"
                   />
                 </div>
               </div>
 
               {/* Coins Wallet */}
-              <div className="text-center px-2 border-r pr-3 border-slate-200">
-                <span className="text-[10px] text-slate-400 font-bold uppercase block">Piggy Wallet</span>
-                <span className="font-mono text-lg font-bold block text-emerald-700">${profile.wallet.toFixed(2)}</span>
+              <div className="text-center px-2 border-r pr-3.5 border-slate-200">
+                <span className="text-xs text-slate-500 font-bold uppercase block">Piggy Wallet</span>
+                <span className="font-mono text-xl sm:text-lg font-bold block text-emerald-700">${profile.wallet.toFixed(2)}</span>
               </div>
 
               {/* Stars Score */}
-              <div className="text-center px-1 flex items-center gap-1">
-                <Star className="text-yellow-400 fill-yellow-400" size={20} />
+              <div className="text-center px-1 flex items-center gap-1.5">
+                <Star className="text-yellow-400 fill-yellow-400" size={24} />
                 <div>
-                  <span className="text-[10px] text-slate-400 font-bold uppercase block">Stars</span>
-                  <span className="font-mono text-lg font-bold">{profile.stars}</span>
+                  <span className="text-xs text-slate-500 font-bold uppercase block">Stars</span>
+                  <span className="font-mono text-xl sm:text-lg font-bold text-slate-900">{profile.stars}</span>
                 </div>
               </div>
             </div>
@@ -200,15 +200,15 @@ export default function App() {
         <div className="lg:col-span-4 space-y-4 no-print">
           <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-200">
             <div className="flex justify-between items-center mb-4 pb-2 border-b border-slate-100">
-              <h3 className="font-display font-bold text-slate-800 text-sm flex items-center gap-1.5">
+              <h3 className="font-display font-bold text-slate-800 text-base sm:text-sm flex items-center gap-2">
                 🎮 Elementary Modules ({MODULES_LIST.length})
               </h3>
-              <span className="text-xs font-bold bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full">
+              <span className="text-xs font-bold bg-slate-100 text-slate-700 px-3 py-1 rounded-full">
                 {completedCount} / {MODULES_LIST.length} Done
               </span>
             </div>
 
-            <div className="space-y-2 max-h-[460px] overflow-y-auto pr-1">
+            <div className="space-y-2.5 max-h-[500px] overflow-y-auto pr-1">
               {MODULES_LIST.map((mod) => {
                 const isActive = activeModuleId === mod.id;
                 const isCompleted = profile.completedModules.includes(mod.id);
@@ -221,32 +221,32 @@ export default function App() {
                       setActiveModuleId(mod.id);
                       setViewingWorksheet(false);
                     }}
-                    className={`w-full text-left p-3 rounded-2xl border-2 transition-all flex items-center justify-between group cursor-pointer ${
+                    className={`w-full text-left p-3.5 rounded-2xl border-2 transition-all flex items-center justify-between group cursor-pointer ${
                       isActive
                         ? 'bg-lime-50 border-lime-400 font-bold ring-2 ring-lime-100'
                         : 'bg-white border-slate-100 hover:border-slate-200'
                     }`}
                   >
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-9 h-9 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
                         {renderModuleIcon(mod.iconName)}
                       </div>
                       <div>
-                        <span className="text-xs font-display font-bold text-slate-800 block line-clamp-1">
+                        <span className="text-sm sm:text-xs font-display font-bold text-slate-900 block line-clamp-1">
                           {mod.title}
                         </span>
-                        <span className="text-[10px] text-slate-400 block mt-0.5 line-clamp-1 group-hover:text-slate-500">
+                        <span className="text-xs text-slate-500 block mt-0.5 line-clamp-1 group-hover:text-slate-700">
                           {mod.description}
                         </span>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 shrink-0 ml-2">
                       {isCompleted ? (
-                        <span className="text-[9px] bg-green-100 text-green-800 px-2 py-0.5 rounded-full font-bold">Done ✅</span>
+                        <span className="text-xs bg-green-100 text-green-800 px-2.5 py-1 rounded-full font-bold">Done ✅</span>
                       ) : (
-                        <span className="text-[10px] text-slate-400 group-hover:text-slate-600 flex items-center gap-0.5">
-                          Play <ChevronRight size={10} />
+                        <span className="text-xs text-slate-500 group-hover:text-slate-700 flex items-center gap-0.5 font-bold">
+                          Play <ChevronRight size={12} />
                         </span>
                       )}
                     </div>
@@ -260,22 +260,22 @@ export default function App() {
         {/* RIGHT COLUMN: Active Game / Content Window */}
         <div className="lg:col-span-8 print:col-span-12 print:w-full print:p-0 print:m-0">
           {/* Top segment control picker within active module */}
-          <div className="bg-white rounded-2xl p-2.5 shadow-sm border border-slate-200 mb-4 flex justify-between items-center flex-wrap gap-2 no-print">
-            <div className="flex items-center gap-2">
-              <span className="text-xl">🏫</span>
+          <div className="bg-white rounded-2xl p-3 shadow-sm border border-slate-200 mb-4 flex justify-between items-center flex-wrap gap-3 no-print">
+            <div className="flex items-center gap-2.5">
+              <span className="text-2xl">🏫</span>
               <div>
-                <h4 className="text-xs font-display font-bold text-slate-700">Module Workspace</h4>
-                <p className="text-[10px] text-slate-400">Toggle between the interactive game and printable worksheet!</p>
+                <h4 className="text-sm font-display font-bold text-slate-800">Module Workspace</h4>
+                <p className="text-xs text-slate-500">Toggle between the interactive game and printable worksheet!</p>
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 w-full sm:w-auto">
               <button
                 id="btn-toggle-game"
                 onClick={() => setViewingWorksheet(false)}
-                className={`px-4 py-1.5 rounded-xl text-xs font-display font-bold transition-all border-2 flex items-center gap-1 cursor-pointer ${
+                className={`flex-1 sm:flex-initial px-4 py-2 rounded-xl text-sm sm:text-xs font-display font-bold transition-all border-2 flex items-center justify-center gap-1.5 cursor-pointer ${
                   !viewingWorksheet
                     ? 'bg-lime-500 border-lime-600 text-white shadow-sm'
-                    : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-105'
+                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
                 }`}
               >
                 🎮 Play Game
@@ -283,10 +283,10 @@ export default function App() {
               <button
                 id="btn-toggle-worksheet"
                 onClick={() => setViewingWorksheet(true)}
-                className={`px-4 py-1.5 rounded-xl text-xs font-display font-bold transition-all border-2 flex items-center gap-1 cursor-pointer ${
+                className={`flex-1 sm:flex-initial px-4 py-2 rounded-xl text-sm sm:text-xs font-display font-bold transition-all border-2 flex items-center justify-center gap-1.5 cursor-pointer ${
                   viewingWorksheet
                     ? 'bg-lime-500 border-lime-600 text-white shadow-sm'
-                    : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-100'
+                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
                 }`}
               >
                 📝 Topic Worksheet
@@ -373,13 +373,13 @@ export default function App() {
       <footer className="max-w-7xl mx-auto px-4 mt-12 sm:px-6 no-print">
         <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
           <div className="flex items-start gap-3">
-            <div className="p-2 bg-indigo-100 text-indigo-800 rounded-xl">
-              <Info size={20} />
+            <div className="p-2.5 bg-indigo-100 text-indigo-800 rounded-xl shrink-0">
+              <Info size={22} />
             </div>
             <div>
-              <h4 className="font-display font-bold text-slate-800 text-sm">Parents &amp; Educators Guide:</h4>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                Storybook Finance is built specifically to address core state standards for elementary school economics and math. Every interactive game translates abstract savings principles into tactile experiences. We encourage you to click the **Topic Worksheet** tab inside any of our 10 modules above to view and print tangible activity sheets matching these digital games for school or homework exercises!
+              <h4 className="font-display font-bold text-slate-800 text-base sm:text-sm">Parents &amp; Educators Guide:</h4>
+              <p className="text-sm sm:text-xs text-slate-600 mt-1 leading-relaxed">
+                Storybook Finance is built specifically to address core state standards for elementary school economics and math. Every interactive game translates abstract savings principles into tactile experiences. We encourage you to click the <strong>Topic Worksheet</strong> tab inside any of our 10 modules above to view and print tangible activity sheets matching these digital games for school or homework exercises!
               </p>
             </div>
           </div>
