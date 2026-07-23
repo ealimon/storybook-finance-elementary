@@ -38,7 +38,6 @@ export default function DonationStation({ onAddStars, onAddMoney, onNextModule }
       if (donateInput >= 1.00 && !starsAwarded[selectedCause.id]) {
         onAddStars(5);
         setStarsAwarded(prev => ({ ...prev, [selectedCause.id]: true }));
-        alert(`You did a wonderful thing! You donated $${donateInput.toFixed(2)} to help the "${selectedCause.name}". +5 Stars for generosity! 🤝❤️`);
       }
     }, 1000);
   };

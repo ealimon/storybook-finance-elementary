@@ -117,7 +117,6 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
       const bonusStars = score * 5;
       onAddStars(bonusStars);
       setStarsClaimed(true);
-      alert(`Certified! You claimed ${bonusStars} Stars for scoring ${score}/${QUIZ_QUESTIONS.length}! 🎓🌟`);
     }
   };
 

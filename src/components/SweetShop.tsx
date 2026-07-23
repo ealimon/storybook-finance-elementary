@@ -70,7 +70,6 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
       // Give the remaining change to the virtual wallet! Encourages kids to see that saving budget means more wallet money!
       onAddMoney(checkoutChange);
       setStarsAwarded(true);
-      alert(`Fantastic! You spent $${roundedSpent.toFixed(2)} and got $${checkoutChange.toFixed(2)} in change back in your Wallet! +8 Stars! 💵🛍️`);
     }
   };
 
@@ -202,24 +201,29 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
                   Change Back: ${checkoutChange.toFixed(2)}
                 </p>
                 {starsAwarded ? (
-                  <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-2">
-                    <button
-                      id="btn-sweetshop-playagain"
-                      onClick={handleClearCart}
-                      className="flex items-center gap-1 bg-white hover:bg-slate-100 text-slate-600 px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-200"
-                    >
-                      <RefreshCw size={12} /> Buy New Sweets
-                    </button>
-                    {onNextModule && (
+                  <>
+                    <div className="bg-amber-50 border border-amber-300 rounded-xl p-2.5 mb-3 text-xs font-bold text-amber-900 flex items-center justify-center gap-1.5 shadow-sm">
+                      <span>🎉 Spent ${roundedSpent.toFixed(2)} — Added ${checkoutChange.toFixed(2)} Change to Wallet! +8 Stars! 💵</span>
+                    </div>
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-2">
                       <button
-                        id="btn-sweetshop-next-module"
-                        onClick={onNextModule}
-                        className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
+                        id="btn-sweetshop-playagain"
+                        onClick={handleClearCart}
+                        className="flex items-center gap-1 bg-white hover:bg-slate-100 text-slate-600 px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-200"
                       >
-                        NEXT: Chore Board Builder <ArrowRight size={14} />
+                        <RefreshCw size={12} /> Buy New Sweets
                       </button>
-                    )}
-                  </div>
+                      {onNextModule && (
+                        <button
+                          id="btn-sweetshop-next-module"
+                          onClick={onNextModule}
+                          className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
+                        >
+                          NEXT: Chore Board Builder <ArrowRight size={14} />
+                        </button>
+                      )}
+                    </div>
+                  </>
                 ) : (
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-2">
                     <button

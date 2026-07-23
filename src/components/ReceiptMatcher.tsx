@@ -62,7 +62,6 @@ export default function ReceiptMatcher({ onAddStars, onNextModule }: ReceiptMatc
       setPuzzleIdx(puzzleIdx + 1);
     } else {
       // Completed all puzzles
-      alert('Sensational Math work! You completed all decimal receipt additions! 🎓🛒');
       setPuzzleIdx(0);
       setStarsAwarded(false);
     }

@@ -32,7 +32,6 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
     if (!starsAwarded) {
       onAddStars(10);
       setStarsAwarded(true);
-      alert('Patience Reward claimed! You proved that waiting leads to higher satisfaction! +10 Stars 🌟🤖');
     }
   };
 

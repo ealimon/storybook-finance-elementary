@@ -52,7 +52,6 @@ export default function ChoreBoard({ wallet, onAddMoney, onAddStars, onNextModul
       onAddStars(12);
       onAddMoney(2.00); // Daily bonus payout
       setStarsAwarded(true);
-      alert('Spectacular chore efforts! Daily bonus claimed: +$2.00 Bonus and +12 Stars! 🧹🏠');
     }
   };
 

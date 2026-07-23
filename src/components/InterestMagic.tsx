@@ -47,7 +47,6 @@ export default function InterestMagic({ onAddStars, onNextModule }: InterestMagi
     if (!starsAwarded) {
       onAddStars(10);
       setStarsAwarded(true);
-      alert('Interest Magic explorer reward unlocked! +10 Stars! 🌲🪙');
     }
   };
 

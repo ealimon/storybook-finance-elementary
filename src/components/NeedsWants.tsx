@@ -79,7 +79,6 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
       // Reward the user based on how many they got correct (or simply completion)
       onAddStars(10);
       setStarsAwarded(true);
-      alert('You won 10 Shiny Stars! You are now a Smart Shopper! 🌟🛒');
     }
   };
 
