@@ -11,10 +11,6 @@ import {
   Gift,
   FileText,
   Award,
-  BookOpen,
-  Sparkles,
-  User,
-  ShieldCheck,
   ChevronRight,
   Info
 } from 'lucide-react';
@@ -31,6 +27,7 @@ import ReceiptMatcher from './components/ReceiptMatcher';
 import DonationStation from './components/DonationStation';
 import SmartSaverQuiz from './components/SmartSaverQuiz';
 import ModuleWorksheet from './components/ModuleWorksheet';
+import TptSellerKit from './components/TptSellerKit';
 
 import { UserProfile, ModuleDefinition } from './types';
 
@@ -44,7 +41,7 @@ const MODULES_LIST: ModuleDefinition[] = [
   { id: 'toy_tradeoff', title: '7. Great Toy Trade-off', description: 'Wait patiently for cooler rewards', iconName: 'Gift', category: 'Save', difficulty: 'Elementary', starsReward: 10 },
   { id: 'receipt_math', title: '8. Receipt Adder Match', description: 'Add shopping bills correctly', iconName: 'FileText', category: 'Basics', difficulty: 'Elementary', starsReward: 8 },
   { id: 'giving_station', title: '9. Donation Station', description: 'Give spare coins to local charities', iconName: 'Heart', category: 'Give', difficulty: 'Elementary', starsReward: 5 },
-  { id: 'smart_quiz', title: '10. Smart Saver Quiz', description: 'Pass trivia & unlock your degree!', iconName: 'Award', category: 'Quiz', difficulty: 'Elementary', starsReward: 25 },
+  { id: 'smart_quiz', title: '10. Smart Saver Quiz', description: 'Pass trivia & unlock your degree!', iconName: 'Award', category: 'Quiz', difficulty: 'Elementary', starsReward: 25 }
 ];
 
 export default function App() {
@@ -67,6 +64,7 @@ export default function App() {
 
   const [activeModuleId, setActiveModuleId] = useState<string>('coin_matching');
   const [viewingWorksheet, setViewingWorksheet] = useState<boolean>(false);
+  const [isTptOpen, setIsTptOpen] = useState<boolean>(false);
 
   const handleAddMoney = (amount: number) => {
     setProfile(prev => ({
@@ -88,6 +86,11 @@ export default function App() {
       };
     });
   };
+
+  const completedCount = profile.completedModules.filter(id => {
+    const found = MODULES_LIST.find(m => m.id === id);
+    return found !== undefined;
+  }).length;
 
   // Icon mapping helper
   const renderModuleIcon = (name: string) => {
@@ -117,40 +120,47 @@ export default function App() {
             <p className="text-[10px] text-slate-400">Transformative Kids Financial Literacy Applications</p>
           </div>
         </div>
-        <div className="flex items-center gap-4 text-xs font-semibold text-slate-300">
-          <span className="flex items-center gap-1 bg-slate-800 px-3 py-1 rounded-full text-lime-400 border border-slate-700">
+        <div className="flex items-center gap-3 text-xs font-semibold text-slate-300">
+          <button
+            id="btn-tpt-kit-trigger"
+            onClick={() => setIsTptOpen(true)}
+            className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-1.5 rounded-full transition-all text-[11px] font-bold shadow cursor-pointer border border-indigo-500/30"
+          >
+            🍎 Teacher Resource Desk
+          </button>
+          <span className="flex items-center gap-1 bg-slate-800 px-3 py-1.5 rounded-full text-lime-400 border border-slate-700">
             🟢 Active Learning Suite
           </span>
-          <span className="text-slate-400">Classroom Edition 2026</span>
+          <span className="text-slate-400 hidden sm:inline">Classroom Edition 2026</span>
         </div>
       </div>
 
       {/* CORE STATS BOARD PANEL */}
       <header className="max-w-7xl mx-auto px-4 mt-6 sm:px-6 no-print">
-        <div className="bg-gradient-to-r from-lime-400 via-emerald-400 to-green-500 rounded-3xl p-6 shadow-lg border-4 border-white text-slate-900 relative overflow-hidden">
-          {/* Subtle graphic backgrounds */}
+        <div className="rounded-3xl p-6 shadow-lg border-4 transition-all duration-300 relative overflow-hidden bg-gradient-to-r from-lime-400 via-emerald-400 to-green-500 border-white text-slate-900">
+          {/* Subtle graphic background */}
           <div className="absolute right-0 bottom-[-20px] opacity-10 text-9xl select-none">
             🐷🪙🌟
           </div>
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
             <div>
-              <span className="text-xs font-bold uppercase tracking-widest bg-white/30 text-emerald-950 px-3 py-1 rounded-full">
-                Elementary School Modules
+              <span className="text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-white/30 text-emerald-950">
+                Elementary School Modules (K-5)
               </span>
-              <h1 className="text-3xl sm:text-4xl font-display font-extrabold text-slate-950 mt-1">
+              <h1 className="text-3xl sm:text-4xl font-display font-extrabold mt-1 text-slate-950">
                 Storybook Finance Suite
               </h1>
-              <p className="text-sm text-slate-900 mt-1 font-medium max-w-xl">
+              <p className="text-sm mt-1 font-medium max-w-xl text-slate-900">
                 Start your adventure in money management! Earn coins completing chores, split budgets into 3 Jars, buy treats, grow savings sprouts, and claim your certified expert diploma!
               </p>
             </div>
 
             {/* Live profile stats */}
-            <div className="flex flex-wrap gap-3 items-center bg-white/90 p-4 rounded-2xl shadow-md border-2 border-white/40">
+            <div className="flex flex-wrap gap-3 items-center p-4 rounded-2xl shadow-md border-2 transition-all bg-white/90 border-white/40 text-slate-900">
               {/* Profile Avatar */}
-              <div className="flex items-center gap-2.5 border-r border-slate-200 pr-3">
-                <span className="text-3xl animate-soft-bounce">{profile.avatar}</span>
+              <div className="flex items-center gap-2.5 border-r pr-3 border-slate-200">
+                <span className="text-3xl animate-soft-bounce">🦉</span>
                 <div>
                   <span className="text-[10px] text-slate-400 font-bold uppercase block">Student Avatar</span>
                   <input
@@ -158,24 +168,24 @@ export default function App() {
                     type="text"
                     value={profile.name}
                     onChange={(e) => setProfile(prev => ({ ...prev, name: e.target.value }))}
-                    className="text-xs font-bold text-slate-800 focus:outline-none bg-transparent hover:bg-slate-50 rounded px-1 max-w-[100px]"
+                    className="text-xs font-bold focus:outline-none bg-transparent rounded px-1 max-w-[100px] text-slate-800 hover:bg-slate-50"
                     title="Click to edit name"
                   />
                 </div>
               </div>
 
               {/* Coins Wallet */}
-              <div className="text-center px-2 border-r border-slate-200 pr-3">
+              <div className="text-center px-2 border-r pr-3 border-slate-200">
                 <span className="text-[10px] text-slate-400 font-bold uppercase block">Piggy Wallet</span>
-                <span className="font-mono text-lg font-bold text-emerald-700 block">${profile.wallet.toFixed(2)}</span>
+                <span className="font-mono text-lg font-bold block text-emerald-700">${profile.wallet.toFixed(2)}</span>
               </div>
 
               {/* Stars Score */}
               <div className="text-center px-1 flex items-center gap-1">
-                <Star className="text-yellow-500 fill-yellow-400" size={20} />
+                <Star className="text-yellow-400 fill-yellow-400" size={20} />
                 <div>
                   <span className="text-[10px] text-slate-400 font-bold uppercase block">Stars</span>
-                  <span className="font-mono text-lg font-bold text-slate-800">{profile.stars}</span>
+                  <span className="font-mono text-lg font-bold">{profile.stars}</span>
                 </div>
               </div>
             </div>
@@ -184,17 +194,17 @@ export default function App() {
       </header>
 
       {/* CORE WORKSPACE: MODULE NAVIGATION + ACTIVE GAME AREA */}
-      <main className="max-w-7xl mx-auto px-4 mt-8 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 print:grid-cols-1 print:gap-0 print:p-0 print:m-0 print:max-w-none">
+      <main className="max-w-7xl mx-auto px-4 mt-6 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 print:grid-cols-1 print:gap-0 print:p-0 print:m-0 print:max-w-none">
         
-        {/* LEFT COLUMN: Sidebar listing all 10 Modules */}
+        {/* LEFT COLUMN: Sidebar listing modules */}
         <div className="lg:col-span-4 space-y-4 no-print">
           <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-200">
             <div className="flex justify-between items-center mb-4 pb-2 border-b border-slate-100">
-              <h3 className="font-display font-bold text-slate-800 text-md flex items-center gap-2">
-                🎮 Interactive Learning (10)
+              <h3 className="font-display font-bold text-slate-800 text-sm flex items-center gap-1.5">
+                🎮 Elementary Modules ({MODULES_LIST.length})
               </h3>
               <span className="text-xs font-bold bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full">
-                {profile.completedModules.length} / 10 Done
+                {completedCount} / {MODULES_LIST.length} Done
               </span>
             </div>
 
@@ -211,18 +221,18 @@ export default function App() {
                       setActiveModuleId(mod.id);
                       setViewingWorksheet(false);
                     }}
-                    className={`w-full text-left p-3.5 rounded-2xl border-2 transition-all flex items-center justify-between group ${
+                    className={`w-full text-left p-3 rounded-2xl border-2 transition-all flex items-center justify-between group cursor-pointer ${
                       isActive
                         ? 'bg-lime-50 border-lime-400 font-bold ring-2 ring-lime-100'
-                        : 'bg-white border-slate-100 hover:border-lime-200'
+                        : 'bg-white border-slate-100 hover:border-slate-200'
                     }`}
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2.5">
                       <div className="w-9 h-9 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center">
                         {renderModuleIcon(mod.iconName)}
                       </div>
                       <div>
-                        <span className="text-xs sm:text-sm font-display font-bold text-slate-800 block line-clamp-1">
+                        <span className="text-xs font-display font-bold text-slate-800 block line-clamp-1">
                           {mod.title}
                         </span>
                         <span className="text-[10px] text-slate-400 block mt-0.5 line-clamp-1 group-hover:text-slate-500">
@@ -233,7 +243,7 @@ export default function App() {
 
                     <div className="flex items-center gap-1">
                       {isCompleted ? (
-                        <span className="text-[10px] bg-green-100 text-green-800 px-2 py-0.5 rounded-full font-bold">Done ✅</span>
+                        <span className="text-[9px] bg-green-100 text-green-800 px-2 py-0.5 rounded-full font-bold">Done ✅</span>
                       ) : (
                         <span className="text-[10px] text-slate-400 group-hover:text-slate-600 flex items-center gap-0.5">
                           Play <ChevronRight size={10} />
@@ -245,8 +255,6 @@ export default function App() {
               })}
             </div>
           </div>
-
-
         </div>
 
         {/* RIGHT COLUMN: Active Game / Content Window */}
@@ -267,7 +275,7 @@ export default function App() {
                 className={`px-4 py-1.5 rounded-xl text-xs font-display font-bold transition-all border-2 flex items-center gap-1 cursor-pointer ${
                   !viewingWorksheet
                     ? 'bg-lime-500 border-lime-600 text-white shadow-sm'
-                    : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-100'
+                    : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-105'
                 }`}
               >
                 🎮 Play Game
@@ -277,7 +285,7 @@ export default function App() {
                 onClick={() => setViewingWorksheet(true)}
                 className={`px-4 py-1.5 rounded-xl text-xs font-display font-bold transition-all border-2 flex items-center gap-1 cursor-pointer ${
                   viewingWorksheet
-                    ? 'bg-indigo-600 border-indigo-700 text-white shadow-sm'
+                    ? 'bg-lime-500 border-lime-600 text-white shadow-sm'
                     : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-100'
                 }`}
               >
@@ -306,6 +314,7 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
               >
+                {/* Elementary Game Switch Cases */}
                 {activeModuleId === 'coin_matching' && (
                   <CoinCatcher
                     wallet={profile.wallet}
@@ -364,7 +373,7 @@ export default function App() {
       <footer className="max-w-7xl mx-auto px-4 mt-12 sm:px-6 no-print">
         <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
           <div className="flex items-start gap-3">
-            <div className="p-2 bg-lime-100 text-lime-800 rounded-xl">
+            <div className="p-2 bg-indigo-100 text-indigo-800 rounded-xl">
               <Info size={20} />
             </div>
             <div>
@@ -379,6 +388,9 @@ export default function App() {
           © 2026 Storybook Education • All Rights Reserved
         </div>
       </footer>
+
+      {/* TPT SELLER DESK COMPONENT MODAL */}
+      <TptSellerKit isOpen={isTptOpen} onClose={() => setIsTptOpen(false)} />
 
     </div>
   );

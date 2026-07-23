@@ -349,6 +349,342 @@ const WORKSHEETS_BY_MODULE: Record<string, WorksheetData> = {
         correctAnswer: 'A budget shows where your money is coming from and plans exactly where it should go so you do not get lost or run out.'
       }
     ]
+  },
+  ms_paystub: {
+    title: 'Salary & Paystub Mathematics Worksheet',
+    topic: 'Earn & Tax Withholdings',
+    questions: [
+      {
+        question: 'Q1: If you work 15 hours as a camp counselor at $15.00/hour, what is your gross weekly earnings?',
+        answerType: 'math',
+        correctAnswer: '$225.00'
+      },
+      {
+        question: 'Q2: Explain the primary difference between "Gross Pay" and "Net Take-Home Pay".',
+        answerType: 'text',
+        correctAnswer: 'Gross pay is the total money earned before taxes, while Net pay is what remains after all taxes and deductions are subtracted.'
+      },
+      {
+        question: 'Q3: If your Gross Pay is $300.00 and taxes/withholding total 20%, what is the exact amount of deductions withheld?',
+        answerType: 'math',
+        correctAnswer: '$60.00'
+      },
+      {
+        question: 'Q4: What is "FICA" tax withheld on your paystub used to support?',
+        answerType: 'choice',
+        options: ['State road maintenance', 'Social Security and Medicare systems for senior citizens', 'School lunch boards'],
+        correctAnswer: 'Social Security and Medicare systems for senior citizens'
+      },
+      {
+        question: 'Q5: If you get a paystub with a Gross Pay of $150.00 and Net Pay of $120.00, what percentage of your salary was withheld as deductions?',
+        answerType: 'choice',
+        options: ['10%', '15%', '20%', '25%'],
+        correctAnswer: '20%'
+      }
+    ]
+  },
+  ms_budget_matrix: {
+    title: 'The 50/30/20 Budgeting Matrix Worksheet',
+    topic: 'Personal Budgeting Proportions',
+    questions: [
+      {
+        question: 'Q1: In the 50/30/20 budget framework, what category should the 50% portion be spent on?',
+        answerType: 'choice',
+        options: ['Wants (Amusement, new sneakers, streaming channels)', 'Needs (Shelter rent, medical bills, essential transportation)', 'Savings (Index funds, emergency buffers)'],
+        correctAnswer: 'Needs (Shelter rent, medical bills, essential transportation)'
+      },
+      {
+        question: 'Q2: If your monthly lawn mowing income is $160.00, how much cash should you put into your savings account according to the 20% savings rule?',
+        answerType: 'math',
+        correctAnswer: '$32.00'
+      },
+      {
+        question: 'Q3: Why is a mobile phone plan considered a "Need" but high-end gaming skins considered a "Want"? Explain.',
+        answerType: 'text',
+        correctAnswer: 'A phone plan is necessary for basic safety, emergency communication, and school/work access, whereas gaming cosmetics are pure optional entertainment.'
+      },
+      {
+        question: 'Q4: If you spend $80 on Needs, $48 on Wants, and save $32 out of a $160 monthly paycheck, are you perfectly following the 50/30/20 rule?',
+        answerType: 'choice',
+        options: ['Yes (50% Needs, 30% Wants, 20% Savings)', 'No (The proportions are incorrect)'],
+        correctAnswer: 'Yes (50% Needs, 30% Wants, 20% Savings)'
+      },
+      {
+        question: 'Q5: True or False: If you get an unexpected monetary gift, you should try to save at least 20% of it before spending any.',
+        answerType: 'choice',
+        options: ['True (This builds positive financial habits)', 'False'],
+        correctAnswer: 'True (This builds positive financial habits)'
+      }
+    ]
+  },
+  ms_interest_compounder: {
+    title: 'Compound Interest & Exponential Growth Worksheet',
+    topic: 'Compound Interest Calculations',
+    questions: [
+      {
+        question: 'Q1: Why is compound interest described as "earning interest on interest"?',
+        answerType: 'text',
+        correctAnswer: 'Because the interest you earn is added back to your main account, so in the next period you earn interest on both your initial deposit and the previous interest!'
+      },
+      {
+        question: 'Q2: If you save $1,000 in cash in a jar (0% APY) for 10 years, how much interest do you earn in total?',
+        answerType: 'math',
+        correctAnswer: '$0.00'
+      },
+      {
+        question: 'Q3: Which account typically offers the highest historical average rate of return over long timeframes (10+ years)?',
+        answerType: 'choice',
+        options: ['A regular checking account (0.01% APY)', 'A High-Yield Savings Account (4.5% APY)', 'An S&P 500 Index Fund (9.0% APY)'],
+        correctAnswer: 'An S&P 500 Index Fund (9.0% APY)'
+      },
+      {
+        question: 'Q4: If you start with $500 and earn 10% compound interest per year, how much total money is in the account after 2 years? (Hint: Year 1 principal becomes $550)',
+        answerType: 'math',
+        correctAnswer: '$605.00'
+      },
+      {
+        question: 'Q5: True or False: Starting to save at age 14 is far better than starting at age 35, even if you save smaller monthly amounts, due to compounding time.',
+        answerType: 'choice',
+        options: ['True (Time is the multiplier of compounding!)', 'False'],
+        correctAnswer: 'True (Time is the multiplier of compounding!)'
+      }
+    ]
+  },
+  ms_digital_payments: {
+    title: 'Digital Payment Instruments & Fees Worksheet',
+    topic: 'Debit, Credit, & P2P Apps',
+    questions: [
+      {
+        question: 'Q1: When you pay for a book using a Debit Card, where does that cash come from?',
+        answerType: 'choice',
+        options: ['Borrowed bank funds that you must pay back later', 'Directly from your linked checking bank account', 'From a credit bureau reward fund'],
+        correctAnswer: 'Directly from your linked checking bank account'
+      },
+      {
+        question: 'Q2: Explain why you must be extremely cautious when sending money via P2P apps (like Venmo or Zelle) to online strangers.',
+        answerType: 'text',
+        correctAnswer: 'P2P transfers are instant and direct like cash. If you are scammed, the bank offers zero purchase or fraud protection, and you cannot get your money back.'
+      },
+      {
+        question: 'Q3: Which of these is a major benefit of using a Credit Card responsibly (paying it off in full every single month)?',
+        answerType: 'choice',
+        options: ['It lets you stay in debt forever', 'It builds a positive credit history score and offers fraud protections', 'It allows you to bypass taxes'],
+        correctAnswer: 'It builds a positive credit history score and offers fraud protections'
+      },
+      {
+        question: 'Q4: What happens if you do not pay your Credit Card bill in full at the end of the monthly billing period?',
+        answerType: 'choice',
+        options: ['The bank waives the bill for free', 'You will be charged extremely high interest rates (usually 20%+) on the remaining balance', 'Your score improves immediately'],
+        correctAnswer: 'You will be charged extremely high interest rates (usually 20%+) on the remaining balance'
+      },
+      {
+        question: 'Q5: If you buy groceries for $25.00, which payment method has ZERO risk of causing you to fall into interest debt?',
+        answerType: 'choice',
+        options: ['Credit Card', 'Debit Card', 'Store Loan'],
+        correctAnswer: 'Debit Card'
+      }
+    ]
+  },
+  ms_scam_defense: {
+    title: 'Cyber-Scam Detection & Threat Assessment Worksheet',
+    topic: 'Identifying Phishing & Online Scams',
+    questions: [
+      {
+        question: 'Q1: Name two major red flags that usually indicate an email is actually a phishing scam.',
+        answerType: 'text',
+        correctAnswer: '1. Suspicious, unofficial, or misspelled sender domains. 2. High urgency threats or emotional panic. 3. Asks you to input private passwords or credit cards via text links.'
+      },
+      {
+        question: 'Q2: An email from "alert-support-netflix@security-checks.xyz" claims your account is locked and demands credit card details. Is this likely safe or a scam?',
+        answerType: 'choice',
+        options: ['Safe (It mentions Netflix)', 'Scam (The sender email domain is suspicious and unofficial)'],
+        correctAnswer: 'Scam (The sender email domain is suspicious and unofficial)'
+      },
+      {
+        question: 'Q3: Why do cyber-criminals use words like "URGENT", "ACTION REQUIRED", or "IMMEDIATELY" in their scam messages?',
+        answerType: 'text',
+        correctAnswer: 'To panic you so you act quickly on emotion and click their sketchy links before thinking rationally.'
+      },
+      {
+        question: 'Q4: If a stranger on Discord or Roblox promises to send you free premium gaming coins if you just share your account verification cookie or login password, what is their actual objective?',
+        answerType: 'choice',
+        options: ['To give you free items out of kindness', 'To hack and steal your gaming account and virtual inventory', 'To test your computer speed'],
+        correctAnswer: 'To hack and steal your gaming account and virtual inventory'
+      },
+      {
+        question: 'Q5: True or False: Legitimate organizations like school networks, banks, or Google will never send you an email asking you to reply with your secret password.',
+        answerType: 'choice',
+        options: ['True (Real desks already have database records and never ask for passwords)', 'False'],
+        correctAnswer: 'True (Real desks already have database records and never ask for passwords)'
+      }
+    ]
+  },
+  ms_career_quest: {
+    title: 'Career Paths & Cost of Living Budget Worksheet',
+    topic: 'Salaries & Lifestyle Cost Outcomes',
+    questions: [
+      {
+        question: 'Q1: Why do professions requiring specialized technical training (like Software Engineers or Mechanics) often pay higher initial salaries?',
+        answerType: 'text',
+        correctAnswer: 'Because they require complex technical skills, education, and credentials that are highly valued by businesses and have higher market demand.'
+      },
+      {
+        question: 'Q2: If you choose a career as an Auto Mechanic earning $4,300/mo and your total lifestyle expenses (rent, groceries, car, taxes) are $3,200/mo, what is your net monthly surplus?',
+        answerType: 'math',
+        correctAnswer: '$1,100.00'
+      },
+      {
+        question: 'Q3: What does the term "Cost of Living" refer to?',
+        answerType: 'choice',
+        options: ['The price of buying designer clothes', 'The average cost of basic essentials like housing rent, electricity, food, and transport in an area', 'The taxes withheld on your paystub'],
+        correctAnswer: 'The average cost of basic essentials like housing rent, electricity, food, and transport in an area'
+      },
+      {
+        question: 'Q4: What is the main benefit of renting a shared apartment with roommates early in your career instead of living solo?',
+        answerType: 'choice',
+        options: ['It is more expensive', 'It massively cuts your monthly rent and utility bills, allowing you to build up savings quickly', 'It means you do not have to pay taxes'],
+        correctAnswer: 'It massively cuts your monthly rent and utility bills, allowing you to build up savings quickly'
+      },
+      {
+        question: 'Q5: Write down one career path you are interested in exploring, and name one major expense you will need to budget for in that profession.',
+        answerType: 'text',
+        correctAnswer: "Student's personal career goal paired with realistic expenses (e.g. rent, student loans, or tools/equipment)."
+      }
+    ]
+  },
+  ms_lemonade_startup: {
+    title: 'Lemonade Stand Business & Micro-Economics Worksheet',
+    topic: 'Supply, Demand, & Inventory Margins',
+    questions: [
+      {
+        question: 'Q1: If you sell 15 cups of lemonade at $1.20 per cup, what is your Gross Revenue?',
+        answerType: 'math',
+        correctAnswer: '$18.00'
+      },
+      {
+        question: 'Q2: If the weather forecast calls for freezing rain and chilly 50°F temperatures, should you set your cup price higher or lower to maximize sales?',
+        answerType: 'choice',
+        options: ['Higher (Cold people want expensive drinks)', 'Lower (Demand is low, so pricing must be cheap to entice buyers)', 'Keep it unchanged'],
+        correctAnswer: 'Lower (Demand is low, so pricing must be cheap to entice buyers)'
+      },
+      {
+        question: 'Q3: Explain the concept of "Opportunity Cost" or "Profit Margins" in your own words using your lemonade stand experience.',
+        answerType: 'text',
+        correctAnswer: 'Profit margin is the actual money you make after subtracting the costs of ingredients (lemons, sugar, cups) from your gross sales revenue.'
+      },
+      {
+        question: 'Q4: You have 10 lemons, 12 sugar packs, and 8 cups. What is the absolute maximum number of glasses of lemonade you can serve?',
+        answerType: 'choice',
+        options: ['10 cups', '12 cups', '8 cups (You are limited by the resource you have the least of!)', '30 cups'],
+        correctAnswer: '8 cups (You are limited by the resource you have the least of!)'
+      },
+      {
+        question: 'Q5: True or False: In business, you must pay back the money spent on inventory before you can calculate your actual startup profit.',
+        answerType: 'choice',
+        options: ['True (Cost of Goods Sold must be fully deducted)', 'False'],
+        correctAnswer: 'True (Cost of Goods Sold must be fully deducted)'
+      }
+    ]
+  },
+  ms_unit_price: {
+    title: 'Grocery Store Shelf Tag & Unit Price Worksheet',
+    topic: 'Calculating Best Retail Deals',
+    questions: [
+      {
+        question: 'Q1: What is the math formula used to find the Unit Price of any product?',
+        answerType: 'choice',
+        options: ['Unit Price = Size × Price', 'Unit Price = Total Price ÷ Volume Size', 'Unit Price = Taxes + Price'],
+        correctAnswer: 'Unit Price = Total Price ÷ Volume Size'
+      },
+      {
+        question: 'Q2: Brand A cereal costs $3.60 for a 12 oz box. What is the exact unit price per ounce?',
+        answerType: 'math',
+        correctAnswer: '$0.30'
+      },
+      {
+        question: 'Q3: Brand B cereal costs $5.00 for a 20 oz box. What is the exact unit price per ounce?',
+        answerType: 'math',
+        correctAnswer: '$0.25'
+      },
+      {
+        question: 'Q4: Continuing from Q2 and Q3, which brand is the better value deal for your family?',
+        answerType: 'choice',
+        options: ['Brand A (Small box)', 'Brand B (Super Jumbo box, saves 5¢ per ounce!)'],
+        correctAnswer: 'Brand B (Super Jumbo box, saves 5¢ per ounce!)'
+      },
+      {
+        question: 'Q5: True or False: Unofficial store pricing tricks mean that buying the larger mega bulk box is ALWAYS cheaper per ounce.',
+        answerType: 'choice',
+        options: ['True', 'False (Sometimes smaller bottles are cheaper per ounce, so you must always calculate unit pricing!)'],
+        correctAnswer: 'False (Sometimes smaller bottles are cheaper per ounce, so you must always calculate unit pricing!)'
+      }
+    ]
+  },
+  ms_impact_giving: {
+    title: 'Philanthropic Impact & Community Grants Worksheet',
+    topic: 'Charitable Intent & Social Returns',
+    questions: [
+      {
+        question: 'Q1: What is a philanthropic "Matching Grant" program?',
+        answerType: 'text',
+        correctAnswer: 'A program where a sponsor or business matches every dollar you donate to a charity, effectively doubling the financial support for that cause!'
+      },
+      {
+        question: 'Q2: If you allocate $4.00 of your charity pool to the local Stray Animal blanket drive, and blankets cost $1.00 each, how many dogs get warm insulation beds?',
+        answerType: 'math',
+        correctAnswer: '4 dogs'
+      },
+      {
+        question: 'Q3: Why is community philanthropy an important part of personal financial literacy? Explain.',
+        answerType: 'text',
+        correctAnswer: 'Because learning to budget for giving back builds community responsibility, helps solve critical societal needs, and creates social returns that improve everyone\'s quality of life.'
+      },
+      {
+        question: 'Q4: True or False: If you do not have any cash to spare, you can still participate in philanthropy by volunteering your labor, folding clothing, or sweeping community parks.',
+        answerType: 'choice',
+        options: ['True (Giving time is highly valuable!)', 'False (Donating is strictly about cash bills)'],
+        correctAnswer: 'True (Giving time is highly valuable!)'
+      },
+      {
+        question: 'Q5: Which of these causes is a great example of helping the local environmental ecosystem?',
+        answerType: 'choice',
+        options: ['Buying video game assets', 'Funding local organic seed pods for neighborhood food gardens', 'Funding more high-speed retail stores'],
+        correctAnswer: 'Funding local organic seed pods for neighborhood food gardens'
+      }
+    ]
+  },
+  ms_expert_quiz: {
+    title: 'Middle School Financial Expert Tournament Worksheet',
+    topic: 'Comprehensive Economic Review',
+    questions: [
+      {
+        question: 'Q1: If you earn $500 gross wages, pay $50 in federal tax, and save $100, how much net pay did you actually receive in your check?',
+        answerType: 'math',
+        correctAnswer: '$450.00'
+      },
+      {
+        question: 'Q2: Which percentage allocation should go to "Protected Savings" according to the 50/30/20 budget framework?',
+        answerType: 'choice',
+        options: ['50%', '30%', '20%'],
+        correctAnswer: '20%'
+      },
+      {
+        question: 'Q3: Describe how compound interest accumulates over time.',
+        answerType: 'text',
+        correctAnswer: 'It acts like a snowball: interest is paid on your initial savings plus previous interest, making the account grow exponentially faster over long periods.'
+      },
+      {
+        question: 'Q4: What is the unit price of a 10-pack of pencils selling for $2.50?',
+        answerType: 'math',
+        correctAnswer: '$0.25'
+      },
+      {
+        question: 'Q5: True or False: Credit cards are wonderful financial building blocks if you pay your bill in full every month, but dangerous traps if you roll over balances and pay high interest.',
+        answerType: 'choice',
+        options: ['True', 'False'],
+        correctAnswer: 'True'
+      }
+    ]
   }
 };
 
