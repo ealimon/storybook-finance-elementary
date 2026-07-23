@@ -144,21 +144,25 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
                 🏆
               </div>
               <div>
+                <span className="text-[11px] font-bold text-emerald-800 bg-emerald-200/60 px-2.5 py-0.5 rounded-full inline-block mb-1">
+                  🌟 Module 1 Mastered!
+                </span>
                 <h3 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900">
                   All 5 Scenarios Completed! 🎉
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-700 mt-0.5">
-                  Great job matching coins! You earned bonus stars for your Piggy Wallet.
+                  Great job matching coins! All stars and coins were added to your Piggy Wallet.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 w-full sm:w-auto shrink-0">
+            <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto shrink-0">
+              <span className="text-xs font-bold text-emerald-800 hidden md:inline">👉 Ready for the next lesson?</span>
               {onNextModule && (
                 <button
                   id="btn-coin-next-module-banner"
                   onClick={onNextModule}
-                  className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-display font-bold text-sm px-6 py-3 rounded-2xl shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 cursor-pointer border border-emerald-400/40"
+                  className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-display font-bold text-sm px-6 py-3 rounded-2xl shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 cursor-pointer border border-emerald-400/40 animate-bounce"
                 >
                   <span>Next: Needs vs. Wants</span>
                   <span className="text-lg">➡️</span>
@@ -266,19 +270,6 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
                 >
                   <RefreshCw size={16} /> Reset Coins
                 </button>
-
-                {onNextModule && (isAllCompleted || (level === TARGETS.length - 1 && success)) && (
-                  <motion.button
-                    id="btn-coin-next-actionbar"
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    onClick={onNextModule}
-                    className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-sm font-display font-bold shadow-md transition-all cursor-pointer bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white border border-emerald-400 ring-2 ring-emerald-300 animate-pulse"
-                    title="Progress to Module 2: Needs vs. Wants"
-                  >
-                    <span>NEXT ➡️</span>
-                  </motion.button>
-                )}
               </div>
 
               {success ? (
@@ -289,7 +280,7 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
                   animate={{ scale: 1, opacity: 1 }}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.96 }}
-                  className="flex items-center gap-3 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white border-2 border-emerald-400 rounded-2xl p-3 px-5 shadow-lg cursor-pointer transition-all text-left"
+                  className="flex items-center gap-3 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white border-2 border-emerald-400 rounded-2xl p-3 px-5 shadow-lg cursor-pointer transition-all text-left animate-bounce"
                 >
                   <div className="bg-white text-emerald-700 rounded-full p-1.5 shrink-0 shadow-sm">
                     <CheckCircle size={24} />

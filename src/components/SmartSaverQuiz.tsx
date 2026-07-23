@@ -247,28 +247,33 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
               />
             </div>
 
-            <div className="flex gap-2 justify-center mt-4">
-              <button
-                id="btn-quiz-restart"
-                onClick={handleReset}
-                className="flex items-center gap-1 bg-white hover:bg-slate-100 text-slate-600 px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-200"
-              >
-                <RefreshCw size={12} /> Play Again
-              </button>
-              {!starsClaimed ? (
+            {!starsClaimed ? (
+              <div className="flex flex-col items-center justify-center gap-2 mt-4">
+                <span className="text-xs font-bold text-amber-900 bg-amber-100 px-3 py-1 rounded-full border border-amber-300">
+                  👉 Step 1: Claim your graduation stars!
+                </span>
                 <button
                   id="btn-quiz-claim"
                   onClick={claimQuizReward}
-                  className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-xs px-4 py-2 rounded-xl shadow-md"
+                  className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-xs px-6 py-2.5 rounded-xl shadow-md border-b-2 border-yellow-600 animate-bounce cursor-pointer"
                 >
                   Claim {score * 5} Stars 🌟
                 </button>
-              ) : (
-                <span className="text-xs text-yellow-700 bg-yellow-200 px-3 py-2 rounded-xl font-bold">
-                  Reward Claimed! 🌟
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center gap-2 mt-4">
+                <span className="text-xs text-yellow-800 bg-yellow-200 px-4 py-1.5 rounded-xl font-bold border border-yellow-300">
+                  🎉 {score * 5} Stars Claimed! Graduation Certificate Unlocked! 📜
                 </span>
-              )}
-            </div>
+                <button
+                  id="btn-quiz-restart"
+                  onClick={handleReset}
+                  className="flex items-center gap-1 bg-white hover:bg-slate-100 text-slate-600 px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-200 cursor-pointer"
+                >
+                  <RefreshCw size={12} /> Play Quiz Again
+                </button>
+              </div>
+            )}
           </div>
 
           {/* PRINTABLE DIPLOMA PANEL */}
@@ -311,24 +316,35 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
           </div>
 
           {/* Certificate actions */}
-          <div className="flex flex-wrap gap-3 justify-center items-center">
-            <button
-              id="btn-print-certificate"
-              onClick={handlePrint}
-              className="flex items-center gap-1 bg-slate-800 hover:bg-slate-900 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md"
-            >
-              <Printer size={14} /> Print Certificate
-            </button>
-            {onNextModule && (
-              <button
-                id="btn-quiz-next-module"
-                onClick={onNextModule}
-                className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
-              >
-                NEXT: Restart Coin Catcher 🪙 <ArrowRight size={14} />
-              </button>
-            )}
-          </div>
+          {starsClaimed ? (
+            <div className="flex flex-col items-center gap-2">
+              <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-300">
+                👉 Step 2: Print your certificate or continue!
+              </span>
+              <div className="flex flex-wrap gap-3 justify-center items-center">
+                <button
+                  id="btn-print-certificate"
+                  onClick={handlePrint}
+                  className="flex items-center gap-1 bg-slate-800 hover:bg-slate-900 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md cursor-pointer"
+                >
+                  <Printer size={14} /> Print Certificate
+                </button>
+                {onNextModule && (
+                  <button
+                    id="btn-quiz-next-module"
+                    onClick={onNextModule}
+                    className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce cursor-pointer"
+                  >
+                    <span>NEXT: Restart Coin Catcher 🪙</span> <ArrowRight size={14} />
+                  </button>
+                )}
+              </div>
+            </div>
+          ) : (
+            <p className="text-xs text-slate-500 italic text-center">
+              Claim your stars above to unlock your print certificate!
+            </p>
+          )}
 
         </div>
       )}

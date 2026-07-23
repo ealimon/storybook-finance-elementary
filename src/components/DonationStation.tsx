@@ -185,22 +185,35 @@ export default function DonationStation({ onAddStars, onAddMoney, onNextModule }
 
             <div className="flex items-center gap-2">
               {starsAwarded[selectedCause.id] ? (
-                <span className="text-xs font-bold text-rose-700 bg-rose-100 px-3 py-1 rounded-full border border-rose-200 flex items-center gap-1">
-                  <CheckCircle size={14} /> Cause Funded +5 Stars!
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-rose-800 bg-rose-100 px-3 py-1.5 rounded-xl border border-rose-200 flex items-center gap-1">
+                    <CheckCircle size={14} /> Cause Funded! +5 Stars Claimed 🤝
+                  </span>
+                  {onNextModule && (
+                    <button
+                      id="btn-donation-next-module"
+                      onClick={onNextModule}
+                      className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce cursor-pointer"
+                    >
+                      <span>NEXT: Smart Saver Quiz</span> <ArrowRight size={14} />
+                    </button>
+                  )}
+                </div>
               ) : (
-                <span className="text-[10px] text-slate-400 font-medium italic">
-                  Donate $1.00 or more to fund the charity &amp; win stars!
-                </span>
-              )}
-              {onNextModule && (
-                <button
-                  id="btn-donation-next-module"
-                  onClick={onNextModule}
-                  className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
-                >
-                  NEXT: Smart Saver Quiz <ArrowRight size={14} />
-                </button>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] text-rose-900 font-bold bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-200">
+                    👉 Step 1: Donate $1.00 or more to help!
+                  </span>
+                  {onNextModule && (
+                    <button
+                      id="btn-donation-next-module-direct"
+                      onClick={onNextModule}
+                      className="flex items-center gap-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-3 py-1.5 rounded-xl text-xs cursor-pointer"
+                    >
+                      Skip ➡️
+                    </button>
+                  )}
+                </div>
               )}
             </div>
           </div>
