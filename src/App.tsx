@@ -120,7 +120,7 @@ export default function App() {
       {/* BRANDING TOP UTILITY BAR (HUMBLE & LITERAL LABELS) */}
       <div className="bg-slate-900 text-slate-100 py-3.5 px-6 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-3 border-b border-slate-850 no-print">
         <div className="flex items-center gap-2.5">
-          <span className="text-2xl">🦉📜</span>
+          <span className="text-2xl">🦉</span>
           <div>
             <h1 className="text-base sm:text-sm font-display font-bold tracking-wider text-white">Storybook Education</h1>
             <p className="text-xs sm:text-[10px] text-slate-300">Transformative Kids Financial Literacy Applications</p>
