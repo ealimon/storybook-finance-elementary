@@ -267,19 +267,17 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
                   <RefreshCw size={16} /> Reset Coins
                 </button>
 
-                {onNextModule && (
-                  <button
+                {onNextModule && (isAllCompleted || (level === TARGETS.length - 1 && success)) && (
+                  <motion.button
                     id="btn-coin-next-actionbar"
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
                     onClick={onNextModule}
-                    className={`flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-sm font-display font-bold shadow-md transition-all cursor-pointer border ${
-                      isAllCompleted || (level === TARGETS.length - 1 && success)
-                        ? 'bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white border-emerald-400 ring-2 ring-emerald-300 animate-pulse'
-                        : 'bg-indigo-600 hover:bg-indigo-700 text-white border-indigo-500'
-                    }`}
+                    className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-sm font-display font-bold shadow-md transition-all cursor-pointer bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white border border-emerald-400 ring-2 ring-emerald-300 animate-pulse"
                     title="Progress to Module 2: Needs vs. Wants"
                   >
                     <span>NEXT ➡️</span>
-                  </button>
+                  </motion.button>
                 )}
               </div>
 
