@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { PiggyBank, Star, HelpCircle, Check, Sparkles, TrendingUp } from 'lucide-react';
+import { PiggyBank, Star, HelpCircle, Check, Sparkles, TrendingUp, ArrowRight } from 'lucide-react';
 
 interface ThreeJarsProps {
   onAddStars: (stars: number) => void;
   onAddMoney: (amount: number) => void;
+  onNextModule?: () => void;
 }
 
 const GOALS = [
@@ -13,7 +14,7 @@ const GOALS = [
   { name: '🚲 Cool Skateboard', price: 30.0 },
 ];
 
-export default function ThreeJars({ onAddStars, onAddMoney }: ThreeJarsProps) {
+export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: ThreeJarsProps) {
   const [selectedGoal, setSelectedGoal] = useState(GOALS[0]);
   const [allowanceInput, setAllowanceInput] = useState<number>(10);
   
@@ -173,27 +174,38 @@ export default function ThreeJars({ onAddStars, onAddMoney }: ThreeJarsProps) {
               />
             </div>
             {success && (
-              <div className="mt-3 flex justify-between items-center bg-green-50 border border-green-200 p-2 px-3 rounded-xl">
+              <div className="mt-3 flex flex-wrap justify-between items-center gap-2 bg-green-50 border border-green-200 p-2.5 px-3 rounded-xl">
                 <span className="text-xs font-bold text-green-700 flex items-center gap-1">
                   <Check size={14} /> Goal Reached! Ready to buy!
                 </span>
-                {starsAwarded ? (
-                  <button
-                    id="btn-threejars-reset"
-                    onClick={handleResetGoal}
-                    className="text-[10px] text-slate-500 hover:underline font-bold"
-                  >
-                    Reset &amp; Save Again
-                  </button>
-                ) : (
-                  <button
-                    id="btn-threejars-claim-reward"
-                    onClick={claimReward}
-                    className="bg-yellow-400 hover:bg-yellow-500 text-slate-800 text-xs font-bold px-3 py-1 rounded-lg shadow-sm"
-                  >
-                    Claim 10 Stars 🌟
-                  </button>
-                )}
+                <div className="flex items-center gap-2">
+                  {starsAwarded ? (
+                    <button
+                      id="btn-threejars-reset"
+                      onClick={handleResetGoal}
+                      className="text-[10px] text-slate-500 hover:underline font-bold"
+                    >
+                      Reset &amp; Save Again
+                    </button>
+                  ) : (
+                    <button
+                      id="btn-threejars-claim-reward"
+                      onClick={claimReward}
+                      className="bg-yellow-400 hover:bg-yellow-500 text-slate-800 text-xs font-bold px-3 py-1 rounded-lg shadow-sm"
+                    >
+                      Claim 10 Stars 🌟
+                    </button>
+                  )}
+                  {onNextModule && (
+                    <button
+                      id="btn-threejars-next-module"
+                      onClick={onNextModule}
+                      className="flex items-center gap-1 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-3 py-1 rounded-lg text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
+                    >
+                      NEXT: Sweet Shop <ArrowRight size={14} />
+                    </button>
+                  )}
+                </div>
               </div>
             )}
           </div>

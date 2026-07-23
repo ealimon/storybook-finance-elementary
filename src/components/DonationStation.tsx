@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Heart, Star, Sparkles, CheckCircle, RefreshCw, HandHeart } from 'lucide-react';
+import { Heart, Star, Sparkles, CheckCircle, RefreshCw, HandHeart, ArrowRight } from 'lucide-react';
 
 interface DonationStationProps {
   onAddStars: (stars: number) => void;
   onAddMoney: (amount: number) => void;
+  onNextModule?: () => void;
 }
 
 const CAUSES = [
@@ -13,7 +14,7 @@ const CAUSES = [
   { id: 'forest', name: 'Plant-a-Tree Park Project', description: 'Seeds tall, green leafy trees to make local parks beautiful!', icon: '🌲', activeIcon: '🌳🍁🌸', bg: 'bg-emerald-50 border-emerald-200 text-emerald-900', accent: 'emerald' },
 ];
 
-export default function DonationStation({ onAddStars, onAddMoney }: DonationStationProps) {
+export default function DonationStation({ onAddStars, onAddMoney, onNextModule }: DonationStationProps) {
   const [selectedCause, setSelectedCause] = useState(CAUSES[0]);
   const [donations, setDonations] = useState<Record<string, number>>({ puppies: 0, meals: 0, forest: 0 });
   const [donateInput, setDonateInput] = useState<number>(1.00);
@@ -174,7 +175,7 @@ export default function DonationStation({ onAddStars, onAddMoney }: DonationStat
           </div>
 
           {/* Bottom resets/feedback */}
-          <div className="mt-auto w-full pt-4 border-t border-slate-200 flex justify-between items-center">
+          <div className="mt-auto w-full pt-4 border-t border-slate-200 flex flex-wrap justify-between items-center gap-2">
             <button
               id="btn-donation-reset"
               onClick={handleReset}
@@ -183,15 +184,26 @@ export default function DonationStation({ onAddStars, onAddMoney }: DonationStat
               🔄 Clear All Charities
             </button>
 
-            {starsAwarded[selectedCause.id] ? (
-              <span className="text-xs font-bold text-rose-700 bg-rose-100 px-3 py-1 rounded-full border border-rose-200 flex items-center gap-1">
-                <CheckCircle size={14} /> Cause Funded +5 Stars!
-              </span>
-            ) : (
-              <span className="text-[10px] text-slate-400 font-medium italic">
-                Donate $1.00 or more to fund the charity &amp; win stars!
-              </span>
-            )}
+            <div className="flex items-center gap-2">
+              {starsAwarded[selectedCause.id] ? (
+                <span className="text-xs font-bold text-rose-700 bg-rose-100 px-3 py-1 rounded-full border border-rose-200 flex items-center gap-1">
+                  <CheckCircle size={14} /> Cause Funded +5 Stars!
+                </span>
+              ) : (
+                <span className="text-[10px] text-slate-400 font-medium italic">
+                  Donate $1.00 or more to fund the charity &amp; win stars!
+                </span>
+              )}
+              {onNextModule && (
+                <button
+                  id="btn-donation-next-module"
+                  onClick={onNextModule}
+                  className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
+                >
+                  NEXT: Smart Saver Quiz <ArrowRight size={14} />
+                </button>
+              )}
+            </div>
           </div>
 
         </div>

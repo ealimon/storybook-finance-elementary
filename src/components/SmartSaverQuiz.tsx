@@ -5,6 +5,7 @@ import { QuizQuestion } from '../types';
 
 interface SmartSaverQuizProps {
   onAddStars: (stars: number) => void;
+  onNextModule?: () => void;
 }
 
 const QUIZ_QUESTIONS: QuizQuestion[] = [
@@ -70,7 +71,7 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
   },
 ];
 
-export default function SmartSaverQuiz({ onAddStars }: SmartSaverQuizProps) {
+export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQuizProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -311,7 +312,7 @@ export default function SmartSaverQuiz({ onAddStars }: SmartSaverQuizProps) {
           </div>
 
           {/* Certificate actions */}
-          <div className="flex gap-3 justify-center">
+          <div className="flex flex-wrap gap-3 justify-center items-center">
             <button
               id="btn-print-certificate"
               onClick={handlePrint}
@@ -319,6 +320,15 @@ export default function SmartSaverQuiz({ onAddStars }: SmartSaverQuizProps) {
             >
               <Printer size={14} /> Print Certificate
             </button>
+            {onNextModule && (
+              <button
+                id="btn-quiz-next-module"
+                onClick={onNextModule}
+                className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
+              >
+                NEXT: Restart Coin Catcher 🪙 <ArrowRight size={14} />
+              </button>
+            )}
           </div>
 
         </div>

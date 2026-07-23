@@ -6,6 +6,7 @@ import { SweetShopItem } from '../types';
 interface SweetShopProps {
   onAddStars: (stars: number) => void;
   onAddMoney: (amount: number) => void;
+  onNextModule?: () => void;
 }
 
 const SWEET_ITEMS: SweetShopItem[] = [
@@ -17,7 +18,7 @@ const SWEET_ITEMS: SweetShopItem[] = [
   { id: 'apple', name: 'Healthy Red Apple', price: 0.50, icon: '🍎', color: 'bg-red-50 border-red-200' },
 ];
 
-export default function SweetShop({ onAddStars, onAddMoney }: SweetShopProps) {
+export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: SweetShopProps) {
   const [budget, setBudget] = useState(5.00);
   const [cart, setCart] = useState<{ item: SweetShopItem; quantity: number }[]>([]);
   const [checkedOut, setCheckedOut] = useState(false);
@@ -201,21 +202,43 @@ export default function SweetShop({ onAddStars, onAddMoney }: SweetShopProps) {
                   Change Back: ${checkoutChange.toFixed(2)}
                 </p>
                 {starsAwarded ? (
-                  <button
-                    id="btn-sweetshop-playagain"
-                    onClick={handleClearCart}
-                    className="flex items-center gap-1 bg-white hover:bg-slate-100 text-slate-600 px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-200 mx-auto"
-                  >
-                    <RefreshCw size={12} /> Buy New Sweets
-                  </button>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-2">
+                    <button
+                      id="btn-sweetshop-playagain"
+                      onClick={handleClearCart}
+                      className="flex items-center gap-1 bg-white hover:bg-slate-100 text-slate-600 px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-200"
+                    >
+                      <RefreshCw size={12} /> Buy New Sweets
+                    </button>
+                    {onNextModule && (
+                      <button
+                        id="btn-sweetshop-next-module"
+                        onClick={onNextModule}
+                        className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
+                      >
+                        NEXT: Chore Board Builder <ArrowRight size={14} />
+                      </button>
+                    )}
+                  </div>
                 ) : (
-                  <button
-                    id="btn-sweetshop-claim-reward"
-                    onClick={claimReward}
-                    className="bg-yellow-400 hover:bg-yellow-500 text-slate-800 text-xs font-bold px-4 py-2 rounded-xl shadow-md border-b-2 border-yellow-600 flex items-center gap-1 mx-auto"
-                  >
-                    Claim 8 Stars + Wallet Coins <ArrowRight size={14} />
-                  </button>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-2">
+                    <button
+                      id="btn-sweetshop-claim-reward"
+                      onClick={claimReward}
+                      className="bg-yellow-400 hover:bg-yellow-500 text-slate-800 text-xs font-bold px-4 py-2 rounded-xl shadow-md border-b-2 border-yellow-600 flex items-center gap-1"
+                    >
+                      Claim 8 Stars + Coins <ArrowRight size={14} />
+                    </button>
+                    {onNextModule && (
+                      <button
+                        id="btn-sweetshop-next-module-direct"
+                        onClick={onNextModule}
+                        className="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-md border-b-2 border-emerald-700 flex items-center gap-1"
+                      >
+                        NEXT <ArrowRight size={14} />
+                      </button>
+                    )}
+                  </div>
                 )}
               </div>
             ) : (

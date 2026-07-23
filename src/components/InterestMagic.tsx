@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Star, Flame, Award, ShieldCheck, RefreshCw, Sparkles, Sprout } from 'lucide-react';
+import { Star, Flame, Award, ShieldCheck, RefreshCw, Sparkles, Sprout, ArrowRight } from 'lucide-react';
 
 interface InterestMagicProps {
   onAddStars: (stars: number) => void;
+  onNextModule?: () => void;
 }
 
-export default function InterestMagic({ onAddStars }: InterestMagicProps) {
+export default function InterestMagic({ onAddStars, onNextModule }: InterestMagicProps) {
   const [years, setYears] = useState(5);
   const [deposit, setDeposit] = useState(10); // initial money saved
   const [interestRate, setInterestRate] = useState(10); // 10% interest for child-friendly numbers
@@ -176,29 +177,40 @@ export default function InterestMagic({ onAddStars }: InterestMagicProps) {
           </div>
 
           {/* Claim stars if explored enough */}
-          <div className="mt-auto w-full pt-4 border-t border-slate-200 flex justify-between items-center">
+          <div className="mt-auto w-full pt-4 border-t border-slate-200 flex flex-wrap justify-between items-center gap-2">
             <span className="text-xs text-slate-400 font-bold">
               Tip: Move the slider to 30 years to grow a Giant Tree!
             </span>
-            {years >= 25 ? (
-              starsAwarded ? (
-                <span className="text-xs font-bold text-yellow-700 bg-yellow-150 px-3 py-1 rounded-full border border-yellow-250">
-                  Reward claimed! 🌟
-                </span>
+            <div className="flex items-center gap-2">
+              {years >= 25 ? (
+                starsAwarded ? (
+                  <span className="text-xs font-bold text-yellow-700 bg-yellow-150 px-3 py-1 rounded-full border border-yellow-250">
+                    Reward claimed! 🌟
+                  </span>
+                ) : (
+                  <button
+                    id="btn-interest-claim"
+                    onClick={claimReward}
+                    className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-xs px-4 py-2 rounded-xl shadow-md border-b-2 border-yellow-600"
+                  >
+                    Unlock 10 Stars 🌟
+                  </button>
+                )
               ) : (
+                <span className="text-[10px] text-slate-400 font-medium italic">
+                  Grow tree more for stars reward
+                </span>
+              )}
+              {onNextModule && (
                 <button
-                  id="btn-interest-claim"
-                  onClick={claimReward}
-                  className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-xs px-4 py-2 rounded-xl shadow-md border-b-2 border-yellow-600"
+                  id="btn-interest-next-module"
+                  onClick={onNextModule}
+                  className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
                 >
-                  Unlock 10 Stars 🌟
+                  NEXT: Great Toy Trade-off <ArrowRight size={14} />
                 </button>
-              )
-            ) : (
-              <span className="text-[10px] text-slate-400 font-medium italic">
-                Grow tree more for stars reward
-              </span>
-            )}
+              )}
+            </div>
           </div>
 
         </div>

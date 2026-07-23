@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { CheckSquare, Square, Star, DollarSign, RefreshCw, Trophy, Sparkles } from 'lucide-react';
+import { CheckSquare, Square, Star, DollarSign, RefreshCw, Trophy, Sparkles, ArrowRight } from 'lucide-react';
 import { Chore } from '../types';
 
 interface ChoreBoardProps {
   wallet: number;
   onAddMoney: (amount: number) => void;
   onAddStars: (stars: number) => void;
+  onNextModule?: () => void;
 }
 
 const CHORES_POOL: Chore[] = [
@@ -17,7 +18,7 @@ const CHORES_POOL: Chore[] = [
   { id: 'garden', task: 'Water the Flower Garden', payout: 0.80, completed: false, icon: '🌿' },
 ];
 
-export default function ChoreBoard({ wallet, onAddMoney, onAddStars }: ChoreBoardProps) {
+export default function ChoreBoard({ wallet, onAddMoney, onAddStars, onNextModule }: ChoreBoardProps) {
   const [chores, setChores] = useState<Chore[]>(CHORES_POOL);
   const [starsAwarded, setStarsAwarded] = useState(false);
 
@@ -152,7 +153,7 @@ export default function ChoreBoard({ wallet, onAddMoney, onAddStars }: ChoreBoar
 
           {/* All chores completed bonus */}
           {isAllCompleted && (
-            <div className="mt-4 bg-yellow-50 border-2 border-yellow-200 p-4 rounded-2xl flex justify-between items-center animate-pulse">
+            <div className="mt-4 bg-yellow-50 border-2 border-yellow-200 p-4 rounded-2xl flex flex-wrap justify-between items-center gap-3 animate-pulse">
               <div>
                 <h4 className="font-display font-bold text-slate-800 text-sm flex items-center gap-1">
                   🏆 Super Helpful Kid Award!
@@ -160,19 +161,30 @@ export default function ChoreBoard({ wallet, onAddMoney, onAddStars }: ChoreBoar
                 <p className="text-xs text-slate-500">You performed all chore tasks! Complete to claim your daily reward boost.</p>
               </div>
 
-              {starsAwarded ? (
-                <span className="text-xs text-yellow-700 font-bold bg-yellow-200 px-3 py-1 rounded-lg">
-                  Bonus Claimed!
-                </span>
-              ) : (
-                <button
-                  id="btn-chores-claim-bonus"
-                  onClick={claimBonus}
-                  className="bg-yellow-400 hover:bg-yellow-500 text-slate-800 font-display font-bold text-xs px-4 py-2 rounded-xl shadow-md"
-                >
-                  Claim Bonus 🌟
-                </button>
-              )}
+              <div className="flex items-center gap-2">
+                {starsAwarded ? (
+                  <span className="text-xs text-yellow-700 font-bold bg-yellow-200 px-3 py-1.5 rounded-lg">
+                    Bonus Claimed!
+                  </span>
+                ) : (
+                  <button
+                    id="btn-chores-claim-bonus"
+                    onClick={claimBonus}
+                    className="bg-yellow-400 hover:bg-yellow-500 text-slate-800 font-display font-bold text-xs px-4 py-2 rounded-xl shadow-md"
+                  >
+                    Claim Bonus 🌟
+                  </button>
+                )}
+                {onNextModule && (
+                  <button
+                    id="btn-chores-next-module"
+                    onClick={onNextModule}
+                    className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
+                  >
+                    NEXT: Magic Money Sprout <ArrowRight size={14} />
+                  </button>
+                )}
+              </div>
             </div>
           )}
 

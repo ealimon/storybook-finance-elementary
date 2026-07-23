@@ -4,9 +4,10 @@ import { ShieldAlert, Star, Trophy, ArrowRight, CornerDownRight, CheckCircle2 } 
 
 interface ToyTradeoffProps {
   onAddStars: (stars: number) => void;
+  onNextModule?: () => void;
 }
 
-export default function ToyTradeoff({ onAddStars }: ToyTradeoffProps) {
+export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffProps) {
   const [selectedPath, setSelectedPath] = useState<'A' | 'B' | null>(null);
   const [step, setStep] = useState(0);
   const [starsAwarded, setStarsAwarded] = useState(false);
@@ -220,25 +221,36 @@ export default function ToyTradeoff({ onAddStars }: ToyTradeoffProps) {
                 Continue Story <ArrowRight size={14} />
               </button>
             ) : (
-              selectedPath === 'B' ? (
-                starsAwarded ? (
-                  <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1.5 rounded-full border border-emerald-200">
-                    Patience rewards claimed!
-                  </span>
+              <div className="flex items-center gap-2">
+                {selectedPath === 'B' ? (
+                  starsAwarded ? (
+                    <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1.5 rounded-full border border-emerald-200">
+                      Patience rewards claimed!
+                    </span>
+                  ) : (
+                    <button
+                      id="btn-toytradeoff-claim-reward"
+                      onClick={claimReward}
+                      className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-xs px-5 py-2.5 rounded-xl shadow-md border-b-2 border-yellow-600 animate-bounce"
+                    >
+                      Claim 10 Stars 🌟🤖
+                    </button>
+                  )
                 ) : (
+                  <span className="text-xs text-rose-600 font-bold italic">
+                    Whistles break! Try Path B next time to earn Stars.
+                  </span>
+                )}
+                {onNextModule && (
                   <button
-                    id="btn-toytradeoff-claim-reward"
-                    onClick={claimReward}
-                    className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-xs px-5 py-2.5 rounded-xl shadow-md border-b-2 border-yellow-600 animate-bounce"
+                    id="btn-toytradeoff-next-module"
+                    onClick={onNextModule}
+                    className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2.5 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
                   >
-                    Claim 10 Stars 🌟🤖
+                    NEXT: Receipt Adder Match <ArrowRight size={14} />
                   </button>
-                )
-              ) : (
-                <span className="text-xs text-rose-600 font-bold italic">
-                  Whistles break! Try Path B next time to earn Stars reward.
-                </span>
-              )
+                )}
+              </div>
             )}
           </div>
         </div>

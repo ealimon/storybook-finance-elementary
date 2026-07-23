@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Check, AlertCircle, RefreshCw, Star, Info, Heart, Gift } from 'lucide-react';
+import { Check, AlertCircle, RefreshCw, Star, Info, Heart, Gift, ArrowRight } from 'lucide-react';
 import { NeedWantItem } from '../types';
 
 interface NeedsWantsProps {
   onAddStars: (stars: number) => void;
+  onNextModule?: () => void;
 }
 
 const ITEMS_POOL: NeedWantItem[] = [
@@ -18,7 +19,7 @@ const ITEMS_POOL: NeedWantItem[] = [
   { id: 'gold_ring', name: 'Fancy Gold Watch', type: 'want', icon: '⌚', explanation: 'A phone or simple watch tells time; a fancy gold one is just a luxury!', color: 'bg-yellow-100 border-yellow-300' },
 ];
 
-export default function NeedsWants({ onAddStars }: NeedsWantsProps) {
+export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps) {
   const [items, setItems] = useState<NeedWantItem[]>(ITEMS_POOL);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [needsBin, setNeedsBin] = useState<NeedWantItem[]>([]);
@@ -165,21 +166,43 @@ export default function NeedsWants({ onAddStars }: NeedsWantsProps) {
                 <p className="text-sm text-slate-500 mb-6">You successfully sorted all items in this module.</p>
                 
                 {starsAwarded ? (
-                  <button
-                    id="btn-needswants-reset"
-                    onClick={handleReset}
-                    className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-600 px-4 py-2 rounded-xl text-sm font-bold mx-auto border border-slate-200"
-                  >
-                    <RefreshCw size={14} /> Play Again
-                  </button>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <button
+                      id="btn-needswants-reset"
+                      onClick={handleReset}
+                      className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-600 px-4 py-2 rounded-xl text-sm font-bold border border-slate-200"
+                    >
+                      <RefreshCw size={14} /> Play Again
+                    </button>
+                    {onNextModule && (
+                      <button
+                        id="btn-needswants-next-module"
+                        onClick={onNextModule}
+                        className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-6 py-3 rounded-2xl text-base shadow-lg border-b-4 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
+                      >
+                        NEXT: The 3-Jar Budget <ArrowRight size={18} />
+                      </button>
+                    )}
+                  </div>
                 ) : (
-                  <button
-                    id="btn-needswants-claim-reward"
-                    onClick={claimReward}
-                    className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-display font-bold px-6 py-3 rounded-xl text-md shadow-lg border-b-4 border-yellow-700 animate-bounce"
-                  >
-                    Claim 10 Stars 🌟
-                  </button>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <button
+                      id="btn-needswants-claim-reward"
+                      onClick={claimReward}
+                      className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-display font-bold px-6 py-3 rounded-xl text-md shadow-lg border-b-4 border-yellow-700 animate-bounce"
+                    >
+                      Claim 10 Stars 🌟
+                    </button>
+                    {onNextModule && (
+                      <button
+                        id="btn-needswants-next-module-direct"
+                        onClick={onNextModule}
+                        className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-5 py-3 rounded-xl text-md shadow-lg border-b-4 border-emerald-700 active:translate-y-0.5 transition-all"
+                      >
+                        NEXT Module <ArrowRight size={18} />
+                      </button>
+                    )}
+                  </div>
                 )}
               </motion.div>
             )}

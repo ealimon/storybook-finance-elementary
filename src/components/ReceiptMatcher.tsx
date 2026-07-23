@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Star, CheckCircle, RefreshCw, Sparkles, HelpCircle, AlertCircle } from 'lucide-react';
+import { Star, CheckCircle, RefreshCw, Sparkles, HelpCircle, AlertCircle, ArrowRight } from 'lucide-react';
 
 interface ReceiptMatcherProps {
   onAddStars: (stars: number) => void;
+  onNextModule?: () => void;
 }
 
 const PUZZLES = [
@@ -37,7 +38,7 @@ const PUZZLES = [
   },
 ];
 
-export default function ReceiptMatcher({ onAddStars }: ReceiptMatcherProps) {
+export default function ReceiptMatcher({ onAddStars, onNextModule }: ReceiptMatcherProps) {
   const [puzzleIdx, setPuzzleIdx] = useState(0);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [correct, setCorrect] = useState(false);
@@ -193,8 +194,17 @@ export default function ReceiptMatcher({ onAddStars }: ReceiptMatcherProps) {
                   onClick={handleNext}
                   className="bg-sky-500 hover:bg-sky-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md transition-all active:scale-95"
                 >
-                  {puzzleIdx === PUZZLES.length - 1 ? 'Finish & Restart 🚀' : 'Next Puzzle ➡️'}
+                  {puzzleIdx === PUZZLES.length - 1 ? 'Play Puzzles Again 🔄' : 'Next Puzzle ➡️'}
                 </button>
+                {puzzleIdx === PUZZLES.length - 1 && onNextModule && (
+                  <button
+                    id="btn-receipt-next-module"
+                    onClick={onNextModule}
+                    className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce"
+                  >
+                    NEXT: Donation Station <ArrowRight size={14} />
+                  </button>
+                )}
               </div>
             ) : (
               selectedIdx !== null && (

@@ -87,6 +87,12 @@ export default function App() {
     });
   };
 
+  const navigateToModule = (nextModuleId: string) => {
+    setActiveModuleId(nextModuleId);
+    setViewingWorksheet(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const completedCount = profile.completedModules.filter(id => {
     const found = MODULES_LIST.find(m => m.id === id);
     return found !== undefined;
@@ -320,26 +326,27 @@ export default function App() {
                     wallet={profile.wallet}
                     onAddMoney={handleAddMoney}
                     onAddStars={handleAddStars}
-                    onNextModule={() => {
-                      setActiveModuleId('needs_wants');
-                      setViewingWorksheet(false);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
+                    onNextModule={() => navigateToModule('needs_wants')}
                   />
                 )}
                 {activeModuleId === 'needs_wants' && (
-                  <NeedsWants onAddStars={handleAddStars} />
+                  <NeedsWants
+                    onAddStars={handleAddStars}
+                    onNextModule={() => navigateToModule('three_jars')}
+                  />
                 )}
                 {activeModuleId === 'three_jars' && (
                   <ThreeJars
                     onAddStars={handleAddStars}
                     onAddMoney={handleAddMoney}
+                    onNextModule={() => navigateToModule('sweet_shop')}
                   />
                 )}
                 {activeModuleId === 'sweet_shop' && (
                   <SweetShop
                     onAddStars={handleAddStars}
                     onAddMoney={handleAddMoney}
+                    onNextModule={() => navigateToModule('chore_board')}
                   />
                 )}
                 {activeModuleId === 'chore_board' && (
@@ -347,25 +354,39 @@ export default function App() {
                     wallet={profile.wallet}
                     onAddMoney={handleAddMoney}
                     onAddStars={handleAddStars}
+                    onNextModule={() => navigateToModule('interest_magic')}
                   />
                 )}
                 {activeModuleId === 'interest_magic' && (
-                  <InterestMagic onAddStars={handleAddStars} />
+                  <InterestMagic
+                    onAddStars={handleAddStars}
+                    onNextModule={() => navigateToModule('toy_tradeoff')}
+                  />
                 )}
                 {activeModuleId === 'toy_tradeoff' && (
-                  <ToyTradeoff onAddStars={handleAddStars} />
+                  <ToyTradeoff
+                    onAddStars={handleAddStars}
+                    onNextModule={() => navigateToModule('receipt_math')}
+                  />
                 )}
                 {activeModuleId === 'receipt_math' && (
-                  <ReceiptMatcher onAddStars={handleAddStars} />
+                  <ReceiptMatcher
+                    onAddStars={handleAddStars}
+                    onNextModule={() => navigateToModule('giving_station')}
+                  />
                 )}
                 {activeModuleId === 'giving_station' && (
                   <DonationStation
                     onAddStars={handleAddStars}
                     onAddMoney={handleAddMoney}
+                    onNextModule={() => navigateToModule('smart_quiz')}
                   />
                 )}
                 {activeModuleId === 'smart_quiz' && (
-                  <SmartSaverQuiz onAddStars={handleAddStars} />
+                  <SmartSaverQuiz
+                    onAddStars={handleAddStars}
+                    onNextModule={() => navigateToModule('coin_matching')}
+                  />
                 )}
               </motion.div>
             )}
