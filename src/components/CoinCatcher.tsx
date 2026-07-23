@@ -261,25 +261,25 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
               </button>
 
               {success ? (
-                <motion.div
+                <motion.button
+                  id="btn-coin-claim-reward"
+                  onClick={claimReward}
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  className="flex items-center gap-3 bg-green-100 border-2 border-green-400 rounded-2xl p-2.5 px-4 shadow-sm"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.96 }}
+                  className="flex items-center gap-3 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white border-2 border-emerald-400 rounded-2xl p-3 px-5 shadow-lg cursor-pointer transition-all text-left"
                 >
-                  <div className="bg-green-600 text-white rounded-full p-1.5 shrink-0">
-                    <CheckCircle size={22} />
+                  <div className="bg-white text-emerald-700 rounded-full p-1.5 shrink-0 shadow-sm">
+                    <CheckCircle size={24} />
                   </div>
                   <div>
-                    <p className="text-xs text-green-900 font-bold">Excellent Math Skills!</p>
-                    <button
-                      id="btn-coin-claim-reward"
-                      onClick={claimReward}
-                      className="text-sm font-display font-bold text-green-800 hover:text-green-950 underline flex items-center gap-1 cursor-pointer mt-0.5"
-                    >
+                    <p className="text-[11px] text-emerald-100 font-bold uppercase tracking-wider">Excellent Math Skills!</p>
+                    <span className="text-sm font-display font-bold text-white flex items-center gap-1.5 mt-0.5">
                       {level === TARGETS.length - 1 ? 'Claim Reward & Finish Module 🏆' : 'Claim Reward & Next Scenario ➡️'}
-                    </button>
+                    </span>
                   </div>
-                </motion.div>
+                </motion.button>
               ) : (
                 <div className="text-xs font-bold text-slate-500">
                   {currentSum < targetAmount
