@@ -206,26 +206,80 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
             </p>
 
             <div className="grid grid-cols-2 gap-2 mb-3">
-              <button
+              <motion.button
                 id="btn-add-allowance-5"
+                drag
+                dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+                dragElastic={0.6}
+                dragSnapToOrigin={true}
+                onDragEnd={(_event, info) => {
+                  if (typeof document !== 'undefined') {
+                    const jarTypes: ('save' | 'spend' | 'give')[] = ['save', 'spend', 'give'];
+                    for (const jarType of jarTypes) {
+                      const jarEl = document.querySelector(`[data-jar="${jarType}"]`);
+                      if (jarEl) {
+                        const rect = jarEl.getBoundingClientRect();
+                        if (
+                          info.point.x >= rect.left &&
+                          info.point.x <= rect.right &&
+                          info.point.y >= rect.top &&
+                          info.point.y <= rect.bottom
+                        ) {
+                          handleSplitAllowance(5);
+                          return;
+                        }
+                      }
+                    }
+                    if (info.offset.y > 60) {
+                      handleSplitAllowance(5);
+                    }
+                  }
+                }}
                 onClick={() => handleSplitAllowance(5)}
-                className="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold py-2.5 px-3 rounded-xl text-xs sm:text-sm shadow-md border-b-4 border-emerald-800 active:translate-y-0.5 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold py-2.5 px-3 rounded-xl text-xs sm:text-sm shadow-md border-b-4 border-emerald-800 active:translate-y-0.5 transition-all flex items-center justify-center gap-1.5 cursor-grab active:cursor-grabbing touch-none select-none"
               >
                 <Plus size={16} /> Split $5.00 Bill 💵
-              </button>
-              <button
+              </motion.button>
+              <motion.button
                 id="btn-add-allowance-10"
+                drag
+                dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+                dragElastic={0.6}
+                dragSnapToOrigin={true}
+                onDragEnd={(_event, info) => {
+                  if (typeof document !== 'undefined') {
+                    const jarTypes: ('save' | 'spend' | 'give')[] = ['save', 'spend', 'give'];
+                    for (const jarType of jarTypes) {
+                      const jarEl = document.querySelector(`[data-jar="${jarType}"]`);
+                      if (jarEl) {
+                        const rect = jarEl.getBoundingClientRect();
+                        if (
+                          info.point.x >= rect.left &&
+                          info.point.x <= rect.right &&
+                          info.point.y >= rect.top &&
+                          info.point.y <= rect.bottom
+                        ) {
+                          handleSplitAllowance(10);
+                          return;
+                        }
+                      }
+                    }
+                    if (info.offset.y > 60) {
+                      handleSplitAllowance(10);
+                    }
+                  }
+                }}
                 onClick={() => handleSplitAllowance(10)}
-                className="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold py-2.5 px-3 rounded-xl text-xs sm:text-sm shadow-md border-b-4 border-emerald-800 active:translate-y-0.5 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold py-2.5 px-3 rounded-xl text-xs sm:text-sm shadow-md border-b-4 border-emerald-800 active:translate-y-0.5 transition-all flex items-center justify-center gap-1.5 cursor-grab active:cursor-grabbing touch-none select-none"
               >
                 <Plus size={16} /> Split $10.00 Bill 💶
-              </button>
+              </motion.button>
             </div>
 
             {/* Manual Single Coin Drop */}
             <div className="pt-2 border-t border-emerald-200">
               <span className="text-xs font-bold text-emerald-900 block mb-2">
-                🖐️ Drag any coin/bill onto a Jar (or tap to add to Save):
+                🖐️ Drag any coin/bill down onto a Jar (or tap to add to Save):
               </span>
               <div className="flex gap-2">
                 {COIN_DENOMINATIONS.map((coin) => (
@@ -237,11 +291,50 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
                     dragSnapToOrigin={true}
                     onDragEnd={(_event, info) => {
                       if (typeof document !== 'undefined') {
+                        // 1. Check direct bounding box intersection with jar elements
+                        const jarTypes: ('save' | 'spend' | 'give')[] = ['save', 'spend', 'give'];
+                        for (const jarType of jarTypes) {
+                          const jarEl = document.querySelector(`[data-jar="${jarType}"]`);
+                          if (jarEl) {
+                            const rect = jarEl.getBoundingClientRect();
+                            if (
+                              info.point.x >= rect.left &&
+                              info.point.x <= rect.right &&
+                              info.point.y >= rect.top &&
+                              info.point.y <= rect.bottom
+                            ) {
+                              handleDirectDrop(jarType, coin.val);
+                              return;
+                            }
+                          }
+                        }
+
+                        // 2. Fallback check with elementsFromPoint
                         const elements = document.elementsFromPoint(info.point.x, info.point.y);
-                        const hitJar = elements.find(el => el.getAttribute('data-jar'));
-                        if (hitJar) {
-                          const jarType = hitJar.getAttribute('data-jar') as 'save' | 'spend' | 'give';
-                          handleDirectDrop(jarType, coin.val);
+                        for (const el of elements) {
+                          const jarTarget = el.getAttribute('data-jar') || el.closest('[data-jar]')?.getAttribute('data-jar');
+                          if (jarTarget) {
+                            handleDirectDrop(jarTarget as 'save' | 'spend' | 'give', coin.val);
+                            return;
+                          }
+                        }
+
+                        // 3. Fallback check if dragged significantly downward
+                        if (info.offset.y > 60) {
+                          // Determine column based on offset.x or screen position
+                          const saveRect = document.querySelector('[data-jar="save"]')?.getBoundingClientRect();
+                          const spendRect = document.querySelector('[data-jar="spend"]')?.getBoundingClientRect();
+                          const giveRect = document.querySelector('[data-jar="give"]')?.getBoundingClientRect();
+
+                          if (saveRect && Math.abs(info.point.x - (saveRect.left + saveRect.width / 2)) < 120) {
+                            handleDirectDrop('save', coin.val);
+                          } else if (spendRect && Math.abs(info.point.x - (spendRect.left + spendRect.width / 2)) < 120) {
+                            handleDirectDrop('spend', coin.val);
+                          } else if (giveRect && Math.abs(info.point.x - (giveRect.left + giveRect.width / 2)) < 120) {
+                            handleDirectDrop('give', coin.val);
+                          } else {
+                            handleDirectDrop('save', coin.val);
+                          }
                         }
                       }
                     }}

@@ -202,14 +202,31 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
                     dragSnapToOrigin={true}
                     onDragEnd={(_event, info) => {
                       if (typeof document !== 'undefined') {
+                        // 1. Check direct bounding box rectangle
+                        const counterEl = document.querySelector('[data-piggy="counter"]');
+                        if (counterEl) {
+                          const rect = counterEl.getBoundingClientRect();
+                          if (
+                            info.point.x >= rect.left &&
+                            info.point.x <= rect.right &&
+                            info.point.y >= rect.top &&
+                            info.point.y <= rect.bottom
+                          ) {
+                            handleAddCoin(coin);
+                            return;
+                          }
+                        }
+
+                        // 2. Check elementsFromPoint
                         const elements = document.elementsFromPoint(info.point.x, info.point.y);
-                        const hitCounter = elements.find(el => el.getAttribute('data-piggy'));
-                        if (hitCounter) {
-                          handleAddCoin(coin);
-                          return;
+                        for (const el of elements) {
+                          if (el.getAttribute('data-piggy') || el.closest('[data-piggy]')) {
+                            handleAddCoin(coin);
+                            return;
+                          }
                         }
                       }
-                      if (info.offset.x > 80) {
+                      if (info.offset.x > 50 || info.offset.y > 50) {
                         handleAddCoin(coin);
                       }
                     }}

@@ -129,17 +129,37 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
                 onDragEnd={(_event, info) => {
                   if (explanation) return;
                   if (typeof document !== 'undefined') {
+                    // 1. Check direct bounding box intersection
+                    const binTypes: ('need' | 'want')[] = ['need', 'want'];
+                    for (const binType of binTypes) {
+                      const binEl = document.querySelector(`[data-bin="${binType}"]`);
+                      if (binEl) {
+                        const rect = binEl.getBoundingClientRect();
+                        if (
+                          info.point.x >= rect.left &&
+                          info.point.x <= rect.right &&
+                          info.point.y >= rect.top &&
+                          info.point.y <= rect.bottom
+                        ) {
+                          handleClassification(binType);
+                          return;
+                        }
+                      }
+                    }
+
+                    // 2. Check elementsFromPoint
                     const elements = document.elementsFromPoint(info.point.x, info.point.y);
-                    const hitBin = elements.find(el => el.getAttribute('data-bin'));
-                    if (hitBin) {
-                      const binType = hitBin.getAttribute('data-bin') as 'need' | 'want';
-                      handleClassification(binType);
-                      return;
+                    for (const el of elements) {
+                      const binTarget = el.getAttribute('data-bin') || el.closest('[data-bin]')?.getAttribute('data-bin');
+                      if (binTarget) {
+                        handleClassification(binTarget as 'need' | 'want');
+                        return;
+                      }
                     }
                   }
-                  if (info.offset.x < -70) {
+                  if (info.offset.x < -60) {
                     handleClassification('need');
-                  } else if (info.offset.x > 70) {
+                  } else if (info.offset.x > 60) {
                     handleClassification('want');
                   }
                 }}
