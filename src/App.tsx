@@ -122,15 +122,15 @@ export default function App() {
         <div className="flex items-center gap-2.5">
           <span className="text-2xl">🦉</span>
           <div>
-            <h1 className="text-base sm:text-sm font-display font-bold tracking-wider text-white">Storybook Education</h1>
-            <p className="text-xs sm:text-[10px] text-slate-300">Transformative Kids Financial Literacy Applications</p>
+            <h1 className="text-base font-display font-bold tracking-wider text-white">Storybook Education</h1>
+            <p className="text-xs text-slate-300">Transformative Kids Financial Literacy Applications</p>
           </div>
         </div>
         <div className="flex items-center gap-3 text-xs font-semibold text-slate-300 flex-wrap justify-center">
           <button
             id="btn-tpt-kit-trigger"
             onClick={() => setIsTptOpen(true)}
-            className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 sm:px-3.5 sm:py-1.5 rounded-full transition-all text-xs sm:text-[11px] font-bold shadow cursor-pointer border border-indigo-500/30"
+            className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 sm:px-3.5 sm:py-1.5 rounded-full transition-all text-xs font-bold shadow cursor-pointer border border-indigo-500/30"
           >
             🍎 Teacher Resource Desk
           </button>
@@ -151,13 +151,13 @@ export default function App() {
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-5 relative z-10">
             <div>
-              <span className="text-xs sm:text-xs font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full bg-white/40 text-emerald-950 inline-block">
+              <span className="text-xs font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full bg-white/40 text-emerald-950 inline-block">
                 Elementary School Modules (K-5)
               </span>
               <h1 className="text-3xl sm:text-4xl font-display font-extrabold mt-2 text-slate-950">
                 Storybook Finance Suite
               </h1>
-              <p className="text-base sm:text-sm mt-2 font-medium max-w-xl text-slate-900 leading-relaxed">
+              <p className="text-base mt-2 font-medium max-w-xl text-slate-900 leading-relaxed">
                 Start your adventure in money management! Earn coins completing chores, split budgets into 3 Jars, buy treats, grow savings sprouts, and claim your certified expert diploma!
               </p>
             </div>
@@ -238,7 +238,7 @@ export default function App() {
                         {renderModuleIcon(mod.iconName)}
                       </div>
                       <div>
-                        <span className="text-sm sm:text-xs font-display font-bold text-slate-900 block line-clamp-1">
+                        <span className="text-sm font-display font-bold text-slate-900 block line-clamp-1">
                           {mod.title}
                         </span>
                         <span className="text-xs text-slate-500 block mt-0.5 line-clamp-1 group-hover:text-slate-700">
@@ -278,7 +278,7 @@ export default function App() {
               <button
                 id="btn-toggle-game"
                 onClick={() => setViewingWorksheet(false)}
-                className={`flex-1 sm:flex-initial px-4 py-2 rounded-xl text-sm sm:text-xs font-display font-bold transition-all border-2 flex items-center justify-center gap-1.5 cursor-pointer ${
+                className={`flex-1 sm:flex-initial px-4 py-2 rounded-xl text-sm font-display font-bold transition-all border-2 flex items-center justify-center gap-1.5 cursor-pointer ${
                   !viewingWorksheet
                     ? 'bg-lime-500 border-lime-600 text-white shadow-sm'
                     : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
@@ -289,7 +289,7 @@ export default function App() {
               <button
                 id="btn-toggle-worksheet"
                 onClick={() => setViewingWorksheet(true)}
-                className={`flex-1 sm:flex-initial px-4 py-2 rounded-xl text-sm sm:text-xs font-display font-bold transition-all border-2 flex items-center justify-center gap-1.5 cursor-pointer ${
+                className={`flex-1 sm:flex-initial px-4 py-2 rounded-xl text-sm font-display font-bold transition-all border-2 flex items-center justify-center gap-1.5 cursor-pointer ${
                   viewingWorksheet
                     ? 'bg-lime-500 border-lime-600 text-white shadow-sm'
                     : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
@@ -403,8 +403,8 @@ export default function App() {
               <Info size={22} />
             </div>
             <div>
-              <h4 className="font-display font-bold text-slate-800 text-base sm:text-sm">Parents &amp; Educators Guide:</h4>
-              <p className="text-sm sm:text-xs text-slate-600 mt-1 leading-relaxed">
+              <h4 className="font-display font-bold text-slate-800 text-base">Parents &amp; Educators Guide:</h4>
+              <p className="text-sm text-slate-600 mt-1 leading-relaxed">
                 Storybook Finance is built specifically to address core state standards for elementary school economics and math. Every interactive game translates abstract savings principles into tactile experiences. We encourage you to click the <strong>Topic Worksheet</strong> tab inside any of our 10 modules above to view and print tangible activity sheets matching these digital games for school or homework exercises!
               </p>
             </div>
