@@ -189,20 +189,37 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
           <div className="lg:col-span-4 bg-lime-50 p-4 rounded-2xl border-2 border-lime-100 flex flex-col justify-between">
             <div>
               <h3 className="font-display text-lime-900 text-base font-bold mb-3 flex items-center gap-2">
-                <Sparkles size={18} /> Click to Grab:
+                <Sparkles size={18} /> 🖐️ Drag or Click Coins:
               </h3>
               <div className="grid grid-cols-2 gap-3">
                 {COINS.map((coin) => (
-                  <button
+                  <motion.div
                     key={coin.name}
                     id={`btn-add-coin-${coin.name.toLowerCase()}`}
+                    drag
+                    dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+                    dragElastic={0.7}
+                    dragSnapToOrigin={true}
+                    onDragEnd={(_event, info) => {
+                      if (typeof document !== 'undefined') {
+                        const elements = document.elementsFromPoint(info.point.x, info.point.y);
+                        const hitCounter = elements.find(el => el.getAttribute('data-piggy'));
+                        if (hitCounter) {
+                          handleAddCoin(coin);
+                          return;
+                        }
+                      }
+                      if (info.offset.x > 80) {
+                        handleAddCoin(coin);
+                      }
+                    }}
                     onClick={() => handleAddCoin(coin)}
-                    className={`flex flex-col items-center justify-center p-3 rounded-xl border-b-4 hover:brightness-105 active:translate-y-1 transition-all cursor-pointer ${coin.color}`}
+                    className={`flex flex-col items-center justify-center p-3 rounded-xl border-b-4 hover:brightness-105 active:translate-y-1 transition-all cursor-grab active:cursor-grabbing shadow-sm touch-none select-none ${coin.color}`}
                   >
-                    <span className="text-3xl filter drop-shadow-sm">{coin.image}</span>
-                    <span className="font-display font-bold mt-1 text-sm">{coin.name}</span>
-                    <span className="text-xs opacity-90 font-mono font-bold">{coin.label}</span>
-                  </button>
+                    <span className="text-3xl filter drop-shadow-sm pointer-events-none">{coin.image}</span>
+                    <span className="font-display font-bold mt-1 text-sm pointer-events-none">{coin.name}</span>
+                    <span className="text-xs opacity-90 font-mono font-bold pointer-events-none">{coin.label}</span>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -216,9 +233,9 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
           </div>
 
           {/* Counter workspace */}
-          <div className="lg:col-span-8 flex flex-col justify-between bg-slate-50 border-4 border-dashed border-slate-200 rounded-3xl p-6 min-h-[300px] relative">
+          <div data-piggy="counter" className="lg:col-span-8 flex flex-col justify-between bg-slate-50 border-4 border-dashed border-slate-200 rounded-3xl p-6 min-h-[300px] relative">
             {/* Target Amount banner */}
-            <div className="bg-white rounded-2xl p-4 shadow-sm flex justify-between items-center border border-slate-200">
+            <div className="bg-white rounded-2xl p-4 shadow-sm flex justify-between items-center border border-slate-200 pointer-events-none">
               <div>
                 <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Target Amount</span>
                 <div className="text-3xl font-mono font-bold text-slate-900">
@@ -234,9 +251,9 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
             </div>
 
             {/* Active Coin Area */}
-            <div className="my-6 flex flex-wrap gap-3 justify-center items-center min-h-[120px] bg-white rounded-2xl p-4 shadow-inner border border-slate-100">
+            <div data-piggy="counter" className="my-6 flex flex-wrap gap-3 justify-center items-center min-h-[120px] bg-white rounded-2xl p-4 shadow-inner border border-slate-100">
               {selectedCoins.length === 0 ? (
-                <p className="text-slate-400 text-sm italic font-display">Piggy is empty! Click coins on the left to start adding coin value.</p>
+                <p className="text-slate-400 text-sm italic font-display pointer-events-none">📥 Drag coins from the left or click them into your Piggy Counter!</p>
               ) : (
                 <AnimatePresence>
                   {selectedCoins.map((coin) => (

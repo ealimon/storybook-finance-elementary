@@ -225,18 +225,32 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
             {/* Manual Single Coin Drop */}
             <div className="pt-2 border-t border-emerald-200">
               <span className="text-xs font-bold text-emerald-900 block mb-2">
-                Or tap a coin directly into your Save Jar:
+                🖐️ Drag any coin/bill onto a Jar (or tap to add to Save):
               </span>
               <div className="flex gap-2">
                 {COIN_DENOMINATIONS.map((coin) => (
-                  <button
+                  <motion.div
                     key={coin.label}
+                    drag
+                    dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+                    dragElastic={0.7}
+                    dragSnapToOrigin={true}
+                    onDragEnd={(_event, info) => {
+                      if (typeof document !== 'undefined') {
+                        const elements = document.elementsFromPoint(info.point.x, info.point.y);
+                        const hitJar = elements.find(el => el.getAttribute('data-jar'));
+                        if (hitJar) {
+                          const jarType = hitJar.getAttribute('data-jar') as 'save' | 'spend' | 'give';
+                          handleDirectDrop(jarType, coin.val);
+                        }
+                      }
+                    }}
                     onClick={() => handleDirectDrop('save', coin.val)}
-                    className={`flex-1 py-1.5 px-2 rounded-xl text-xs font-bold border ${coin.color} hover:scale-105 active:scale-95 transition-all flex flex-col items-center cursor-pointer shadow-sm`}
+                    className={`flex-1 py-2 px-1.5 rounded-xl text-xs font-bold border ${coin.color} hover:scale-105 active:scale-95 transition-all flex flex-col items-center cursor-grab active:cursor-grabbing shadow-sm touch-none select-none`}
                   >
-                    <span className="text-base">{coin.icon}</span>
-                    <span>+${coin.val.toFixed(2)}</span>
-                  </button>
+                    <span className="text-lg pointer-events-none">{coin.icon}</span>
+                    <span className="pointer-events-none">+${coin.val.toFixed(2)}</span>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -374,13 +388,13 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
           <div className="grid grid-cols-3 gap-3">
             
             {/* SAVE JAR */}
-            <div className={`bg-purple-50/90 border-2 ${animatingJar === 'save' || animatingJar === 'all' ? 'border-purple-500 ring-2 ring-purple-300' : 'border-purple-200'} rounded-2xl p-3 flex flex-col items-center text-center relative overflow-hidden transition-all`}>
-              <div className="text-[10px] font-bold text-purple-900 bg-purple-200/80 px-2.5 py-0.5 rounded-full mb-2 uppercase">
+            <div data-jar="save" className={`bg-purple-50/90 border-2 ${animatingJar === 'save' || animatingJar === 'all' ? 'border-purple-500 ring-2 ring-purple-300 scale-105' : 'border-purple-200'} rounded-2xl p-3 flex flex-col items-center text-center relative overflow-hidden transition-all hover:border-purple-400`}>
+              <div className="text-[10px] font-bold text-purple-900 bg-purple-200/80 px-2.5 py-0.5 rounded-full mb-2 uppercase pointer-events-none">
                 SAVE (Goal Jar)
               </div>
 
               {/* Glass Jar Graphic Frame */}
-              <div className="w-full h-32 bg-white/80 border-4 border-purple-300 rounded-b-3xl rounded-t-lg relative flex flex-col justify-end p-1 overflow-hidden shadow-inner mb-2">
+              <div className="w-full h-32 bg-white/80 border-4 border-purple-300 rounded-b-3xl rounded-t-lg relative flex flex-col justify-end p-1 overflow-hidden shadow-inner mb-2 pointer-events-none">
                 
                 {/* Falling animated coin sprite on drop */}
                 <AnimatePresence>
@@ -398,7 +412,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
 
                 {/* Animated coin fill liquid/stack */}
                 <motion.div
-                  className="w-full bg-gradient-to-t from-purple-500 via-purple-400 to-amber-300 rounded-b-2xl relative flex items-center justify-center overflow-hidden"
+                  className="w-full bg-gradient-to-t from-purple-500 via-purple-400 to-amber-300 rounded-b-2xl relative flex items-center justify-center overflow-hidden pointer-events-none"
                   animate={{ height: getFillHeight(saveJar, selectedGoal.price) }}
                   transition={{ type: 'spring', stiffness: 120 }}
                 >
@@ -421,13 +435,13 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
             </div>
 
             {/* SPEND JAR */}
-            <div className={`bg-rose-50/90 border-2 ${animatingJar === 'spend' || animatingJar === 'all' ? 'border-rose-500 ring-2 ring-rose-300' : 'border-rose-200'} rounded-2xl p-3 flex flex-col items-center text-center relative overflow-hidden transition-all`}>
-              <div className="text-[10px] font-bold text-rose-900 bg-rose-200/80 px-2.5 py-0.5 rounded-full mb-2 uppercase">
+            <div data-jar="spend" className={`bg-rose-50/90 border-2 ${animatingJar === 'spend' || animatingJar === 'all' ? 'border-rose-500 ring-2 ring-rose-300 scale-105' : 'border-rose-200'} rounded-2xl p-3 flex flex-col items-center text-center relative overflow-hidden transition-all hover:border-rose-400`}>
+              <div className="text-[10px] font-bold text-rose-900 bg-rose-200/80 px-2.5 py-0.5 rounded-full mb-2 uppercase pointer-events-none">
                 SPEND (Treats)
               </div>
 
               {/* Glass Jar Graphic Frame */}
-              <div className="w-full h-32 bg-white/80 border-4 border-rose-300 rounded-b-3xl rounded-t-lg relative flex flex-col justify-end p-1 overflow-hidden shadow-inner mb-2">
+              <div className="w-full h-32 bg-white/80 border-4 border-rose-300 rounded-b-3xl rounded-t-lg relative flex flex-col justify-end p-1 overflow-hidden shadow-inner mb-2 pointer-events-none">
                 
                 {/* Falling animated coin sprite on drop */}
                 <AnimatePresence>
@@ -445,7 +459,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
 
                 {/* Animated coin fill liquid/stack */}
                 <motion.div
-                  className="w-full bg-gradient-to-t from-rose-500 via-rose-400 to-pink-300 rounded-b-2xl relative flex items-center justify-center overflow-hidden"
+                  className="w-full bg-gradient-to-t from-rose-500 via-rose-400 to-pink-300 rounded-b-2xl relative flex items-center justify-center overflow-hidden pointer-events-none"
                   animate={{ height: getFillHeight(spendJar, 15) }}
                   transition={{ type: 'spring', stiffness: 120 }}
                 >
@@ -468,13 +482,13 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
             </div>
 
             {/* GIVE JAR */}
-            <div className={`bg-cyan-50/90 border-2 ${animatingJar === 'give' || animatingJar === 'all' ? 'border-cyan-500 ring-2 ring-cyan-300' : 'border-cyan-200'} rounded-2xl p-3 flex flex-col items-center text-center relative overflow-hidden transition-all`}>
-              <div className="text-[10px] font-bold text-cyan-900 bg-cyan-200/80 px-2.5 py-0.5 rounded-full mb-2 uppercase">
+            <div data-jar="give" className={`bg-cyan-50/90 border-2 ${animatingJar === 'give' || animatingJar === 'all' ? 'border-cyan-500 ring-2 ring-cyan-300 scale-105' : 'border-cyan-200'} rounded-2xl p-3 flex flex-col items-center text-center relative overflow-hidden transition-all hover:border-cyan-400`}>
+              <div className="text-[10px] font-bold text-cyan-900 bg-cyan-200/80 px-2.5 py-0.5 rounded-full mb-2 uppercase pointer-events-none">
                 GIVE (Charity)
               </div>
 
               {/* Glass Jar Graphic Frame */}
-              <div className="w-full h-32 bg-white/80 border-4 border-cyan-300 rounded-b-3xl rounded-t-lg relative flex flex-col justify-end p-1 overflow-hidden shadow-inner mb-2">
+              <div className="w-full h-32 bg-white/80 border-4 border-cyan-300 rounded-b-3xl rounded-t-lg relative flex flex-col justify-end p-1 overflow-hidden shadow-inner mb-2 pointer-events-none">
                 
                 {/* Falling animated coin sprite on drop */}
                 <AnimatePresence>
@@ -492,7 +506,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
 
                 {/* Animated coin fill liquid/stack */}
                 <motion.div
-                  className="w-full bg-gradient-to-t from-cyan-500 via-cyan-400 to-sky-300 rounded-b-2xl relative flex items-center justify-center overflow-hidden"
+                  className="w-full bg-gradient-to-t from-cyan-500 via-cyan-400 to-sky-300 rounded-b-2xl relative flex items-center justify-center overflow-hidden pointer-events-none"
                   animate={{ height: getFillHeight(giveJar, 10) }}
                   transition={{ type: 'spring', stiffness: 120 }}
                 >

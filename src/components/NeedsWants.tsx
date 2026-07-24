@@ -122,9 +122,35 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
                 initial={{ opacity: 0, scale: 0.9, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: -10 }}
-                className="w-full flex flex-col items-center text-center"
+                drag={!explanation}
+                dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+                dragElastic={0.6}
+                dragSnapToOrigin={true}
+                onDragEnd={(_event, info) => {
+                  if (explanation) return;
+                  if (typeof document !== 'undefined') {
+                    const elements = document.elementsFromPoint(info.point.x, info.point.y);
+                    const hitBin = elements.find(el => el.getAttribute('data-bin'));
+                    if (hitBin) {
+                      const binType = hitBin.getAttribute('data-bin') as 'need' | 'want';
+                      handleClassification(binType);
+                      return;
+                    }
+                  }
+                  if (info.offset.x < -70) {
+                    handleClassification('need');
+                  } else if (info.offset.x > 70) {
+                    handleClassification('want');
+                  }
+                }}
+                className="w-full flex flex-col items-center text-center touch-none cursor-grab active:cursor-grabbing select-none"
               >
-                <div className={`w-28 h-28 rounded-3xl flex items-center justify-center text-5xl shadow-md border-2 mb-4 ${activeItem.color}`}>
+                {!explanation && (
+                  <span className="text-[11px] font-bold text-amber-800 bg-amber-100 px-3 py-1 rounded-full mb-3 shadow-xs border border-amber-200 animate-pulse">
+                    🖐️ Drag card to a Bin or tap below!
+                  </span>
+                )}
+                <div className={`w-28 h-28 rounded-3xl flex items-center justify-center text-5xl shadow-md border-2 mb-3 ${activeItem.color}`}>
                   {activeItem.icon}
                 </div>
                 <h3 className="font-display text-xl text-slate-800 font-bold mb-4">{activeItem.name}</h3>
@@ -144,7 +170,7 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
                     <button
                       id="btn-needswants-next"
                       onClick={handleNext}
-                      className="bg-lime-500 hover:bg-lime-600 text-white font-display font-bold px-6 py-2 rounded-xl text-sm shadow-md transition-all active:scale-95"
+                      className="bg-lime-500 hover:bg-lime-600 text-white font-display font-bold px-6 py-2 rounded-xl text-sm shadow-md transition-all active:scale-95 cursor-pointer"
                     >
                       Next Item 🚀
                     </button>
@@ -154,14 +180,14 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
                     <button
                       id="btn-classify-need"
                       onClick={() => handleClassification('need')}
-                      className="flex-1 flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold p-3 rounded-xl shadow-md border-b-4 border-emerald-700 transition-all active:scale-95 active:translate-y-1"
+                      className="flex-1 flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold p-3 rounded-xl shadow-md border-b-4 border-emerald-700 transition-all active:scale-95 active:translate-y-1 cursor-pointer"
                     >
                       <Heart size={18} /> Need
                     </button>
                     <button
                       id="btn-classify-want"
                       onClick={() => handleClassification('want')}
-                      className="flex-1 flex items-center justify-center gap-2 bg-purple-500 hover:bg-purple-600 text-white font-display font-bold p-3 rounded-xl shadow-md border-b-4 border-purple-700 transition-all active:scale-95 active:translate-y-1"
+                      className="flex-1 flex items-center justify-center gap-2 bg-purple-500 hover:bg-purple-600 text-white font-display font-bold p-3 rounded-xl shadow-md border-b-4 border-purple-700 transition-all active:scale-95 active:translate-y-1 cursor-pointer"
                     >
                       <Gift size={18} /> Want
                     </button>
@@ -222,12 +248,12 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
         {/* Bins Column */}
         <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Needs Bin */}
-          <div className="bg-emerald-50 border-4 border-dashed border-emerald-200 rounded-3xl p-4 flex flex-col min-h-[300px]">
-            <h4 className="font-display text-lg text-emerald-800 font-bold mb-3 flex items-center gap-2 border-b-2 border-emerald-100 pb-2">
+          <div data-bin="need" className="bg-emerald-50 border-4 border-dashed border-emerald-300 rounded-3xl p-4 flex flex-col min-h-[300px] transition-all hover:bg-emerald-100/60">
+            <h4 className="font-display text-lg text-emerald-800 font-bold mb-3 flex items-center gap-2 border-b-2 border-emerald-100 pb-2 pointer-events-none">
               <Heart className="fill-emerald-400 text-emerald-600" size={20} /> 
               Essential Needs ({needsBin.length})
             </h4>
-            <div className="grid grid-cols-2 gap-2 overflow-y-auto max-h-[220px] p-1">
+            <div className="grid grid-cols-2 gap-2 overflow-y-auto max-h-[220px] p-1 pointer-events-none">
               {needsBin.map((item, idx) => (
                 <div
                   key={`${item.id}-${idx}`}
@@ -239,18 +265,20 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
                 </div>
               ))}
               {needsBin.length === 0 && (
-                <p className="col-span-2 text-xs text-emerald-400 italic font-display text-center my-auto">Needs are things we need to survive, like clean food and water!</p>
+                <p className="col-span-2 text-xs text-emerald-500 font-bold italic font-display text-center my-auto p-4 border-2 border-dashed border-emerald-300 rounded-2xl bg-white/60">
+                  📥 Drop "Needs" here! (Things we need to survive)
+                </p>
               )}
             </div>
           </div>
 
           {/* Wants Bin */}
-          <div className="bg-purple-50 border-4 border-dashed border-purple-200 rounded-3xl p-4 flex flex-col min-h-[300px]">
-            <h4 className="font-display text-lg text-purple-800 font-bold mb-3 flex items-center gap-2 border-b-2 border-purple-100 pb-2">
+          <div data-bin="want" className="bg-purple-50 border-4 border-dashed border-purple-300 rounded-3xl p-4 flex flex-col min-h-[300px] transition-all hover:bg-purple-100/60">
+            <h4 className="font-display text-lg text-purple-800 font-bold mb-3 flex items-center gap-2 border-b-2 border-purple-100 pb-2 pointer-events-none">
               <Gift className="fill-purple-400 text-purple-600" size={20} /> 
               Fun Wants ({wantsBin.length})
             </h4>
-            <div className="grid grid-cols-2 gap-2 overflow-y-auto max-h-[220px] p-1">
+            <div className="grid grid-cols-2 gap-2 overflow-y-auto max-h-[220px] p-1 pointer-events-none">
               {wantsBin.map((item, idx) => (
                 <div
                   key={`${item.id}-${idx}`}
@@ -262,7 +290,9 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
                 </div>
               ))}
               {wantsBin.length === 0 && (
-                <p className="col-span-2 text-xs text-purple-400 italic font-display text-center my-auto">Wants are things that are fun but we can live without, like games and toys!</p>
+                <p className="col-span-2 text-xs text-purple-500 font-bold italic font-display text-center my-auto p-4 border-2 border-dashed border-purple-300 rounded-2xl bg-white/60">
+                  📥 Drop "Wants" here! (Fun things we can live without)
+                </p>
               )}
             </div>
           </div>
