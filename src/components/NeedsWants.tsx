@@ -17,10 +17,23 @@ const ITEMS_POOL: NeedWantItem[] = [
   { id: 'toy', name: 'Action Figure Toy', type: 'want', icon: '🧸', explanation: 'Great for playing pretend, but you can thrive without buying toys!', color: 'bg-orange-100 border-orange-300' },
   { id: 'medicine', name: 'First Aid Kit & Medicine', type: 'need', icon: '🩹', explanation: 'Vital to heal wounds and recover when your body is sick.', color: 'bg-emerald-100 border-emerald-300' },
   { id: 'gold_ring', name: 'Fancy Gold Watch', type: 'want', icon: '⌚', explanation: 'A phone or simple watch tells time; a fancy gold one is just a luxury!', color: 'bg-yellow-100 border-yellow-300' },
+  { id: 'toothbrush', name: 'Toothbrush & Toothpaste', type: 'need', icon: '🪥', explanation: 'Essential hygiene items to prevent tooth decay and stay healthy!', color: 'bg-teal-100 border-teal-300' },
+  { id: 'amusement_park', name: 'Theme Park Pass', type: 'want', icon: '🎟️', explanation: 'Super exciting ride ticket, but an optional entertainment want!', color: 'bg-indigo-100 border-indigo-300' },
+  { id: 'shelter', name: 'Safe Home & Bed', type: 'need', icon: '🏠', explanation: 'Shelter protects you from storms, heat, and cold weather.', color: 'bg-sky-100 border-sky-300' },
+  { id: 'designer_shoes', name: 'Light-Up Sneakers', type: 'want', icon: '👟', explanation: 'Flashy shoes are cool, but regular shoes work just as well!', color: 'bg-rose-100 border-rose-300' },
 ];
 
+function shuffleItems(array: NeedWantItem[]): NeedWantItem[] {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps) {
-  const [items, setItems] = useState<NeedWantItem[]>(ITEMS_POOL);
+  const [items, setItems] = useState<NeedWantItem[]>(() => shuffleItems(ITEMS_POOL));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [needsBin, setNeedsBin] = useState<NeedWantItem[]>([]);
   const [wantsBin, setWantsBin] = useState<NeedWantItem[]>([]);
@@ -65,6 +78,7 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
   };
 
   const handleReset = () => {
+    setItems(shuffleItems(ITEMS_POOL));
     setCurrentIndex(0);
     setNeedsBin([]);
     setWantsBin([]);
