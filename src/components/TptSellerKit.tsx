@@ -204,7 +204,7 @@ Storybook Education
                   
                   {/* Theme Presets */}
                   <div className="space-y-2">
-                    <label className="text-[10px] uppercase font-bold text-slate-400 block">Gradient Palette</label>
+                    <label className="text-xs uppercase font-bold text-slate-400 block">Gradient Palette</label>
                     <div className="grid grid-cols-4 gap-2">
                       <button
                         onClick={() => setTheme('mint')}
@@ -213,7 +213,7 @@ Storybook Education
                         }`}
                       >
                         <div className="w-5 h-5 rounded-full bg-gradient-to-r from-lime-400 to-emerald-500" />
-                        <span className="text-[9px] font-bold text-slate-600">Mint</span>
+                        <span className="text-xs font-bold text-slate-600">Mint</span>
                       </button>
                       <button
                         onClick={() => setTheme('coral')}
@@ -222,7 +222,7 @@ Storybook Education
                         }`}
                       >
                         <div className="w-5 h-5 rounded-full bg-gradient-to-r from-orange-400 to-rose-500" />
-                        <span className="text-[9px] font-bold text-slate-600">Coral</span>
+                        <span className="text-xs font-bold text-slate-600">Coral</span>
                       </button>
                       <button
                         onClick={() => setTheme('cosmic')}
@@ -231,7 +231,7 @@ Storybook Education
                         }`}
                       >
                         <div className="w-5 h-5 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
-                        <span className="text-[9px] font-bold text-slate-600">Cosmic</span>
+                        <span className="text-xs font-bold text-slate-600">Cosmic</span>
                       </button>
                       <button
                         onClick={() => setTheme('pink')}
@@ -240,7 +240,7 @@ Storybook Education
                         }`}
                       >
                         <div className="w-5 h-5 rounded-full bg-gradient-to-r from-pink-400 to-rose-400" />
-                        <span className="text-[9px] font-bold text-slate-600">Pink</span>
+                        <span className="text-xs font-bold text-slate-600">Pink</span>
                       </button>
                     </div>
                   </div>
@@ -248,7 +248,7 @@ Storybook Education
                   {/* Title & Subtitle Edit */}
                   <div className="space-y-3">
                     <div>
-                      <label className="text-[10px] uppercase font-bold text-slate-400 block mb-1">Headline Text</label>
+                      <label className="text-xs uppercase font-bold text-slate-400 block mb-1">Headline Text</label>
                       <input
                         type="text"
                         value={mainTitle}
@@ -257,7 +257,7 @@ Storybook Education
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] uppercase font-bold text-slate-400 block mb-1">Subtitle Line</label>
+                      <label className="text-xs uppercase font-bold text-slate-400 block mb-1">Subtitle Line</label>
                       <textarea
                         value={subTitle}
                         onChange={(e) => setSubTitle(e.target.value)}
@@ -268,7 +268,7 @@ Storybook Education
 
                   {/* Badge Text Customizations */}
                   <div className="space-y-3">
-                    <label className="text-[10px] uppercase font-bold text-slate-400 block">Floating Feature Badges</label>
+                    <label className="text-xs uppercase font-bold text-slate-400 block">Floating Feature Badges</label>
                     <input
                       type="text"
                       value={badgeText1}
@@ -294,7 +294,7 @@ Storybook Education
 
                   {/* Screen Selection */}
                   <div className="space-y-2">
-                    <label className="text-[10px] uppercase font-bold text-slate-400 block">Mockup Centerpiece Screen</label>
+                    <label className="text-xs uppercase font-bold text-slate-400 block">Mockup Centerpiece Screen</label>
                     <div className="grid grid-cols-2 gap-2">
                       {[
                         { id: 0, label: 'Coin Matcher' },
@@ -305,7 +305,7 @@ Storybook Education
                         <button
                           key={scr.id}
                           onClick={() => setActiveScreenIndex(scr.id)}
-                          className={`px-3 py-2 text-[10px] font-bold rounded-lg border text-center transition-all cursor-pointer ${
+                          className={`px-3 py-2 text-xs font-bold rounded-lg border text-center transition-all cursor-pointer ${
                             activeScreenIndex === scr.id
                               ? 'bg-slate-900 border-slate-900 text-white'
                               : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
@@ -322,7 +322,7 @@ Storybook Education
                     <HelpCircle size={16} className="text-indigo-600 shrink-0 mt-0.5" />
                     <div>
                       <p className="font-bold">How to save your 2000 x 2000 Cover:</p>
-                      <p className="text-[11px] mt-1 text-indigo-800">
+                      <p className="text-xs mt-1 text-indigo-800">
                         Click the **"Fullscreen Screenshot View"** button on the right. This launches a crisp, full-screen square canvas. Press **Cmd+Shift+4 (Mac)** or **Win+Shift+S (Windows)** to capture it perfectly!
                       </p>
                     </div>

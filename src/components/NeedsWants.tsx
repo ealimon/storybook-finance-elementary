@@ -166,7 +166,7 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
                 className="w-full flex flex-col items-center text-center touch-none cursor-grab active:cursor-grabbing select-none"
               >
                 {!explanation && (
-                  <span className="text-[11px] font-bold text-amber-800 bg-amber-100 px-3 py-1 rounded-full mb-3 shadow-xs border border-amber-200 animate-pulse">
+                  <span className="text-xs font-bold text-amber-800 bg-amber-100 px-3 py-1.5 rounded-full mb-3 shadow-xs border border-amber-200 animate-pulse">
                     🖐️ Drag card to a Bin or tap below!
                   </span>
                 )}

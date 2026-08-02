@@ -181,7 +181,7 @@ export default function ReceiptMatcher({ onAddStars, onNextModule }: ReceiptMatc
               <div className="flex items-center gap-2">
                 {puzzleIdx === PUZZLES.length - 1 && !starsAwarded ? (
                   <div className="flex flex-col items-end gap-1">
-                    <span className="text-[10px] text-amber-800 font-bold">👉 Step 1: Claim Stars</span>
+                    <span className="text-xs text-amber-800 font-bold">👉 Step 1: Claim Stars</span>
                     <button
                       id="btn-receipt-claim"
                       onClick={claimReward}

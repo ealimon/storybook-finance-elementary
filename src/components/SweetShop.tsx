@@ -109,7 +109,7 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
                 <span className="font-mono font-bold text-sm text-amber-700 mt-1">
                   ${item.price.toFixed(2)}
                 </span>
-                <span className="text-[10px] text-slate-400 mt-1 bg-white border px-2 py-0.5 rounded-full font-bold">
+                <span className="text-xs text-slate-400 mt-1 bg-white border px-2 py-0.5 rounded-full font-bold">
                   Add ➕
                 </span>
               </button>
@@ -140,7 +140,7 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
                     <span className="text-2xl">{entry.item.icon}</span>
                     <div>
                       <h4 className="font-display font-bold text-xs text-slate-700">{entry.item.name}</h4>
-                      <p className="text-[10px] text-slate-400 font-bold font-mono">
+                      <p className="text-xs text-slate-400 font-bold font-mono">
                         ${entry.item.price.toFixed(2)} x {entry.quantity}
                       </p>
                     </div>
@@ -205,7 +205,7 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
                     <div className="bg-amber-50 border border-amber-300 rounded-xl p-2.5 text-xs font-bold text-amber-900 flex items-center justify-center gap-1.5 shadow-sm">
                       <span>🎉 Spent ${roundedSpent.toFixed(2)} — Added ${checkoutChange.toFixed(2)} Change to Wallet! +8 Stars Claimed! 💵</span>
                     </div>
-                    <p className="text-[11px] font-bold text-emerald-800">
+                    <p className="text-xs font-bold text-emerald-800">
                       👉 Step 2: Continue to the next module!
                     </p>
                     <div className="flex flex-wrap items-center justify-center gap-2">
@@ -230,7 +230,7 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
                   </div>
                 ) : (
                   <div className="flex flex-col items-center justify-center gap-1.5 mt-2">
-                    <p className="text-[11px] font-bold text-emerald-800">
+                    <p className="text-xs font-bold text-emerald-800">
                       👉 Step 1: Claim your reward stars!
                     </p>
                     <button

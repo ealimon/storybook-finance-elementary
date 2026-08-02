@@ -355,7 +355,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
                 <button
                   id="btn-savings-plan-balanced"
                   onClick={() => setSavingMode('balanced')}
-                  className={`px-2 py-1 rounded-lg font-bold text-[11px] transition-all cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-lg font-bold text-xs transition-all cursor-pointer ${
                     savingMode === 'balanced'
                       ? 'bg-purple-600 text-white'
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -366,7 +366,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
                 <button
                   id="btn-savings-plan-super"
                   onClick={() => setSavingMode('super')}
-                  className={`px-2 py-1 rounded-lg font-bold text-[11px] transition-all cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-lg font-bold text-xs transition-all cursor-pointer ${
                     savingMode === 'super'
                       ? 'bg-purple-600 text-white'
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -412,7 +412,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
                 transition={{ duration: 0.4 }}
               />
             </div>
-            <div className="flex justify-between items-center mt-1.5 text-[11px] text-purple-300 font-medium">
+            <div className="flex justify-between items-center mt-1.5 text-xs text-purple-300 font-medium">
               <span>{progressPercent}% Complete</span>
               <span>
                 {progressPercent >= 100 ? '🎉 Goal Reached!' : `$${(selectedGoal.price - saveJar > 0 ? selectedGoal.price - saveJar : 0).toFixed(2)} left to save`}
@@ -444,7 +444,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
               <div className="flex flex-col items-end gap-1.5">
                 {!starsAwarded ? (
                   <>
-                    <span className="text-[11px] font-bold text-yellow-200">👉 Step 1: Claim Stars First</span>
+                    <span className="text-xs font-bold text-yellow-200">👉 Step 1: Claim Stars First</span>
                     <button
                       id="btn-threejars-claim-reward"
                       onClick={claimReward}
@@ -460,7 +460,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
                     </span>
                     {onNextModule && (
                       <>
-                        <span className="text-[11px] font-bold text-emerald-100">👉 Step 2: Proceed to Next Lesson</span>
+                        <span className="text-xs font-bold text-emerald-100">👉 Step 2: Proceed to Next Lesson</span>
                         <button
                           id="btn-threejars-next-module"
                           onClick={onNextModule}
@@ -482,7 +482,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
             
             {/* SAVE JAR */}
             <div data-jar="save" className={`bg-purple-50/90 border-2 ${animatingJar === 'save' || animatingJar === 'all' ? 'border-purple-500 ring-2 ring-purple-300 scale-105' : 'border-purple-200'} rounded-2xl p-3 flex flex-col items-center text-center relative overflow-hidden transition-all hover:border-purple-400`}>
-              <div className="text-[10px] font-bold text-purple-900 bg-purple-200/80 px-2.5 py-0.5 rounded-full mb-2 uppercase pointer-events-none">
+              <div className="text-xs font-bold text-purple-900 bg-purple-200/80 px-2.5 py-1 rounded-full mb-2 uppercase pointer-events-none">
                 SAVE (Goal Jar)
               </div>
 
@@ -519,7 +519,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
                 <span>Save Jar</span>
                 <button
                   onClick={() => handleDirectDrop('save', 1.00)}
-                  className="text-[10px] bg-purple-600 hover:bg-purple-700 text-white px-2 py-0.5 rounded-lg border border-purple-500 cursor-pointer"
+                  className="text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white px-2.5 py-1 rounded-lg border border-purple-500 cursor-pointer"
                   title="Add $1.00 directly to Save Jar"
                 >
                   +$1
@@ -529,7 +529,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
 
             {/* SPEND JAR */}
             <div data-jar="spend" className={`bg-rose-50/90 border-2 ${animatingJar === 'spend' || animatingJar === 'all' ? 'border-rose-500 ring-2 ring-rose-300 scale-105' : 'border-rose-200'} rounded-2xl p-3 flex flex-col items-center text-center relative overflow-hidden transition-all hover:border-rose-400`}>
-              <div className="text-[10px] font-bold text-rose-900 bg-rose-200/80 px-2.5 py-0.5 rounded-full mb-2 uppercase pointer-events-none">
+              <div className="text-xs font-bold text-rose-900 bg-rose-200/80 px-2.5 py-1 rounded-full mb-2 uppercase pointer-events-none">
                 SPEND (Treats)
               </div>
 
@@ -566,7 +566,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
                 <span>Spend Jar</span>
                 <button
                   onClick={() => handleDirectDrop('spend', 1.00)}
-                  className="text-[10px] bg-rose-600 hover:bg-rose-700 text-white px-2 py-0.5 rounded-lg border border-rose-500 cursor-pointer"
+                  className="text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white px-2.5 py-1 rounded-lg border border-rose-500 cursor-pointer"
                   title="Add $1.00 directly to Spend Jar"
                 >
                   +$1
@@ -576,7 +576,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
 
             {/* GIVE JAR */}
             <div data-jar="give" className={`bg-cyan-50/90 border-2 ${animatingJar === 'give' || animatingJar === 'all' ? 'border-cyan-500 ring-2 ring-cyan-300 scale-105' : 'border-cyan-200'} rounded-2xl p-3 flex flex-col items-center text-center relative overflow-hidden transition-all hover:border-cyan-400`}>
-              <div className="text-[10px] font-bold text-cyan-900 bg-cyan-200/80 px-2.5 py-0.5 rounded-full mb-2 uppercase pointer-events-none">
+              <div className="text-xs font-bold text-cyan-900 bg-cyan-200/80 px-2.5 py-1 rounded-full mb-2 uppercase pointer-events-none">
                 GIVE (Charity)
               </div>
 
@@ -613,7 +613,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
                 <span>Give Jar</span>
                 <button
                   onClick={() => handleDirectDrop('give', 1.00)}
-                  className="text-[10px] bg-cyan-600 hover:bg-cyan-700 text-white px-2 py-0.5 rounded-lg border border-cyan-500 cursor-pointer"
+                  className="text-xs font-bold bg-cyan-600 hover:bg-cyan-700 text-white px-2.5 py-1 rounded-lg border border-cyan-500 cursor-pointer"
                   title="Add $1.00 directly to Give Jar"
                 >
                   +$1

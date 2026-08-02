@@ -83,7 +83,7 @@ export default function ChoreBoard({ wallet, onAddMoney, onAddStars, onNextModul
                 $
               </div>
               <div className="text-right">
-                <span className="text-[10px] text-slate-400 uppercase font-bold">Wallet Cash</span>
+                <span className="text-xs text-slate-400 uppercase font-bold">Wallet Cash</span>
                 <p className="font-mono text-2xl font-bold text-emerald-700">${wallet.toFixed(2)}</p>
               </div>
             </div>
@@ -130,7 +130,7 @@ export default function ChoreBoard({ wallet, onAddMoney, onAddStars, onNextModul
                     <h4 className={`font-display font-bold text-sm ${chore.completed ? 'line-through text-slate-500' : 'text-slate-800'}`}>
                       {chore.task}
                     </h4>
-                    <span className="text-[10px] text-slate-400 font-bold uppercase">Household Responsibility</span>
+                    <span className="text-xs text-slate-400 font-bold uppercase">Household Responsibility</span>
                   </div>
                 </div>
 
@@ -178,7 +178,7 @@ export default function ChoreBoard({ wallet, onAddMoney, onAddStars, onNextModul
                   </div>
                 ) : (
                   <div className="flex flex-col items-end gap-1">
-                    <span className="text-[10px] text-yellow-800 font-bold">👉 Step 1: Claim Reward</span>
+                    <span className="text-xs text-yellow-800 font-bold">👉 Step 1: Claim Reward</span>
                     <button
                       id="btn-chores-claim-bonus"
                       onClick={claimBonus}

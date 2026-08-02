@@ -239,7 +239,7 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
                     </div>
                   ) : (
                     <div className="flex flex-col items-end gap-1">
-                      <span className="text-[10px] font-bold text-purple-900">👉 Step 1: Claim Stars</span>
+                      <span className="text-xs font-bold text-purple-900">👉 Step 1: Claim Stars</span>
                       <button
                         id="btn-toytradeoff-claim-reward"
                         onClick={claimReward}

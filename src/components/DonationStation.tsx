@@ -201,7 +201,7 @@ export default function DonationStation({ onAddStars, onAddMoney, onNextModule }
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] text-rose-900 font-bold bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-200">
+                  <span className="text-xs text-rose-900 font-bold bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-200">
                     👉 Step 1: Donate $1.00 or more to help!
                   </span>
                   {onNextModule && (

@@ -113,7 +113,7 @@ export default function InterestMagic({ onAddStars, onNextModule }: InterestMagi
                   onChange={(e) => setYears(parseInt(e.target.value))}
                   className="w-full accent-yellow-500 cursor-pointer"
                 />
-                <div className="flex justify-between text-[10px] text-slate-400 font-bold mt-1 uppercase">
+                <div className="flex justify-between text-xs text-slate-400 font-bold mt-1 uppercase">
                   <span>1 Year</span>
                   <span>15 Years</span>
                   <span>30 Years</span>
@@ -138,21 +138,21 @@ export default function InterestMagic({ onAddStars, onNextModule }: InterestMagi
           <div className="w-full grid grid-cols-2 gap-4">
             {/* Under mattress container */}
             <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Under Mattress (0%)</span>
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Under Mattress (0%)</span>
               <div className="text-3xl my-2">🛏️💤</div>
               <span className="text-xl font-mono font-bold text-slate-700 block">${mattressTotal.toFixed(2)}</span>
-              <span className="text-[10px] text-slate-400 mt-1 block">Stays exactly the same!</span>
+              <span className="text-xs text-slate-400 mt-1 block">Stays exactly the same!</span>
             </div>
 
             {/* Bank compound container */}
             <div className="bg-white rounded-2xl p-4 border border-yellow-200 shadow-sm relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-yellow-400 text-[9px] font-bold text-yellow-950 px-2 py-0.5 rounded-bl-xl">
+              <div className="absolute top-0 right-0 bg-yellow-400 text-xs font-bold text-yellow-950 px-2 py-0.5 rounded-bl-xl">
                 Bank Bonus
               </div>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Magic Bank Saving</span>
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Magic Bank Saving</span>
               <div className="text-3xl my-2">🏦✨</div>
               <span className="text-xl font-mono font-bold text-emerald-600 block">${bankTotal.toFixed(2)}</span>
-              <span className="text-[10px] text-emerald-500 font-bold block mt-1">
+              <span className="text-xs text-emerald-500 font-bold block mt-1">
                 +${(bankTotal - deposit).toFixed(2)} extra free!
               </span>
             </div>
@@ -199,7 +199,7 @@ export default function InterestMagic({ onAddStars, onNextModule }: InterestMagi
                   </div>
                 ) : (
                   <div className="flex flex-col items-end gap-1">
-                    <span className="text-[10px] text-yellow-800 font-bold">👉 Step 1: Claim Stars</span>
+                    <span className="text-xs text-yellow-800 font-bold">👉 Step 1: Claim Stars</span>
                     <button
                       id="btn-interest-claim"
                       onClick={claimReward}

@@ -236,7 +236,7 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
             </p>
 
             <div className="mt-4 max-w-xs mx-auto">
-              <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">Enter Student Name:</label>
+              <label className="text-xs text-slate-500 font-bold uppercase block mb-1">Enter Student Name:</label>
               <input
                 id="input-student-name"
                 type="text"
@@ -287,12 +287,12 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
             </div>
 
             <div className="flex justify-between items-center border-b border-yellow-200 pb-2 mb-4">
-              <span className="text-[10px] font-mono text-yellow-700 font-bold tracking-widest">STORYBOOK FINANCE</span>
+              <span className="text-xs font-mono text-yellow-700 font-bold tracking-widest">STORYBOOK FINANCE</span>
               <Award className="text-yellow-600" size={24} />
-              <span className="text-[10px] font-mono text-yellow-700 font-bold tracking-widest">JUNIOR EXCEL</span>
+              <span className="text-xs font-mono text-yellow-700 font-bold tracking-widest">JUNIOR EXCEL</span>
             </div>
 
-            <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">This Certifies That</span>
+            <span className="text-xs uppercase font-bold text-slate-400 tracking-widest">This Certifies That</span>
             <h4 className="font-display font-bold text-slate-800 text-2xl my-2 border-b-2 border-dashed border-slate-300 pb-1 max-w-xs mx-auto italic font-serif">
               {studentName}
             </h4>
@@ -302,14 +302,14 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
 
             <div className="mt-6 flex justify-between items-end">
               <div className="text-left">
-                <span className="text-[8px] uppercase text-slate-400 block font-bold">Award Date</span>
-                <span className="font-mono text-[10px] text-slate-700 font-semibold">July 4, 2026</span>
+                <span className="text-[10px] uppercase text-slate-400 block font-bold">Award Date</span>
+                <span className="font-mono text-xs text-slate-700 font-semibold">July 4, 2026</span>
               </div>
-              <div className="bg-yellow-500 text-yellow-950 font-display font-bold text-[9px] px-3 py-2 rounded-full shadow-sm">
+              <div className="bg-yellow-500 text-yellow-950 font-display font-bold text-xs px-3 py-1.5 rounded-full shadow-sm">
                 Certified Saver ⭐
               </div>
               <div className="text-right">
-                <span className="text-[8px] uppercase text-slate-400 block font-bold">Authorized Teacher</span>
+                <span className="text-[10px] uppercase text-slate-400 block font-bold">Authorized Teacher</span>
                 <span className="font-serif italic text-xs text-slate-700">Wise Owl 🦉</span>
               </div>
             </div>

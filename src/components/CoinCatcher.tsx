@@ -147,7 +147,7 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
                 🏆
               </div>
               <div>
-                <span className="text-[11px] font-bold text-emerald-800 bg-emerald-200/60 px-2.5 py-0.5 rounded-full inline-block mb-1">
+                <span className="text-xs font-bold text-emerald-800 bg-emerald-200/60 px-2.5 py-0.5 rounded-full inline-block mb-1">
                   🌟 Module 1 Mastered!
                 </span>
                 <h3 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900">
@@ -285,10 +285,10 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
                       title="Click to remove coin"
                     >
                       <span className="text-2xl">{coin.image}</span>
-                      <span className="text-[10px] font-mono font-bold text-slate-600 group-hover:hidden">
+                      <span className="text-xs font-mono font-bold text-slate-600 group-hover:hidden">
                         {(coin.value * 100)}¢
                       </span>
-                      <span className="text-[10px] font-bold text-red-600 hidden group-hover:inline">
+                      <span className="text-xs font-bold text-red-600 hidden group-hover:inline">
                         Remove
                       </span>
                     </motion.button>
@@ -328,7 +328,7 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
                     <CheckCircle size={24} />
                   </div>
                   <div>
-                    <p className="text-[11px] text-emerald-100 font-bold uppercase tracking-wider">Excellent Math Skills!</p>
+                    <p className="text-xs text-emerald-100 font-bold uppercase tracking-wider">Excellent Math Skills!</p>
                     <span className="text-sm font-display font-bold text-white flex items-center gap-1.5 mt-0.5">
                       {level === TARGETS.length - 1 ? 'Claim Reward & Finish Module 🏆' : 'Claim Reward & Next Scenario ➡️'}
                     </span>
