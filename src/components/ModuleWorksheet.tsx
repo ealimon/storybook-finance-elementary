@@ -739,17 +739,17 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
           @media print {
             body, html {
               background: white !important;
-              color: #1e293b !important;
+              color: #0f172a !important;
               margin: 0 !important;
               padding: 0 !important;
               -webkit-print-color-adjust: exact !important;
               print-color-adjust: exact !important;
-              font-size: 11px !important;
+              font-size: 12px !important;
               font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
             }
             @page {
               size: letter;
-              margin: 0.35in 0.4in 0.35in 0.4in !important;
+              margin: 0.28in 0.35in 0.28in 0.35in !important;
             }
             .no-print {
               display: none !important;
@@ -768,14 +768,14 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
             #print-worksheet-wrapper .border-b-4 {
               border-bottom-width: 2px !important;
               border-color: #cbd5e1 !important;
-              padding-bottom: 0.5rem !important;
-              margin-bottom: 0.75rem !important;
+              padding-bottom: 0.25rem !important;
+              margin-bottom: 0.4rem !important;
             }
             #print-worksheet-wrapper .border-t-4 {
-              border-top-width: 2px !important;
+              border-top-width: 1.5px !important;
               border-color: #cbd5e1 !important;
-              margin-top: 0.5rem !important;
-              padding-top: 0.4rem !important;
+              margin-top: 0.3rem !important;
+              padding-top: 0.2rem !important;
             }
 
             /* Student Name and Date: convert to classic elegant lines */
@@ -783,8 +783,8 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               background: transparent !important;
               border: none !important;
               padding: 0 !important;
-              margin-bottom: 0.75rem !important;
-              gap: 1rem !important;
+              margin-bottom: 0.4rem !important;
+              gap: 0.75rem !important;
             }
             #print-worksheet-wrapper input#worksheet-student-name-input,
             #print-worksheet-wrapper input#worksheet-date-input {
@@ -795,7 +795,8 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               border-radius: 0 !important;
               background: transparent !important;
               padding: 0 0 1px 0.25rem !important;
-              font-size: 0.8rem !important;
+              font-size: 0.9rem !important;
+              font-weight: 700 !important;
               box-shadow: none !important;
             }
             #print-worksheet-wrapper input#worksheet-student-name-input::placeholder,
@@ -803,34 +804,38 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               color: transparent !important;
             }
 
-            /* Compress margins and paddings for single letter page fit */
-            #print-worksheet-wrapper .space-y-6 {
+            /* Compress margins and paddings for single letter page fit with larger fonts */
+            #print-worksheet-wrapper .space-y-6,
+            #print-worksheet-wrapper .space-y-4 {
               margin-top: 0 !important;
             }
-            #print-worksheet-wrapper .space-y-6 > * + * {
-              margin-top: 0.35rem !important;
+            #print-worksheet-wrapper .space-y-6 > * + *,
+            #print-worksheet-wrapper .space-y-4 > * + * {
+              margin-top: 0.25rem !important;
             }
             #print-worksheet-wrapper h3 {
-              font-size: 1.35rem !important;
+              font-size: 1.25rem !important;
               color: #1e1b4b !important;
-              margin-top: 0.1rem !important;
+              margin-top: 0.05rem !important;
               font-weight: 800 !important;
             }
             #print-worksheet-wrapper h4 {
-              font-size: 0.8rem !important;
-              margin-bottom: 0.25rem !important;
-              color: #1e293b !important;
-              line-height: 1.3 !important;
+              font-size: 0.92rem !important;
+              margin-bottom: 0.2rem !important;
+              color: #0f172a !important;
+              line-height: 1.25 !important;
+              font-weight: 700 !important;
             }
             #print-worksheet-wrapper .text-slate-400 {
               color: #64748b !important;
             }
             
             /* Custom styling for question cards */
-            #print-worksheet-wrapper .p-5 {
-              padding: 0.45rem 0.65rem !important;
-              border-radius: 8px !important;
-              border: 1px solid #e2e8f0 !important;
+            #print-worksheet-wrapper .p-5,
+            #print-worksheet-wrapper .p-4 {
+              padding: 0.35rem 0.55rem !important;
+              border-radius: 6px !important;
+              border: 1px solid #cbd5e1 !important;
               background: #f8fafc !important;
               page-break-inside: avoid !important;
               box-shadow: none !important;
@@ -839,9 +844,10 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
             /* Question badges */
             #print-worksheet-wrapper .bg-indigo-100 {
               background-color: #e0e7ff !important;
-              color: #4338ca !important;
-              font-weight: bold !important;
-              padding: 0.1rem 0.4rem !important;
+              color: #3730a3 !important;
+              font-weight: 800 !important;
+              padding: 0.05rem 0.35rem !important;
+              font-size: 0.75rem !important;
               border-radius: 4px !important;
             }
 
@@ -856,7 +862,7 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               width: 150px !important;
               padding: 0 0.25rem !important;
               margin-left: 0.5rem !important;
-              font-size: 0.8rem !important;
+              font-size: 0.88rem !important;
               font-weight: bold !important;
               color: #0f172a !important;
               box-shadow: none !important;
@@ -869,55 +875,63 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
             #print-worksheet-wrapper textarea[id^="textarea-worksheet-text-"] {
               border: none !important;
               border-radius: 0 !important;
-              background: repeating-linear-gradient(transparent, transparent 18px, #e2e8f0 18px, #e2e8f0 19px) !important;
-              line-height: 19px !important;
-              height: 38px !important;
+              background: repeating-linear-gradient(transparent, transparent 16px, #cbd5e1 16px, #cbd5e1 17px) !important;
+              line-height: 17px !important;
+              height: 34px !important;
               padding: 0 !important;
-              margin-top: 0.4rem !important;
+              margin-top: 0.2rem !important;
               box-shadow: none !important;
               resize: none !important;
               color: #0f172a !important;
-              font-weight: bold !important;
+              font-size: 0.88rem !important;
+              font-weight: 600 !important;
             }
             #print-worksheet-wrapper textarea[id^="textarea-worksheet-text-"]::placeholder {
               color: transparent !important;
             }
 
             /* Choice options styling: convert to actual test checkboxes */
-            #print-worksheet-wrapper .grid-cols-2 {
+            #print-worksheet-wrapper .grid-cols-2,
+            #print-worksheet-wrapper .grid {
               grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-              gap: 0.3rem !important;
-              margin-top: 0.25rem !important;
+              gap: 0.25rem !important;
+              margin-top: 0.15rem !important;
             }
-            #print-worksheet-wrapper .grid-cols-2 button {
-              padding: 0.25rem 0.5rem !important;
-              font-size: 0.75rem !important;
-              border-radius: 6px !important;
+            #print-worksheet-wrapper .grid-cols-2 button,
+            #print-worksheet-wrapper button[id^="btn-worksheet-option-"] {
+              padding: 0.2rem 0.45rem !important;
+              font-size: 0.82rem !important;
+              font-weight: 600 !important;
+              border-radius: 5px !important;
               border: 1px solid #cbd5e1 !important;
               background: #ffffff !important;
-              color: #334155 !important;
+              color: #1e293b !important;
               text-align: left !important;
               display: flex !important;
               align-items: center !important;
               justify-content: flex-start !important;
               box-shadow: none !important;
+              line-height: 1.2 !important;
             }
             /* Add standard checkbox or bubble circle before choice in print */
-            #print-worksheet-wrapper .grid-cols-2 button::before {
+            #print-worksheet-wrapper .grid-cols-2 button::before,
+            #print-worksheet-wrapper button[id^="btn-worksheet-option-"]::before {
               content: "○ " !important;
               font-size: 0.85rem !important;
-              margin-right: 0.35rem !important;
+              margin-right: 0.3rem !important;
               color: #64748b !important;
               font-weight: normal !important;
             }
             /* Highlighting selected option if pre-filled digitally before printing */
-            #print-worksheet-wrapper .grid-cols-2 button[class*="bg-indigo-100"] {
+            #print-worksheet-wrapper .grid-cols-2 button[class*="bg-indigo-100"],
+            #print-worksheet-wrapper button[id^="btn-worksheet-option-"][class*="bg-indigo-100"] {
               background: #f0fdf4 !important;
               border-color: #86efac !important;
               color: #166534 !important;
               font-weight: bold !important;
             }
-            #print-worksheet-wrapper .grid-cols-2 button[class*="bg-indigo-100"]::before {
+            #print-worksheet-wrapper .grid-cols-2 button[class*="bg-indigo-100"]::before,
+            #print-worksheet-wrapper button[id^="btn-worksheet-option-"][class*="bg-indigo-100"]::before {
               content: "● " !important;
               color: #15803d !important;
             }
@@ -927,18 +941,18 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
 
       <div id="print-worksheet-wrapper">
         {/* Header decoration */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b-4 border-dashed border-indigo-200 pb-4 mb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b-4 border-dashed border-indigo-200 pb-3 mb-4">
           <div>
             <div className="flex items-center gap-1.5 text-indigo-700 font-bold uppercase tracking-wider text-xs">
               <BookOpen size={16} />
               <span>Elementary Financial Literacy Worksheet</span>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-display text-slate-900 mt-1">{sheet.title}</h3>
-            <div className="flex flex-wrap items-center gap-2 mt-1.5">
+            <h3 className="text-2xl sm:text-3xl font-display text-slate-900 mt-0.5 font-black">{sheet.title}</h3>
+            <div className="flex flex-wrap items-center gap-2 mt-1">
               <span className="bg-indigo-100 text-indigo-900 border border-indigo-200 text-xs font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1">
                 🏫 Recommended: {sheet.gradeLevelTarget || 'Elementary (K–5)'}
               </span>
-              <span className="text-xs text-slate-600 font-mono">Topic: {sheet.topic}</span>
+              <span className="text-xs text-slate-600 font-mono font-medium">Topic: {sheet.topic}</span>
             </div>
           </div>
           <div className="no-print mt-3 sm:mt-0 flex gap-2.5 w-full sm:w-auto">
@@ -960,75 +974,75 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
         </div>
 
         {/* Name and Date inputs for physical printing or digital filling */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-base sm:text-sm font-bold text-slate-800 mb-6 bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-base sm:text-lg font-bold text-slate-800 mb-4 bg-indigo-50/50 p-3.5 rounded-2xl border border-indigo-100">
           <div className="flex items-center gap-2">
-            <span className="whitespace-nowrap">Student Name:</span>
+            <span className="whitespace-nowrap font-display">Student Name:</span>
             <input
               id="worksheet-student-name-input"
               type="text"
               value={studentName}
               onChange={(e) => setStudentName(e.target.value)}
               placeholder="Write name here..."
-              className="bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-base sm:text-sm text-slate-800 focus:outline-none focus:border-indigo-500 w-full font-display"
+              className="bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-base text-slate-800 focus:outline-none focus:border-indigo-500 w-full font-display font-semibold"
             />
           </div>
           <div className="flex items-center gap-2">
-            <span className="whitespace-nowrap">Date:</span>
+            <span className="whitespace-nowrap font-display">Date:</span>
             <input
               id="worksheet-date-input"
               type="text"
               value={dateStr}
               onChange={(e) => setDateStr(e.target.value)}
               placeholder="Date..."
-              className="bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-base sm:text-sm text-slate-800 focus:outline-none focus:border-indigo-500 w-full font-mono"
+              className="bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-base text-slate-800 focus:outline-none focus:border-indigo-500 w-full font-mono font-semibold"
             />
           </div>
         </div>
 
         {/* Dynamic Questions List */}
-        <div className="space-y-6">
+        <div className="space-y-4">
           {sheet.questions.map((q, idx) => {
             const answerKey = `${moduleId}-${idx}`;
             const currentAns = completedAnswers[answerKey] || '';
 
             return (
-              <div key={idx} className="bg-slate-50 border-2 border-slate-200 rounded-2xl p-5 shadow-inner">
-                <h4 className="font-display font-bold text-slate-900 text-base sm:text-sm mb-3 flex items-start gap-2.5 leading-snug">
-                  <span className="bg-indigo-100 text-indigo-800 px-2.5 py-0.5 rounded-full text-xs shrink-0 font-bold mt-0.5">Q{idx + 1}</span>
+              <div key={idx} className="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 sm:p-4.5 shadow-inner">
+                <h4 className="font-display font-extrabold text-slate-900 text-base sm:text-lg mb-2 flex items-start gap-2.5 leading-snug">
+                  <span className="bg-indigo-100 text-indigo-900 px-2.5 py-0.5 rounded-full text-xs font-black shrink-0 mt-0.5">Q{idx + 1}</span>
                   <span>{q.question.replace(/^Q\d+:\s*/, '')}</span>
                 </h4>
 
                 {/* Question interactive forms */}
                 {q.answerType === 'choice' && q.options && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-2.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
                     {q.options.map((opt) => (
                       <button
                         key={opt}
                         id={`btn-worksheet-option-${idx}-${opt.replace(/\s+/g, '-').toLowerCase()}`}
                         onClick={() => handleInputChange(idx, opt)}
-                        className={`p-3.5 rounded-xl text-left border text-sm sm:text-xs transition-all flex items-center justify-between cursor-pointer ${
+                        className={`p-3 rounded-xl text-left border text-base sm:text-sm font-semibold transition-all flex items-center justify-between cursor-pointer ${
                           currentAns === opt
-                            ? 'bg-indigo-100 border-indigo-400 font-bold text-indigo-950 shadow-sm ring-1 ring-indigo-200'
+                            ? 'bg-indigo-100 border-indigo-400 font-extrabold text-indigo-950 shadow-sm ring-1 ring-indigo-200'
                             : 'bg-white border-slate-200 hover:border-indigo-300 text-slate-800'
                         }`}
                       >
                         <span className="leading-snug">{opt}</span>
-                        {currentAns === opt && <span className="no-print text-indigo-700 shrink-0 ml-2 font-bold text-xs">✏️ Selected</span>}
+                        {currentAns === opt && <span className="no-print text-indigo-700 shrink-0 ml-2 font-black text-xs">✏️ Selected</span>}
                       </button>
                     ))}
                   </div>
                 )}
 
                 {q.answerType === 'math' && (
-                  <div className="flex flex-wrap items-center gap-2.5 mt-3">
-                    <span className="text-xs font-bold text-slate-500 uppercase">Your Answer:</span>
+                  <div className="flex flex-wrap items-center gap-2.5 mt-2">
+                    <span className="text-xs font-bold text-slate-600 uppercase">Your Answer:</span>
                     <input
                       id={`input-worksheet-math-${idx}`}
                       type="text"
                       value={currentAns}
                       onChange={(e) => handleInputChange(idx, e.target.value)}
                       placeholder="Calculate sum..."
-                      className="bg-white border border-slate-300 rounded-xl px-4 py-2 text-sm sm:text-xs text-slate-900 focus:outline-none focus:border-indigo-500 font-mono w-52 shadow-sm font-bold"
+                      className="bg-white border border-slate-300 rounded-xl px-4 py-2 text-base sm:text-sm text-slate-900 focus:outline-none focus:border-indigo-500 font-mono w-56 shadow-sm font-bold"
                     />
                   </div>
                 )}
@@ -1040,13 +1054,13 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
                     value={currentAns}
                     onChange={(e) => handleInputChange(idx, e.target.value)}
                     placeholder="Write your answer or explanation here..."
-                    className="w-full bg-white border border-slate-300 rounded-xl p-3 text-sm sm:text-xs text-slate-900 focus:outline-none focus:border-indigo-500 leading-relaxed resize-none shadow-sm"
+                    className="w-full bg-white border border-slate-300 rounded-xl p-3 text-base sm:text-sm text-slate-900 focus:outline-none focus:border-indigo-500 leading-relaxed resize-none shadow-sm font-medium"
                   />
                 )}
 
                 {/* Show Correct answer key */}
                 {showAnswers && q.correctAnswer && (
-                  <div className="mt-3 text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-xl p-2 px-3 inline-flex items-center gap-1.5 animate-fade-in">
+                  <div className="mt-2.5 text-xs font-extrabold text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-xl p-2 px-3 inline-flex items-center gap-1.5 animate-fade-in">
                     <CheckCircle size={14} className="text-emerald-600" />
                     <span>Answer Key: {q.correctAnswer}</span>
                   </div>
