@@ -193,7 +193,7 @@ export default function InterestMagic({ onAddStars, onNextModule }: InterestMagi
                         onClick={onNextModule}
                         className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce cursor-pointer"
                       >
-                        NEXT: Great Toy Trade-off <ArrowRight size={14} />
+                        NEXT: Smart Saver Quiz <ArrowRight size={14} />
                       </button>
                     )}
                   </div>

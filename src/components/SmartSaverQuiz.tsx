@@ -335,7 +335,7 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
                     onClick={onNextModule}
                     className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce cursor-pointer"
                   >
-                    <span>NEXT: Restart Coin Catcher 🪙</span> <ArrowRight size={14} />
+                    <span>NEXT: Restart Coin Matcher 🪙</span> <ArrowRight size={14} />
                   </button>
                 )}
               </div>

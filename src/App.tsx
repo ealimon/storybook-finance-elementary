@@ -427,24 +427,31 @@ export default function App() {
                     wallet={profile.wallet}
                     onAddMoney={handleAddMoney}
                     onAddStars={handleAddStars}
+                    onNextModule={() => navigateToModule('giving_station')}
+                  />
+                )}
+                {activeModuleId === 'giving_station' && (
+                  <DonationStation
+                    onAddStars={handleAddStars}
+                    onAddMoney={handleAddMoney}
                     onNextModule={() => navigateToModule('needs_wants')}
                   />
                 )}
                 {activeModuleId === 'needs_wants' && (
                   <NeedsWants
                     onAddStars={handleAddStars}
-                    onNextModule={() => navigateToModule('three_jars')}
-                  />
-                )}
-                {activeModuleId === 'three_jars' && (
-                  <ThreeJars
-                    onAddStars={handleAddStars}
-                    onAddMoney={handleAddMoney}
                     onNextModule={() => navigateToModule('sweet_shop')}
                   />
                 )}
                 {activeModuleId === 'sweet_shop' && (
                   <SweetShop
+                    onAddStars={handleAddStars}
+                    onAddMoney={handleAddMoney}
+                    onNextModule={() => navigateToModule('three_jars')}
+                  />
+                )}
+                {activeModuleId === 'three_jars' && (
+                  <ThreeJars
                     onAddStars={handleAddStars}
                     onAddMoney={handleAddMoney}
                     onNextModule={() => navigateToModule('chore_board')}
@@ -454,12 +461,6 @@ export default function App() {
                   <ChoreBoard
                     wallet={profile.wallet}
                     onAddMoney={handleAddMoney}
-                    onAddStars={handleAddStars}
-                    onNextModule={() => navigateToModule('interest_magic')}
-                  />
-                )}
-                {activeModuleId === 'interest_magic' && (
-                  <InterestMagic
                     onAddStars={handleAddStars}
                     onNextModule={() => navigateToModule('toy_tradeoff')}
                   />
@@ -473,13 +474,12 @@ export default function App() {
                 {activeModuleId === 'receipt_math' && (
                   <ReceiptMatcher
                     onAddStars={handleAddStars}
-                    onNextModule={() => navigateToModule('giving_station')}
+                    onNextModule={() => navigateToModule('interest_magic')}
                   />
                 )}
-                {activeModuleId === 'giving_station' && (
-                  <DonationStation
+                {activeModuleId === 'interest_magic' && (
+                  <InterestMagic
                     onAddStars={handleAddStars}
-                    onAddMoney={handleAddMoney}
                     onNextModule={() => navigateToModule('smart_quiz')}
                   />
                 )}

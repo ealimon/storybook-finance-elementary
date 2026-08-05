@@ -222,7 +222,7 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
                           onClick={onNextModule}
                           className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-800 active:translate-y-0.5 transition-all cursor-pointer animate-pulse"
                         >
-                          <span>NEXT: Chore Board Builder</span>
+                          <span>NEXT: The 3-Jar Budget</span>
                           <ArrowRight size={14} />
                         </button>
                       )}

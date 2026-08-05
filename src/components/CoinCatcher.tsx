@@ -167,7 +167,7 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
                   onClick={onNextModule}
                   className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-display font-bold text-sm px-6 py-3 rounded-2xl shadow-lg transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 cursor-pointer border border-emerald-400/40 animate-bounce"
                 >
-                  <span>Next: Needs vs. Wants</span>
+                  <span>Next: Donation Station</span>
                   <span className="text-lg">➡️</span>
                 </button>
               )}

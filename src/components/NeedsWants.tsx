@@ -243,7 +243,7 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
                           onClick={onNextModule}
                           className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-6 py-3 rounded-2xl text-base shadow-lg border-b-4 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce cursor-pointer"
                         >
-                          <span>NEXT: The 3-Jar Budget</span> <ArrowRight size={18} />
+                          <span>NEXT: Sweet Shop Spend</span> <ArrowRight size={18} />
                         </button>
                       )}
                     </div>

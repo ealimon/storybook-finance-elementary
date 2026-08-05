@@ -466,7 +466,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
                           onClick={onNextModule}
                           className="flex items-center gap-1.5 bg-white text-emerald-800 hover:bg-emerald-50 font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-200 cursor-pointer animate-pulse"
                         >
-                          <span>NEXT: Sweet Shop</span>
+                          <span>NEXT: Chore Board Builder</span>
                           <ArrowRight size={14} />
                         </button>
                       </>
