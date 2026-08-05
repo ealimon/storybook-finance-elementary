@@ -22,6 +22,7 @@ export interface ModuleDefinition {
   iconName: string; // Lucide icon name mapping
   category: 'Earn' | 'Save' | 'Spend' | 'Give' | 'Basics' | 'Quiz';
   difficulty: 'Elementary' | 'Middle' | 'High';
+  gradeLevel: 'Grade K–1' | 'Grade 1–2' | 'Grade 2–3' | 'Grade 3–4' | 'Grade 4–5' | 'Grade 3–5';
   starsReward: number;
 }
 

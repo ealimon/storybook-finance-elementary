@@ -11,6 +11,7 @@ interface Question {
 interface WorksheetData {
   title: string;
   topic: string;
+  gradeLevelTarget?: string;
   questions: Question[];
 }
 
@@ -18,6 +19,7 @@ const WORKSHEETS_BY_MODULE: Record<string, WorksheetData> = {
   coin_matching: {
     title: 'Coin Matcher & Value Worksheet',
     topic: 'Money Basics & Counting Coins',
+    gradeLevelTarget: 'Grade K–1 (Ages 5–7)',
     questions: [
       {
         question: 'Q1: Count the total: 2 Quarters (25¢ each), 3 Dimes (10¢ each), and 2 Nickels (5¢ each). How many cents is that in total?',
@@ -52,6 +54,7 @@ const WORKSHEETS_BY_MODULE: Record<string, WorksheetData> = {
   needs_wants: {
     title: 'Needs vs. Wants Essential Sorting Worksheet',
     topic: 'Identifying essential Needs vs. fun Wants',
+    gradeLevelTarget: 'Grade 1–2 (Ages 6–8)',
     questions: [
       {
         question: 'Q1: Which of the following is a vital NEED that your body must have to survive?',
@@ -86,6 +89,7 @@ const WORKSHEETS_BY_MODULE: Record<string, WorksheetData> = {
   three_jars: {
     title: 'The 3-Jar Budgeting Worksheet',
     topic: 'Save, Spend, Give Allocation',
+    gradeLevelTarget: 'Grade 2–3 (Ages 7–9)',
     questions: [
       {
         question: 'Q1: If you receive $10.00 allowance and want to divide it, you put $5.00 in your SAVE jar and $3.00 in your SPEND jar. How much money is left over for your GIVE jar?',
@@ -120,6 +124,7 @@ const WORKSHEETS_BY_MODULE: Record<string, WorksheetData> = {
   sweet_shop: {
     title: 'Sweet Shop Smart Spending Worksheet',
     topic: 'Budgeting & Smart Spending',
+    gradeLevelTarget: 'Grade 1–2 (Ages 6–8)',
     questions: [
       {
         question: 'Q1: You have a $3.00 spending budget. You buy a giant lollipop for $1.20 and a chocolate chip cookie for $1.50. What is the total cost of your purchases?',
@@ -153,6 +158,7 @@ const WORKSHEETS_BY_MODULE: Record<string, WorksheetData> = {
   chore_board: {
     title: 'Chore Board Earnings & Responsibilities Worksheet',
     topic: 'Earning & Work Ethic',
+    gradeLevelTarget: 'Grade 2–3 (Ages 7–9)',
     questions: [
       {
         question: 'Q1: If you earn $2.50 for cleaning your bedroom and $1.50 for feeding the pets, how much total allowance did you earn?',
@@ -185,6 +191,7 @@ const WORKSHEETS_BY_MODULE: Record<string, WorksheetData> = {
   interest_magic: {
     title: 'Magic Money Sprout (Interest & Growth) Worksheet',
     topic: 'Interest & Multiplication',
+    gradeLevelTarget: 'Grade 4–5 (Ages 9–11)',
     questions: [
       {
         question: 'Q1: What do we call the extra reward pennies that a savings bank pays you as a thank-you for keeping your money saved in their bank?',
@@ -219,6 +226,7 @@ const WORKSHEETS_BY_MODULE: Record<string, WorksheetData> = {
   toy_tradeoff: {
     title: 'The Great Toy Trade-off (Delayed Gratification) Worksheet',
     topic: 'Delayed Gratification',
+    gradeLevelTarget: 'Grade 3–4 (Ages 8–10)',
     questions: [
       {
         question: 'Q1: What does "delaying gratification" mean?',
@@ -254,6 +262,7 @@ const WORKSHEETS_BY_MODULE: Record<string, WorksheetData> = {
   receipt_math: {
     title: 'Receipt Math & Change Calculation Worksheet',
     topic: 'Simple Adding & Receipts',
+    gradeLevelTarget: 'Grade 3–4 (Ages 8–10)',
     questions: [
       {
         question: 'Q1: Find the total sum of this lunch receipt: Apple ($0.55) + Sandwich ($3.10) + Milk Carton ($0.85) = _____',
@@ -286,6 +295,7 @@ const WORKSHEETS_BY_MODULE: Record<string, WorksheetData> = {
   giving_station: {
     title: 'Donation Station & Philanthropy Worksheet',
     topic: 'Philanthropy & Giving Back',
+    gradeLevelTarget: 'Grade K–1 (Ages 5–7)',
     questions: [
       {
         question: 'Q1: What is philanthropy (or charity and donating)?',
@@ -319,6 +329,7 @@ const WORKSHEETS_BY_MODULE: Record<string, WorksheetData> = {
   smart_quiz: {
     title: 'Smart Saver Quiz & Financial Literacy Degree Worksheet',
     topic: 'General Financial Literacy Review',
+    gradeLevelTarget: 'Grade 3–5 (Ages 8–11)',
     questions: [
       {
         question: 'Q1: What is the main difference between a NEED and a WANT?',
@@ -923,7 +934,12 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               <span>Elementary Financial Literacy Worksheet</span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-display text-slate-900 mt-1">{sheet.title}</h3>
-            <p className="text-sm sm:text-xs text-slate-600 font-mono mt-1">Topic: {sheet.topic}</p>
+            <div className="flex flex-wrap items-center gap-2 mt-1.5">
+              <span className="bg-indigo-100 text-indigo-900 border border-indigo-200 text-xs font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1">
+                🏫 Recommended: {sheet.gradeLevelTarget || 'Elementary (K–5)'}
+              </span>
+              <span className="text-xs text-slate-600 font-mono">Topic: {sheet.topic}</span>
+            </div>
           </div>
           <div className="no-print mt-3 sm:mt-0 flex gap-2.5 w-full sm:w-auto">
             <button
