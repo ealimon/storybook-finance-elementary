@@ -744,12 +744,12 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               padding: 0 !important;
               -webkit-print-color-adjust: exact !important;
               print-color-adjust: exact !important;
-              font-size: 12px !important;
+              font-size: 13px !important;
               font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
             }
             @page {
               size: letter;
-              margin: 0.28in 0.35in 0.28in 0.35in !important;
+              margin: 0.3in 0.4in 0.3in 0.4in !important;
             }
             .no-print {
               display: none !important;
@@ -768,23 +768,23 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
             #print-worksheet-wrapper .border-b-4 {
               border-bottom-width: 2px !important;
               border-color: #cbd5e1 !important;
-              padding-bottom: 0.25rem !important;
-              margin-bottom: 0.4rem !important;
+              padding-bottom: 0.35rem !important;
+              margin-bottom: 0.5rem !important;
             }
             #print-worksheet-wrapper .border-t-4 {
               border-top-width: 1.5px !important;
               border-color: #cbd5e1 !important;
-              margin-top: 0.3rem !important;
-              padding-top: 0.2rem !important;
+              margin-top: 0.4rem !important;
+              padding-top: 0.3rem !important;
             }
 
             /* Student Name and Date: convert to classic elegant lines */
-            #print-worksheet-wrapper .bg-indigo-50\\/50 {
+            #print-worksheet-wrapper .bg-indigo-50\/50 {
               background: transparent !important;
               border: none !important;
               padding: 0 !important;
-              margin-bottom: 0.4rem !important;
-              gap: 0.75rem !important;
+              margin-bottom: 0.5rem !important;
+              gap: 1rem !important;
             }
             #print-worksheet-wrapper input#worksheet-student-name-input,
             #print-worksheet-wrapper input#worksheet-date-input {
@@ -794,8 +794,8 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               border-bottom: 1px dashed #64748b !important;
               border-radius: 0 !important;
               background: transparent !important;
-              padding: 0 0 1px 0.25rem !important;
-              font-size: 0.9rem !important;
+              padding: 0 0 2px 0.25rem !important;
+              font-size: 0.98rem !important;
               font-weight: 700 !important;
               box-shadow: none !important;
             }
@@ -804,26 +804,26 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               color: transparent !important;
             }
 
-            /* Compress margins and paddings for single letter page fit with larger fonts */
+            /* Spacing and margins optimized to fill letter page cleanly */
             #print-worksheet-wrapper .space-y-6,
             #print-worksheet-wrapper .space-y-4 {
               margin-top: 0 !important;
             }
             #print-worksheet-wrapper .space-y-6 > * + *,
             #print-worksheet-wrapper .space-y-4 > * + * {
-              margin-top: 0.25rem !important;
+              margin-top: 0.4rem !important;
             }
             #print-worksheet-wrapper h3 {
-              font-size: 1.25rem !important;
+              font-size: 1.4rem !important;
               color: #1e1b4b !important;
               margin-top: 0.05rem !important;
               font-weight: 800 !important;
             }
             #print-worksheet-wrapper h4 {
-              font-size: 0.92rem !important;
-              margin-bottom: 0.2rem !important;
+              font-size: 1.02rem !important;
+              margin-bottom: 0.25rem !important;
               color: #0f172a !important;
-              line-height: 1.25 !important;
+              line-height: 1.35 !important;
               font-weight: 700 !important;
             }
             #print-worksheet-wrapper .text-slate-400 {
@@ -833,7 +833,7 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
             /* Custom styling for question cards */
             #print-worksheet-wrapper .p-5,
             #print-worksheet-wrapper .p-4 {
-              padding: 0.35rem 0.55rem !important;
+              padding: 0.55rem 0.75rem !important;
               border-radius: 6px !important;
               border: 1px solid #cbd5e1 !important;
               background: #f8fafc !important;
@@ -846,8 +846,8 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               background-color: #e0e7ff !important;
               color: #3730a3 !important;
               font-weight: 800 !important;
-              padding: 0.05rem 0.35rem !important;
-              font-size: 0.75rem !important;
+              padding: 0.1rem 0.45rem !important;
+              font-size: 0.82rem !important;
               border-radius: 4px !important;
             }
 
@@ -859,10 +859,10 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               border-bottom: 1px dashed #64748b !important;
               border-radius: 0 !important;
               background: transparent !important;
-              width: 150px !important;
+              width: 170px !important;
               padding: 0 0.25rem !important;
               margin-left: 0.5rem !important;
-              font-size: 0.88rem !important;
+              font-size: 0.95rem !important;
               font-weight: bold !important;
               color: #0f172a !important;
               box-shadow: none !important;
@@ -875,15 +875,15 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
             #print-worksheet-wrapper textarea[id^="textarea-worksheet-text-"] {
               border: none !important;
               border-radius: 0 !important;
-              background: repeating-linear-gradient(transparent, transparent 16px, #cbd5e1 16px, #cbd5e1 17px) !important;
-              line-height: 17px !important;
-              height: 34px !important;
+              background: repeating-linear-gradient(transparent, transparent 20px, #cbd5e1 20px, #cbd5e1 21px) !important;
+              line-height: 21px !important;
+              height: 42px !important;
               padding: 0 !important;
-              margin-top: 0.2rem !important;
+              margin-top: 0.25rem !important;
               box-shadow: none !important;
               resize: none !important;
               color: #0f172a !important;
-              font-size: 0.88rem !important;
+              font-size: 0.95rem !important;
               font-weight: 600 !important;
             }
             #print-worksheet-wrapper textarea[id^="textarea-worksheet-text-"]::placeholder {
@@ -894,13 +894,13 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
             #print-worksheet-wrapper .grid-cols-2,
             #print-worksheet-wrapper .grid {
               grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-              gap: 0.25rem !important;
-              margin-top: 0.15rem !important;
+              gap: 0.35rem !important;
+              margin-top: 0.2rem !important;
             }
             #print-worksheet-wrapper .grid-cols-2 button,
             #print-worksheet-wrapper button[id^="btn-worksheet-option-"] {
-              padding: 0.2rem 0.45rem !important;
-              font-size: 0.82rem !important;
+              padding: 0.32rem 0.6rem !important;
+              font-size: 0.9rem !important;
               font-weight: 600 !important;
               border-radius: 5px !important;
               border: 1px solid #cbd5e1 !important;
@@ -911,14 +911,14 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               align-items: center !important;
               justify-content: flex-start !important;
               box-shadow: none !important;
-              line-height: 1.2 !important;
+              line-height: 1.25 !important;
             }
             /* Add standard checkbox or bubble circle before choice in print */
             #print-worksheet-wrapper .grid-cols-2 button::before,
             #print-worksheet-wrapper button[id^="btn-worksheet-option-"]::before {
               content: "○ " !important;
-              font-size: 0.85rem !important;
-              margin-right: 0.3rem !important;
+              font-size: 0.95rem !important;
+              margin-right: 0.35rem !important;
               color: #64748b !important;
               font-weight: normal !important;
             }
