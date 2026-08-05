@@ -27,7 +27,6 @@ import ReceiptMatcher from './components/ReceiptMatcher';
 import DonationStation from './components/DonationStation';
 import SmartSaverQuiz from './components/SmartSaverQuiz';
 import ModuleWorksheet from './components/ModuleWorksheet';
-import TptSellerKit from './components/TptSellerKit';
 
 import { UserProfile, ModuleDefinition } from './types';
 
@@ -64,7 +63,6 @@ export default function App() {
 
   const [activeModuleId, setActiveModuleId] = useState<string>('coin_matching');
   const [viewingWorksheet, setViewingWorksheet] = useState<boolean>(false);
-  const [isTptOpen, setIsTptOpen] = useState<boolean>(false);
 
   const handleAddMoney = (amount: number) => {
     setProfile(prev => ({
@@ -127,13 +125,6 @@ export default function App() {
           </div>
         </div>
         <div className="flex items-center gap-3 text-xs font-semibold text-slate-300 flex-wrap justify-center">
-          <button
-            id="btn-tpt-kit-trigger"
-            onClick={() => setIsTptOpen(true)}
-            className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 sm:px-3.5 sm:py-1.5 rounded-full transition-all text-xs font-bold shadow cursor-pointer border border-indigo-500/30"
-          >
-            🍎 Teacher Resource Desk
-          </button>
           <span className="flex items-center gap-1 bg-slate-800 px-3.5 py-2 sm:py-1.5 rounded-full text-lime-400 border border-slate-700 text-xs">
             🟢 Active Learning Suite
           </span>
@@ -414,9 +405,6 @@ export default function App() {
           © 2026 Storybook Education • All Rights Reserved
         </div>
       </footer>
-
-      {/* TPT SELLER DESK COMPONENT MODAL */}
-      <TptSellerKit isOpen={isTptOpen} onClose={() => setIsTptOpen(false)} />
 
     </div>
   );
