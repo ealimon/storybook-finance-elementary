@@ -31,16 +31,16 @@ import ModuleWorksheet from './components/ModuleWorksheet';
 import { UserProfile, ModuleDefinition } from './types';
 
 const MODULES_LIST: ModuleDefinition[] = [
-  { id: 'coin_matching', title: '1. Coin Matcher', description: 'Count coins to match targets', iconName: 'Coins', category: 'Basics', difficulty: 'Elementary', gradeLevel: 'Grade K–1', starsReward: 5 },
-  { id: 'giving_station', title: '2. Donation Station', description: 'Give spare coins to local charities', iconName: 'Heart', category: 'Give', difficulty: 'Elementary', gradeLevel: 'Grade K–1', starsReward: 5 },
-  { id: 'needs_wants', title: '3. Needs vs. Wants', description: 'Sort survival needs vs. desires', iconName: 'Heart', category: 'Basics', difficulty: 'Elementary', gradeLevel: 'Grade 1–2', starsReward: 10 },
-  { id: 'sweet_shop', title: '4. Sweet Shop Spend', description: 'Buy sweet treats under budget', iconName: 'ShoppingBag', category: 'Spend', difficulty: 'Elementary', gradeLevel: 'Grade 1–2', starsReward: 8 },
-  { id: 'three_jars', title: '5. The 3-Jar Budget', description: 'Split weekly cash allowance', iconName: 'PiggyBank', category: 'Save', difficulty: 'Elementary', gradeLevel: 'Grade 2–3', starsReward: 10 },
-  { id: 'chore_board', title: '6. Chore Board Builder', description: 'Earn dollars through responsibility', iconName: 'CheckSquare', category: 'Earn', difficulty: 'Elementary', gradeLevel: 'Grade 2–3', starsReward: 12 },
-  { id: 'toy_tradeoff', title: '7. Great Toy Trade-off', description: 'Wait patiently for cooler rewards', iconName: 'Gift', category: 'Save', difficulty: 'Elementary', gradeLevel: 'Grade 3–4', starsReward: 10 },
-  { id: 'receipt_math', title: '8. Receipt Adder Match', description: 'Add shopping bills correctly', iconName: 'FileText', category: 'Basics', difficulty: 'Elementary', gradeLevel: 'Grade 3–4', starsReward: 8 },
-  { id: 'interest_magic', title: '9. Magic Money Sprout', description: 'Watch interest multiply savings', iconName: 'TrendingUp', category: 'Save', difficulty: 'Elementary', gradeLevel: 'Grade 4–5', starsReward: 10 },
-  { id: 'smart_quiz', title: '10. Smart Saver Quiz', description: 'Pass trivia & unlock your degree!', iconName: 'Award', category: 'Quiz', difficulty: 'Elementary', gradeLevel: 'Grade 3–5', starsReward: 25 }
+  { id: 'coin_matching', title: '1. Coin Matcher', description: 'Count coins and match target amounts', iconName: 'Coins', category: 'Basics', difficulty: 'Elementary', gradeLevel: 'Grade 2–3', starsReward: 5 },
+  { id: 'giving_station', title: '2. Donation Station', description: 'Calculate spare coin donations to local charities', iconName: 'Heart', category: 'Give', difficulty: 'Elementary', gradeLevel: 'Grade 2–3', starsReward: 5 },
+  { id: 'needs_wants', title: '3. Needs vs. Wants', description: 'Categorize essential survival needs vs. desires', iconName: 'Heart', category: 'Basics', difficulty: 'Elementary', gradeLevel: 'Grade 2–3', starsReward: 10 },
+  { id: 'sweet_shop', title: '4. Sweet Shop Spend', description: 'Calculate totals and buy treats under budget', iconName: 'ShoppingBag', category: 'Spend', difficulty: 'Elementary', gradeLevel: 'Grade 2–3', starsReward: 8 },
+  { id: 'three_jars', title: '5. The 3-Jar Budget', description: 'Split weekly cash allowance into Save, Spend, Give', iconName: 'PiggyBank', category: 'Save', difficulty: 'Elementary', gradeLevel: 'Grade 2–3', starsReward: 10 },
+  { id: 'chore_board', title: '6. Chore Board Builder', description: 'Earn dollars through home & classroom responsibilities', iconName: 'CheckSquare', category: 'Earn', difficulty: 'Elementary', gradeLevel: 'Grade 2–3', starsReward: 12 },
+  { id: 'toy_tradeoff', title: '7. Great Toy Trade-off', description: 'Practice delayed gratification for higher rewards', iconName: 'Gift', category: 'Save', difficulty: 'Elementary', gradeLevel: 'Grade 3–4', starsReward: 10 },
+  { id: 'receipt_math', title: '8. Receipt Adder Match', description: 'Add shopping bills and compute correct change', iconName: 'FileText', category: 'Basics', difficulty: 'Elementary', gradeLevel: 'Grade 3–4', starsReward: 8 },
+  { id: 'smart_quiz', title: '9. Smart Saver Quiz', description: 'Solve financial literacy scenarios & earn your degree!', iconName: 'Award', category: 'Quiz', difficulty: 'Elementary', gradeLevel: 'Grade 3–5', starsReward: 25 },
+  { id: 'interest_magic', title: '10. Magic Money Sprout', description: 'Calculate compound interest to multiply savings', iconName: 'TrendingUp', category: 'Save', difficulty: 'Elementary', gradeLevel: 'Grade 4–5', starsReward: 10 }
 ];
 
 export default function App() {
@@ -63,16 +63,14 @@ export default function App() {
 
   const [activeModuleId, setActiveModuleId] = useState<string>('coin_matching');
   const [viewingWorksheet, setViewingWorksheet] = useState<boolean>(false);
-  const [gradeFilter, setGradeFilter] = useState<'ALL' | 'K-1' | '1-2' | '2-3' | '3-4' | '4-5'>('ALL');
+  const [gradeFilter, setGradeFilter] = useState<'ALL' | '2-3' | '3-4' | '4-5'>('ALL');
   const [showTeacherGuide, setShowTeacherGuide] = useState<boolean>(false);
 
   const getGradeColorBadge = (gradeLevel: string) => {
-    if (gradeLevel.includes('K–1')) return 'bg-amber-100 text-amber-900 border-amber-300';
-    if (gradeLevel.includes('1–2')) return 'bg-sky-100 text-sky-900 border-sky-300';
     if (gradeLevel.includes('2–3')) return 'bg-emerald-100 text-emerald-900 border-emerald-300';
     if (gradeLevel.includes('3–4')) return 'bg-purple-100 text-purple-900 border-purple-300';
     if (gradeLevel.includes('4–5')) return 'bg-indigo-100 text-indigo-900 border-indigo-300';
-    return 'bg-rose-100 text-rose-900 border-rose-300';
+    return 'bg-teal-100 text-teal-900 border-teal-300';
   };
 
   const renderGradeBadge = (gradeLevelStr: string, extraClasses: string = '') => {
@@ -166,7 +164,7 @@ export default function App() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-5 relative z-10">
             <div>
               <span className="text-xs font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full bg-white/40 text-emerald-950 inline-block">
-                Elementary School Modules (K-5)
+                Elementary School Modules (Grades 2-5)
               </span>
               <h1 className="text-3xl sm:text-4xl font-display font-extrabold mt-2 text-slate-950">
                 Storybook Finance Suite
@@ -222,8 +220,8 @@ export default function App() {
             <div className="flex items-center gap-2">
               <span className="text-xl">🍎</span>
               <div>
-                <h3 className="text-sm font-display font-bold text-amber-950">Teacher's K–5 Grade Level Curriculum Map</h3>
-                <p className="text-xs text-amber-800 font-medium">All 10 modules are aligned with Elementary Financial Literacy standards across Grades K through 5.</p>
+                <h3 className="text-sm font-display font-bold text-amber-950">Teacher's Grade 2–5 Curriculum Map</h3>
+                <p className="text-xs text-amber-800 font-medium">All 10 modules are aligned with Grade 2 through 5 reading and elementary financial literacy standards.</p>
               </div>
             </div>
             <button
@@ -238,21 +236,21 @@ export default function App() {
           {showTeacherGuide && (
             <div className="mt-4 pt-3 border-t border-amber-200/80 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-amber-950">
               <div className="bg-white/80 p-3 rounded-xl border border-amber-200">
-                <span className="font-bold text-amber-900 block mb-1">🐣 Primary (Grades K–2)</span>
+                <span className="font-bold text-amber-900 block mb-1">🌱 Lower Elementary (Grades 2–3)</span>
                 <p className="text-slate-700 leading-relaxed">
-                  Focuses on concrete coin identification (Coin Matcher), basic physical sorting of Needs vs. Wants, and simple allowance budgeting in the Sweet Shop & Donation Station.
+                  Focuses on reading-based coin counting (Coin Matcher), calculating community donations (Donation Station), analyzing Needs vs. Wants, and budgeting in the Sweet Shop & 3-Jar system.
                 </p>
               </div>
               <div className="bg-white/80 p-3 rounded-xl border border-amber-200">
-                <span className="font-bold text-amber-900 block mb-1">🌱 Intermediate (Grades 2–4)</span>
+                <span className="font-bold text-amber-900 block mb-1">🌿 Intermediate (Grades 3–4)</span>
                 <p className="text-slate-700 leading-relaxed">
-                  Introduces 3-Jar budgeting (Save/Spend/Give), earning through responsible home/classroom chores, receipt math, and practicing delayed gratification (Toy Trade-off).
+                  Introduces earning through responsible home/classroom chores, receipt addition & change calculation, and practicing delayed gratification (Toy Trade-off).
                 </p>
               </div>
               <div className="bg-white/80 p-3 rounded-xl border border-amber-200">
                 <span className="font-bold text-amber-900 block mb-1">🚀 Upper Elementary (Grades 4–5)</span>
                 <p className="text-slate-700 leading-relaxed">
-                  Covers compound growth with the Magic Money Sprout interest multiplier and tests comprehensive financial knowledge with the Smart Saver Degree Quiz.
+                  Covers compound growth with the Magic Money Sprout interest multiplier and evaluates comprehensive financial literacy reading and problem-solving in the Smart Saver Degree Quiz.
                 </p>
               </div>
             </div>
@@ -276,9 +274,7 @@ export default function App() {
               <div className="flex items-center gap-1.5 mb-3.5 flex-wrap">
                 <span className="text-xs font-bold text-slate-500 mr-1">Filter Grade:</span>
                 {[
-                  { id: 'ALL', label: 'All (K-5)' },
-                  { id: 'K-1', label: 'K–1' },
-                  { id: '1-2', label: '1–2' },
+                  { id: 'ALL', label: 'All (2-5)' },
                   { id: '2-3', label: '2–3' },
                   { id: '3-4', label: '3–4' },
                   { id: '4-5', label: '4–5' }
@@ -301,8 +297,6 @@ export default function App() {
               <div className="space-y-2.5 max-h-[500px] overflow-y-auto pr-1">
                 {MODULES_LIST.filter(mod => {
                   if (gradeFilter === 'ALL') return true;
-                  if (gradeFilter === 'K-1') return mod.gradeLevel.includes('K–1');
-                  if (gradeFilter === '1-2') return mod.gradeLevel.includes('1–2');
                   if (gradeFilter === '2-3') return mod.gradeLevel.includes('2–3');
                   if (gradeFilter === '3-4') return mod.gradeLevel.includes('3–4');
                   if (gradeFilter === '4-5') return mod.gradeLevel.includes('4–5') || mod.gradeLevel.includes('3–5');
@@ -474,17 +468,17 @@ export default function App() {
                 {activeModuleId === 'receipt_math' && (
                   <ReceiptMatcher
                     onAddStars={handleAddStars}
-                    onNextModule={() => navigateToModule('interest_magic')}
-                  />
-                )}
-                {activeModuleId === 'interest_magic' && (
-                  <InterestMagic
-                    onAddStars={handleAddStars}
                     onNextModule={() => navigateToModule('smart_quiz')}
                   />
                 )}
                 {activeModuleId === 'smart_quiz' && (
                   <SmartSaverQuiz
+                    onAddStars={handleAddStars}
+                    onNextModule={() => navigateToModule('interest_magic')}
+                  />
+                )}
+                {activeModuleId === 'interest_magic' && (
+                  <InterestMagic
                     onAddStars={handleAddStars}
                     onNextModule={() => navigateToModule('coin_matching')}
                   />

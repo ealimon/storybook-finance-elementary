@@ -54,8 +54,8 @@ export default function DonationStation({ onAddStars, onAddMoney, onNextModule }
             <span className="text-xs font-bold uppercase tracking-wider bg-rose-100 text-rose-800 px-3 py-1 rounded-full">
               Module 2: Giving & Sharing
             </span>
-            <span className="text-[10px] font-extrabold bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-lg">
-              Grade K–1 Friendly
+            <span className="text-[10px] font-extrabold bg-emerald-100 text-emerald-900 border border-emerald-300 px-2 py-0.5 rounded-lg">
+              Grade 2–3 Level
             </span>
           </div>
           <h2 className="text-2xl md:text-3xl font-display text-slate-800 mt-1">Donation Station (Sharing & Helping)</h2>

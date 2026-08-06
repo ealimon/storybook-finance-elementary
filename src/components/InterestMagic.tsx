@@ -55,7 +55,7 @@ export default function InterestMagic({ onAddStars, onNextModule }: InterestMagi
       <div className="flex flex-col md:flex-row justify-between items-center mb-6">
         <div>
           <span className="text-xs font-bold uppercase tracking-wider bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">
-            Module 6: Saving Magic
+            Module 10: Saving Magic
           </span>
           <h2 className="text-2xl md:text-3xl font-display text-slate-800 mt-1">The Magic Money Sprout (Interest)</h2>
           <p className="text-sm text-slate-600">See how $10 left in the bank grows over time vs. hiding it under a mattress!</p>
@@ -193,7 +193,7 @@ export default function InterestMagic({ onAddStars, onNextModule }: InterestMagi
                         onClick={onNextModule}
                         className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce cursor-pointer"
                       >
-                        NEXT: Smart Saver Quiz <ArrowRight size={14} />
+                        NEXT: Restart Coin Matcher 🪙 <ArrowRight size={14} />
                       </button>
                     )}
                   </div>

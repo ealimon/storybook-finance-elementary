@@ -19,7 +19,7 @@ const WORKSHEETS_BY_MODULE: Record<string, WorksheetData> = {
   coin_matching: {
     title: 'Coin Matcher & Value Worksheet',
     topic: 'Money Basics & Counting Coins',
-    gradeLevelTarget: 'Grade K–1 (Ages 5–7)',
+    gradeLevelTarget: 'Grade 2–3 (Ages 7–9)',
     questions: [
       {
         question: 'Q1: Count the total: 2 Quarters (25¢ each), 3 Dimes (10¢ each), and 2 Nickels (5¢ each). How many cents is that in total?',
@@ -54,7 +54,7 @@ const WORKSHEETS_BY_MODULE: Record<string, WorksheetData> = {
   needs_wants: {
     title: 'Needs vs. Wants Essential Sorting Worksheet',
     topic: 'Identifying essential Needs vs. fun Wants',
-    gradeLevelTarget: 'Grade 1–2 (Ages 6–8)',
+    gradeLevelTarget: 'Grade 2–3 (Ages 7–9)',
     questions: [
       {
         question: 'Q1: Which of the following is a vital NEED that your body must have to survive?',
@@ -124,7 +124,7 @@ const WORKSHEETS_BY_MODULE: Record<string, WorksheetData> = {
   sweet_shop: {
     title: 'Sweet Shop Smart Spending Worksheet',
     topic: 'Budgeting & Smart Spending',
-    gradeLevelTarget: 'Grade 1–2 (Ages 6–8)',
+    gradeLevelTarget: 'Grade 2–3 (Ages 7–9)',
     questions: [
       {
         question: 'Q1: You have a $3.00 spending budget. You buy a giant lollipop for $1.20 and a chocolate chip cookie for $1.50. What is the total cost of your purchases?',
@@ -295,7 +295,7 @@ const WORKSHEETS_BY_MODULE: Record<string, WorksheetData> = {
   giving_station: {
     title: 'Donation Station & Philanthropy Worksheet',
     topic: 'Philanthropy & Giving Back',
-    gradeLevelTarget: 'Grade K–1 (Ages 5–7)',
+    gradeLevelTarget: 'Grade 2–3 (Ages 7–9)',
     questions: [
       {
         question: 'Q1: What is philanthropy (or charity and donating)?',
@@ -950,7 +950,7 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
             <h3 className="text-2xl sm:text-3xl font-display text-slate-900 mt-0.5 font-black">{sheet.title}</h3>
             <div className="flex flex-wrap items-center gap-2 mt-1">
               <span className="bg-indigo-100 text-indigo-900 border border-indigo-200 text-xs font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1">
-                🏫 Recommended: {sheet.gradeLevelTarget || 'Elementary (K–5)'}
+                🏫 Recommended: {sheet.gradeLevelTarget || 'Elementary (Grades 2–5)'}
               </span>
               <span className="text-xs text-slate-600 font-mono font-medium">Topic: {sheet.topic}</span>
             </div>
