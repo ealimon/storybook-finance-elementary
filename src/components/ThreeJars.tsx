@@ -127,20 +127,9 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
   };
 
   // Calculate cumulative jar totals across allocated months plus active month live preview
-  const totalSave = allocations.reduce((sum, m, idx) => {
-    if (idx === activeMonthIndex && !m.allocated) return sum + monthSave;
-    return sum + (m.allocated ? (idx === activeMonthIndex ? monthSave : m.save) : 0);
-  }, 0);
-
-  const totalSpend = allocations.reduce((sum, m, idx) => {
-    if (idx === activeMonthIndex && !m.allocated) return sum + monthSpend;
-    return sum + (m.allocated ? (idx === activeMonthIndex ? monthSpend : m.spend) : 0);
-  }, 0);
-
-  const totalGive = allocations.reduce((sum, m, idx) => {
-    if (idx === activeMonthIndex && !m.allocated) return sum + monthGive;
-    return sum + (m.allocated ? (idx === activeMonthIndex ? monthGive : m.give) : 0);
-  }, 0);
+  const totalSave = allocations.reduce((sum, m, idx) => sum + (idx === activeMonthIndex ? monthSave : (m.allocated ? m.save : 0)), 0);
+  const totalSpend = allocations.reduce((sum, m, idx) => sum + (idx === activeMonthIndex ? monthSpend : (m.allocated ? m.spend : 0)), 0);
+  const totalGive = allocations.reduce((sum, m, idx) => sum + (idx === activeMonthIndex ? monthGive : (m.allocated ? m.give : 0)), 0);
   const allocatedMonthsCount = allocations.filter(m => m.allocated).length;
   const isYearComplete = allocatedMonthsCount === 12;
 

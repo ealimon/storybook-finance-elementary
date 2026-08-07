@@ -23,12 +23,13 @@ export default function DonationStation({ wallet = 10, onAddStars, onAddMoney, o
 
   const startingAllowance = wallet > 0 ? wallet : 10.00;
   const totalDonated = (Object.values(donations) as number[]).reduce((sum, val) => sum + val, 0);
-  const remainingAllowance = Math.max(0, Math.round((startingAllowance - totalDonated) * 100) / 100);
+  const rawRemaining = Math.round((startingAllowance - totalDonated) * 100) / 100;
+  const remainingAllowance = Math.max(0, rawRemaining);
 
   const currentCauseDonation = donations[selectedCause.id] || 0;
 
   const handleDonateCoins = (coins: number) => {
-    if (animating) return;
+    if (animating || coins > remainingAllowance) return;
     setAnimating(true);
 
     setTimeout(() => {
@@ -144,8 +145,8 @@ export default function DonationStation({ wallet = 10, onAddStars, onAddMoney, o
               <button
                 id="btn-donate-1-coin"
                 onClick={() => handleDonateCoins(1)}
-                disabled={animating}
-                className="bg-emerald-500 hover:bg-emerald-600 disabled:bg-slate-300 text-white font-display font-bold py-2.5 px-2 rounded-xl text-xs sm:text-sm border-b-4 border-emerald-700 active:translate-y-0.5 transition-all shadow-md flex flex-col items-center gap-0.5 cursor-pointer"
+                disabled={animating || remainingAllowance < 1}
+                className="bg-emerald-500 hover:bg-emerald-600 disabled:bg-slate-300 disabled:opacity-60 text-white font-display font-bold py-2.5 px-2 rounded-xl text-xs sm:text-sm border-b-4 border-emerald-700 disabled:border-slate-400 active:translate-y-0.5 transition-all shadow-md flex flex-col items-center gap-0.5 cursor-pointer disabled:cursor-not-allowed"
               >
                 <span className="text-base">🪙</span>
                 <span>Give $1</span>
@@ -153,8 +154,8 @@ export default function DonationStation({ wallet = 10, onAddStars, onAddMoney, o
               <button
                 id="btn-donate-2-coins"
                 onClick={() => handleDonateCoins(2)}
-                disabled={animating}
-                className="bg-blue-500 hover:bg-blue-600 disabled:bg-slate-300 text-white font-display font-bold py-2.5 px-2 rounded-xl text-xs sm:text-sm border-b-4 border-blue-700 active:translate-y-0.5 transition-all shadow-md flex flex-col items-center gap-0.5 cursor-pointer"
+                disabled={animating || remainingAllowance < 2}
+                className="bg-blue-500 hover:bg-blue-600 disabled:bg-slate-300 disabled:opacity-60 text-white font-display font-bold py-2.5 px-2 rounded-xl text-xs sm:text-sm border-b-4 border-blue-700 disabled:border-slate-400 active:translate-y-0.5 transition-all shadow-md flex flex-col items-center gap-0.5 cursor-pointer disabled:cursor-not-allowed"
               >
                 <span className="text-base">🪙🪙</span>
                 <span>Give $2</span>
@@ -162,16 +163,22 @@ export default function DonationStation({ wallet = 10, onAddStars, onAddMoney, o
               <button
                 id="btn-donate-5-coins"
                 onClick={() => handleDonateCoins(5)}
-                disabled={animating}
-                className="bg-purple-500 hover:bg-purple-600 disabled:bg-slate-300 text-white font-display font-bold py-2.5 px-2 rounded-xl text-xs sm:text-sm border-b-4 border-purple-700 active:translate-y-0.5 transition-all shadow-md flex flex-col items-center gap-0.5 cursor-pointer"
+                disabled={animating || remainingAllowance < 5}
+                className="bg-purple-500 hover:bg-purple-600 disabled:bg-slate-300 disabled:opacity-60 text-white font-display font-bold py-2.5 px-2 rounded-xl text-xs sm:text-sm border-b-4 border-purple-700 disabled:border-slate-400 active:translate-y-0.5 transition-all shadow-md flex flex-col items-center gap-0.5 cursor-pointer disabled:cursor-not-allowed"
               >
                 <span className="text-base">🪙🪙🪙</span>
                 <span>Give $5</span>
               </button>
             </div>
-            <p className="text-[10px] text-amber-900 mt-2 font-bold text-center">
-              🎁 Giving 1 or more coins unlocks 5 Gold Stars!
-            </p>
+            {remainingAllowance < 1 ? (
+              <p className="text-[11px] text-emerald-800 bg-emerald-100 p-1.5 rounded-lg mt-2 font-bold text-center border border-emerald-300">
+                🎉 All allowance shared with community projects!
+              </p>
+            ) : (
+              <p className="text-[10px] text-amber-900 mt-2 font-bold text-center">
+                🎁 Giving 1 or more coins unlocks 5 Gold Stars!
+              </p>
+            )}
           </div>
         </div>
 
