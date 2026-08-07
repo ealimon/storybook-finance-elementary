@@ -76,14 +76,14 @@ export default function ChoreBoard({ wallet, onAddMoney, onAddStars, onNextModul
         <div className="lg:col-span-4 bg-emerald-50 rounded-2xl p-5 border-2 border-emerald-100 flex flex-col justify-between">
           <div>
             <h3 className="font-display text-emerald-950 font-bold text-lg mb-2 flex items-center gap-1">
-              <Sparkles size={18} className="text-emerald-600" /> Active Piggy Wallet:
+              <Sparkles size={18} className="text-emerald-600" /> Your Chore Earnings:
             </h3>
             <div className="bg-white rounded-2xl p-4 border border-emerald-200 flex items-center justify-between shadow-sm">
               <div className="w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xl font-bold">
                 $
               </div>
               <div className="text-right">
-                <span className="text-xs text-slate-400 uppercase font-bold">Wallet Cash</span>
+                <span className="text-xs text-slate-400 uppercase font-bold">Total Earned</span>
                 <p className="font-mono text-2xl font-bold text-emerald-700">${wallet.toFixed(2)}</p>
               </div>
             </div>

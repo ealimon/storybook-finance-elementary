@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Star, ArrowRight, RefreshCw, Sparkles, Volume2, VolumeX, HandHeart, ShoppingBag, PiggyBank } from 'lucide-react';
+import { Star, ArrowRight, RefreshCw, Sparkles, Volume2, VolumeX, HandHeart, ShoppingBag, PiggyBank, Calendar, CheckCircle } from 'lucide-react';
 
 interface ThreeJarsProps {
   onAddStars: (stars: number) => void;
@@ -8,19 +8,36 @@ interface ThreeJarsProps {
   onNextModule?: () => void;
 }
 
-const GOALS = [
-  { id: 'teddy', name: 'Teddy Bear', price: 5.0, icon: '🧸' },
-  { id: 'lego', name: 'Lego Space Kit', price: 10.0, icon: '🚀' },
-  { id: 'skateboard', name: 'Skateboard', price: 15.0, icon: '🛹' },
+const MONTHS = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
+interface MonthAllocation {
+  save: number;
+  spend: number;
+  give: number;
+  allocated: boolean;
+}
+
+const createDefaultAllocations = (): MonthAllocation[] => {
+  return MONTHS.map(() => ({
+    save: 0,
+    spend: 0,
+    give: 0,
+    allocated: false,
+  }));
+};
+
 export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: ThreeJarsProps) {
-  const [selectedGoal, setSelectedGoal] = useState(GOALS[1]); // Lego $10
+  const [activeMonthIndex, setActiveMonthIndex] = useState<number>(0); // 0 = Jan
+  const [allocations, setAllocations] = useState<MonthAllocation[]>(createDefaultAllocations());
   
-  // Accumulated savings in the 3 Jars
-  const [saveJar, setSaveJar] = useState(2.0);
-  const [spendJar, setSpendJar] = useState(1.50);
-  const [giveJar, setGiveJar] = useState(0.50);
+  // Current month being edited
+  const currentAlloc = allocations[activeMonthIndex];
+  const [monthSave, setMonthSave] = useState<number>(currentAlloc.save);
+  const [monthSpend, setMonthSpend] = useState<number>(currentAlloc.spend);
+  const [monthGive, setMonthGive] = useState<number>(currentAlloc.give);
 
   const [starsAwarded, setStarsAwarded] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
@@ -28,7 +45,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
   // Dropping coin animations state
   const [animatingJar, setAnimatingJar] = useState<'save' | 'spend' | 'give' | 'all' | null>(null);
 
-  // Simple Audio sound
+  // Audio sound effect
   const playCoinSound = () => {
     if (!soundEnabled) return;
     try {
@@ -53,31 +70,79 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
     }
   };
 
-  // Auto split allowance: 50% Save ($2.50), 30% Spend ($1.50), 20% Give ($1.00)
-  const handleSplitAllowance = (amount: number = 5.00) => {
+  // Switch active month
+  const handleSelectMonth = (index: number) => {
+    setActiveMonthIndex(index);
+    setMonthSave(allocations[index].save);
+    setMonthSpend(allocations[index].spend);
+    setMonthGive(allocations[index].give);
+  };
+
+  // Adjust month allocation safely to keep total = $5.00
+  const monthTotal = Math.round((monthSave + monthSpend + monthGive) * 100) / 100;
+  const isMonthBalanced = Math.abs(monthTotal - 5.00) < 0.01;
+
+  // Confirm allocation for active month
+  const handleConfirmMonth = () => {
     playCoinSound();
     setAnimatingJar('all');
 
-    setSaveJar(prev => Math.round((prev + amount * 0.5) * 100) / 100);
-    setSpendJar(prev => Math.round((prev + amount * 0.3) * 100) / 100);
-    setGiveJar(prev => Math.round((prev + amount * 0.2) * 100) / 100);
+    const updated = [...allocations];
+    updated[activeMonthIndex] = {
+      save: monthSave,
+      spend: monthSpend,
+      give: monthGive,
+      allocated: true,
+    };
+    setAllocations(updated);
 
-    setTimeout(() => setAnimatingJar(null), 600);
+    setTimeout(() => {
+      setAnimatingJar(null);
+      if (activeMonthIndex < 11) {
+        handleSelectMonth(activeMonthIndex + 1);
+      }
+    }, 500);
   };
 
-  // Direct add money to jar
-  const handleAddJar = (jarType: 'save' | 'spend' | 'give', amount: number) => {
+  // Apply preset ratios to current month ($1 whole increments)
+  const applyPreset = (saveAmount: number, spendAmount: number, giveAmount: number) => {
     playCoinSound();
-    setAnimatingJar(jarType);
+    setMonthSave(saveAmount);
+    setMonthSpend(spendAmount);
+    setMonthGive(giveAmount);
+  };
 
-    if (jarType === 'save') setSaveJar(prev => Math.round((prev + amount) * 100) / 100);
-    if (jarType === 'spend') setSpendJar(prev => Math.round((prev + amount) * 100) / 100);
-    if (jarType === 'give') setGiveJar(prev => Math.round((prev + amount) * 100) / 100);
-
+  // Fill all remaining months with standard 3/1/1 split
+  const handleFillAllMonths = () => {
+    playCoinSound();
+    setAnimatingJar('all');
+    const updated = allocations.map(() => ({
+      save: 3,
+      spend: 1,
+      give: 1,
+      allocated: true,
+    }));
+    setAllocations(updated);
     setTimeout(() => setAnimatingJar(null), 600);
   };
 
-  const isGoalReached = saveJar >= selectedGoal.price;
+  // Calculate cumulative jar totals across allocated months plus active month live preview
+  const totalSave = allocations.reduce((sum, m, idx) => {
+    if (idx === activeMonthIndex && !m.allocated) return sum + monthSave;
+    return sum + (m.allocated ? (idx === activeMonthIndex ? monthSave : m.save) : 0);
+  }, 0);
+
+  const totalSpend = allocations.reduce((sum, m, idx) => {
+    if (idx === activeMonthIndex && !m.allocated) return sum + monthSpend;
+    return sum + (m.allocated ? (idx === activeMonthIndex ? monthSpend : m.spend) : 0);
+  }, 0);
+
+  const totalGive = allocations.reduce((sum, m, idx) => {
+    if (idx === activeMonthIndex && !m.allocated) return sum + monthGive;
+    return sum + (m.allocated ? (idx === activeMonthIndex ? monthGive : m.give) : 0);
+  }, 0);
+  const allocatedMonthsCount = allocations.filter(m => m.allocated).length;
+  const isYearComplete = allocatedMonthsCount === 12;
 
   const claimReward = () => {
     if (!starsAwarded) {
@@ -89,15 +154,15 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
   };
 
   const handleReset = () => {
-    setSaveJar(0);
-    setSpendJar(0);
-    setGiveJar(0);
+    setActiveMonthIndex(0);
+    setAllocations(createDefaultAllocations());
+    setMonthSave(0);
+    setMonthSpend(0);
+    setMonthGive(0);
     setStarsAwarded(false);
   };
 
-  const progressPercent = Math.min(100, Math.round((saveJar / selectedGoal.price) * 100));
-
-  const getFillHeight = (amount: number, max: number = 15) => {
+  const getFillHeight = (amount: number, max: number = 30) => {
     const ratio = Math.min(1, amount / max);
     return `${Math.max(14, Math.round(ratio * 100))}%`;
   };
@@ -109,17 +174,17 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
         <div>
           <div className="flex items-center gap-2">
             <span className="text-xs font-bold uppercase tracking-wider bg-purple-100 text-purple-800 px-3 py-1 rounded-full">
-              Module 5: Saving Goals
+              Module 5: 12-Month Allocation Plan
             </span>
             <span className="text-[10px] font-extrabold bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-lg">
-              3-Jar Method
+              3-Jar Method ($5 / month)
             </span>
           </div>
           <h2 className="text-2xl md:text-3xl font-display font-extrabold text-slate-800 mt-1">
-            The 3-Jar Budget
+            The 12-Month Budget Plan
           </h2>
           <p className="text-sm text-slate-600">
-            Split your allowance into <strong>Save</strong>, <strong>Spend</strong>, and <strong>Give</strong> jars!
+            Allocate your <strong>$5.00 monthly allowance</strong> across 12 months into <strong>Save</strong>, <strong>Spend</strong>, and <strong>Give</strong>!
           </p>
         </div>
         
@@ -140,92 +205,413 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
         </div>
       </div>
 
-      {/* STEP 1: PICK TOY GOAL */}
+      {/* MONTH SELECTOR BAR (January - December) */}
       <div className="bg-purple-50/80 p-3.5 rounded-2xl border-2 border-purple-100 mb-5">
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center justify-between mb-2.5">
           <h3 className="font-display text-purple-950 font-extrabold text-sm flex items-center gap-1.5">
-            <span>🎯</span> Step 1: Pick a Goal to Save For
+            <Calendar size={18} className="text-purple-600" /> Select a Month ({allocatedMonthsCount}/12 Allocated)
           </h3>
-          <span className="text-xs font-bold text-purple-700">
-            Goal: <span className="font-black text-purple-900">{selectedGoal.name} (${selectedGoal.price.toFixed(2)})</span>
-          </span>
+          <button
+            onClick={handleFillAllMonths}
+            className="text-xs font-bold text-purple-700 hover:text-purple-900 underline cursor-pointer"
+          >
+            ⚡ Auto-Fill All 12 Months (50/30/20)
+          </button>
         </div>
 
-        <div className="grid grid-cols-3 gap-2.5">
-          {GOALS.map((g) => {
-            const isSelected = selectedGoal.id === g.id;
+        <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-12 gap-1.5">
+          {MONTHS.map((month, idx) => {
+            const isSelected = activeMonthIndex === idx;
+            const isAllocated = allocations[idx].allocated;
+
             return (
               <button
-                key={g.id}
-                id={`btn-select-goal-${g.id}`}
-                onClick={() => {
-                  setSelectedGoal(g);
-                  playCoinSound();
-                }}
-                className={`flex flex-col sm:flex-row items-center justify-center sm:justify-between p-2.5 rounded-xl border-2 transition-all cursor-pointer text-center sm:text-left ${
+                key={month}
+                id={`btn-month-${month.toLowerCase()}`}
+                onClick={() => handleSelectMonth(idx)}
+                className={`flex flex-col items-center justify-center py-2 px-1 rounded-xl border-2 transition-all cursor-pointer text-center relative ${
                   isSelected
-                    ? 'bg-purple-600 text-white border-purple-600 shadow-md scale-[1.02]'
-                    : 'bg-white text-slate-800 border-slate-200 hover:border-purple-300'
+                    ? 'bg-purple-600 text-white border-purple-700 shadow-md scale-105 z-10'
+                    : isAllocated
+                    ? 'bg-emerald-50 text-emerald-900 border-emerald-300 hover:border-emerald-400'
+                    : 'bg-white text-slate-700 border-slate-200 hover:border-purple-300'
                 }`}
               >
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl">{g.icon}</span>
-                  <span className="font-display font-bold text-xs sm:text-sm leading-tight">{g.name}</span>
-                </div>
-                <span className={`font-mono font-bold text-xs px-2 py-0.5 rounded-md mt-1 sm:mt-0 ${
-                  isSelected ? 'bg-purple-700 text-white' : 'bg-slate-100 text-slate-700'
-                }`}>
-                  ${g.price.toFixed(2)}
+                <span className="text-[10px] font-bold uppercase tracking-tight block">
+                  {month.substring(0, 3)}
                 </span>
+                {isAllocated ? (
+                  <CheckCircle size={12} className={`mt-0.5 ${isSelected ? 'text-purple-200' : 'text-emerald-600'}`} />
+                ) : (
+                  <span className={`text-[10px] font-mono mt-0.5 ${isSelected ? 'text-purple-100' : 'text-slate-400'}`}>$5</span>
+                )}
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* TARGET PROGRESS BAR */}
-      <div className="bg-gradient-to-r from-purple-900 via-indigo-900 to-purple-950 text-white p-4 rounded-2xl shadow-md border border-purple-800 mb-5 relative overflow-hidden">
-        <div className="flex justify-between items-center mb-1.5">
-          <span className="text-xs font-bold uppercase tracking-wide text-purple-200 flex items-center gap-1.5">
-            <span className="text-xl">{selectedGoal.icon}</span>
-            <span>Target Progress: Save Jar ${saveJar.toFixed(2)} / ${selectedGoal.price.toFixed(2)}</span>
-          </span>
-          <span className="font-mono text-sm font-black text-yellow-300">
-            {progressPercent}%
-          </span>
+      {/* ACTIVE MONTH ALLOCATION EDITOR PANEL */}
+      <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-cyan-50 p-4 rounded-2xl border-2 border-emerald-200 shadow-xs mb-5">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-3">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold uppercase tracking-wider bg-emerald-200 text-emerald-950 px-2.5 py-0.5 rounded-full">
+                🗓️ {MONTHS[activeMonthIndex]} Allowance: $5.00
+              </span>
+              {currentAlloc.allocated && (
+                <span className="text-xs font-bold text-emerald-700 bg-white border border-emerald-200 px-2 py-0.5 rounded-md">
+                  ✓ Month Allocated
+                </span>
+              )}
+            </div>
+            <h3 className="font-display text-emerald-950 font-extrabold text-base mt-1">
+              How would you like to split {MONTHS[activeMonthIndex]}'s $5.00?
+            </h3>
+          </div>
+
+          {/* Preset Buttons */}
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-xs font-bold text-slate-600">Presets:</span>
+            <button
+              onClick={() => applyPreset(3, 1, 1)}
+              className="text-xs font-bold bg-white hover:bg-emerald-100 text-emerald-900 border border-emerald-300 px-2.5 py-1 rounded-lg cursor-pointer"
+            >
+              $3 Save / $1 Spend / $1 Give
+            </button>
+            <button
+              onClick={() => applyPreset(2, 2, 1)}
+              className="text-xs font-bold bg-white hover:bg-emerald-100 text-emerald-900 border border-emerald-300 px-2.5 py-1 rounded-lg cursor-pointer"
+            >
+              $2 Save / $2 Spend / $1 Give
+            </button>
+            <button
+              onClick={() => applyPreset(4, 1, 0)}
+              className="text-xs font-bold bg-white hover:bg-emerald-100 text-emerald-900 border border-emerald-300 px-2.5 py-1 rounded-lg cursor-pointer"
+            >
+              $4 Save / $1 Spend / $0 Give
+            </button>
+          </div>
         </div>
 
-        <div className="w-full bg-purple-950/90 rounded-full h-4 overflow-hidden p-0.5 border border-purple-700 relative">
-          <motion.div
-            className="bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-500 h-full rounded-full"
-            initial={{ width: 0 }}
-            animate={{ width: `${progressPercent}%` }}
-            transition={{ duration: 0.4 }}
-          />
+        {/* 3 Allocation Sliders / Steppers */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
+          {/* Save allocation */}
+          <div className="bg-white p-3 rounded-xl border border-purple-200 flex flex-col justify-between">
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-xs font-bold text-purple-900 flex items-center gap-1">
+                <PiggyBank size={14} /> SAVE Jar
+              </span>
+              <span className="font-mono font-bold text-sm text-purple-700">${monthSave.toFixed(2)}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => {
+                  playCoinSound();
+                  setMonthSave(prev => Math.max(0, prev - 1));
+                  setAnimatingJar('save');
+                  setTimeout(() => setAnimatingJar(null), 400);
+                }}
+                className="bg-purple-100 text-purple-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-purple-200 cursor-pointer"
+              >
+                -$1
+              </button>
+              <input
+                type="range"
+                min="0"
+                max="5"
+                step="1"
+                value={monthSave}
+                onChange={(e) => {
+                  playCoinSound();
+                  setMonthSave(parseInt(e.target.value) || 0);
+                  setAnimatingJar('save');
+                  setTimeout(() => setAnimatingJar(null), 400);
+                }}
+                className="w-full accent-purple-600 cursor-pointer"
+              />
+              <button
+                onClick={() => {
+                  playCoinSound();
+                  setMonthSave(prev => Math.min(5, prev + 1));
+                  setAnimatingJar('save');
+                  setTimeout(() => setAnimatingJar(null), 400);
+                }}
+                className="bg-purple-100 text-purple-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-purple-200 cursor-pointer"
+              >
+                +$1
+              </button>
+            </div>
+          </div>
+
+          {/* Spend allocation */}
+          <div className="bg-white p-3 rounded-xl border border-rose-200 flex flex-col justify-between">
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-xs font-bold text-rose-900 flex items-center gap-1">
+                <ShoppingBag size={14} /> SPEND Jar
+              </span>
+              <span className="font-mono font-bold text-sm text-rose-700">${monthSpend.toFixed(2)}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => {
+                  playCoinSound();
+                  setMonthSpend(prev => Math.max(0, prev - 1));
+                  setAnimatingJar('spend');
+                  setTimeout(() => setAnimatingJar(null), 400);
+                }}
+                className="bg-rose-100 text-rose-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-rose-200 cursor-pointer"
+              >
+                -$1
+              </button>
+              <input
+                type="range"
+                min="0"
+                max="5"
+                step="1"
+                value={monthSpend}
+                onChange={(e) => {
+                  playCoinSound();
+                  setMonthSpend(parseInt(e.target.value) || 0);
+                  setAnimatingJar('spend');
+                  setTimeout(() => setAnimatingJar(null), 400);
+                }}
+                className="w-full accent-rose-600 cursor-pointer"
+              />
+              <button
+                onClick={() => {
+                  playCoinSound();
+                  setMonthSpend(prev => Math.min(5, prev + 1));
+                  setAnimatingJar('spend');
+                  setTimeout(() => setAnimatingJar(null), 400);
+                }}
+                className="bg-rose-100 text-rose-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-rose-200 cursor-pointer"
+              >
+                +$1
+              </button>
+            </div>
+          </div>
+
+          {/* Give allocation */}
+          <div className="bg-white p-3 rounded-xl border border-cyan-200 flex flex-col justify-between">
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-xs font-bold text-cyan-900 flex items-center gap-1">
+                <HandHeart size={14} /> GIVE Jar
+              </span>
+              <span className="font-mono font-bold text-sm text-cyan-700">${monthGive.toFixed(2)}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => {
+                  playCoinSound();
+                  setMonthGive(prev => Math.max(0, prev - 1));
+                  setAnimatingJar('give');
+                  setTimeout(() => setAnimatingJar(null), 400);
+                }}
+                className="bg-cyan-100 text-cyan-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-cyan-200 cursor-pointer"
+              >
+                -$1
+              </button>
+              <input
+                type="range"
+                min="0"
+                max="5"
+                step="1"
+                value={monthGive}
+                onChange={(e) => {
+                  playCoinSound();
+                  setMonthGive(parseInt(e.target.value) || 0);
+                  setAnimatingJar('give');
+                  setTimeout(() => setAnimatingJar(null), 400);
+                }}
+                className="w-full accent-cyan-600 cursor-pointer"
+              />
+              <button
+                onClick={() => {
+                  playCoinSound();
+                  setMonthGive(prev => Math.min(5, prev + 1));
+                  setAnimatingJar('give');
+                  setTimeout(() => setAnimatingJar(null), 400);
+                }}
+                className="bg-cyan-100 text-cyan-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-cyan-200 cursor-pointer"
+              >
+                +$1
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="flex justify-between items-center mt-1 text-xs text-purple-200 font-medium">
-          <span>{progressPercent >= 100 ? '🎉 Goal Reached!' : `$${(selectedGoal.price - saveJar > 0 ? selectedGoal.price - saveJar : 0).toFixed(2)} left to save`}</span>
-          <span className="text-[11px] text-purple-300">Save Jar unlocks this goal!</span>
+
+        {/* Total Check & Confirm Button */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1 border-t border-emerald-200">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-slate-700">Month Allocation Sum:</span>
+            <span className={`font-mono font-bold text-sm px-2.5 py-0.5 rounded-md ${
+              isMonthBalanced ? 'bg-emerald-200 text-emerald-950' : 'bg-red-100 text-red-800'
+            }`}>
+              ${monthTotal.toFixed(2)} / $5.00
+            </span>
+            {!isMonthBalanced && (
+              <span className="text-xs text-red-600 font-semibold">Adjust so sum equals $5.00</span>
+            )}
+          </div>
+
+          <button
+            id="btn-confirm-month-allocation"
+            disabled={!isMonthBalanced}
+            onClick={handleConfirmMonth}
+            className={`w-full sm:w-auto font-display font-bold py-2 px-5 rounded-xl text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+              isMonthBalanced
+                ? 'bg-emerald-600 hover:bg-emerald-700 text-white border-b-4 border-emerald-800 active:translate-y-0.5'
+                : 'bg-slate-300 text-slate-500 cursor-not-allowed'
+            }`}
+          >
+            <span>Save {MONTHS[activeMonthIndex]} & {activeMonthIndex < 11 ? 'Next Month ➡️' : 'Finish Year!'}</span>
+          </button>
         </div>
       </div>
 
-      {/* GOAL UNLOCKED REWARD BANNER */}
-      {isGoalReached && (
+      {/* CUMULATIVE YEARLY JARS SUMMARY (12-Month Total) */}
+      <div className="mb-2">
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="font-display font-extrabold text-slate-800 text-base flex items-center gap-1.5">
+            <Sparkles size={18} className="text-purple-600" /> Year-to-Date Jar Accumulation ({allocatedMonthsCount} / 12 Months)
+          </h3>
+          <span className="text-xs font-mono font-bold text-purple-900 bg-purple-100 px-2.5 py-1 rounded-full">
+            Total Allowance Allocated: ${(allocatedMonthsCount * 5).toFixed(2)} / $60.00
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* SAVE JAR */}
+          <div data-jar="save" className={`bg-purple-50/90 border-2 ${animatingJar === 'save' || animatingJar === 'all' ? 'border-purple-500 ring-2 ring-purple-300 scale-102' : 'border-purple-200'} rounded-2xl p-4 flex flex-col items-center text-center relative overflow-hidden transition-all shadow-sm`}>
+            <div className="flex items-center gap-1 text-xs font-extrabold text-purple-900 bg-purple-200/80 px-3 py-1 rounded-full mb-2 uppercase">
+              <PiggyBank size={14} /> SAVE JAR TOTAL
+            </div>
+
+            {/* Glass Jar Graphic Frame */}
+            <div className="w-full h-36 bg-white border-4 border-purple-300 rounded-b-3xl rounded-t-lg relative flex flex-col justify-end p-1 overflow-hidden shadow-inner mb-2">
+              <AnimatePresence>
+                {(animatingJar === 'save' || animatingJar === 'all') && (
+                  <motion.div
+                    initial={{ y: -40, opacity: 0, scale: 1.5 }}
+                    animate={{ y: 20, opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute top-0 left-1/2 -translate-x-1/2 text-2xl z-20 pointer-events-none"
+                  >
+                    🪙
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <motion.div
+                className="w-full bg-gradient-to-t from-purple-500 via-purple-400 to-amber-300 rounded-b-2xl relative flex items-center justify-center overflow-hidden"
+                animate={{ height: getFillHeight(totalSave, 30) }}
+                transition={{ type: 'spring', stiffness: 120 }}
+              >
+                <span className="text-base font-black text-purple-950 font-mono drop-shadow-sm select-none">
+                  ${totalSave.toFixed(2)}
+                </span>
+              </motion.div>
+            </div>
+
+            <p className="text-xs text-purple-900 font-medium">
+              Accumulated over {allocatedMonthsCount} months
+            </p>
+          </div>
+
+          {/* SPEND JAR */}
+          <div data-jar="spend" className={`bg-rose-50/90 border-2 ${animatingJar === 'spend' || animatingJar === 'all' ? 'border-rose-500 ring-2 ring-rose-300 scale-102' : 'border-rose-200'} rounded-2xl p-4 flex flex-col items-center text-center relative overflow-hidden transition-all shadow-sm`}>
+            <div className="flex items-center gap-1 text-xs font-extrabold text-rose-900 bg-rose-200/80 px-3 py-1 rounded-full mb-2 uppercase">
+              <ShoppingBag size={14} /> SPEND JAR TOTAL
+            </div>
+
+            {/* Glass Jar Graphic Frame */}
+            <div className="w-full h-36 bg-white border-4 border-rose-300 rounded-b-3xl rounded-t-lg relative flex flex-col justify-end p-1 overflow-hidden shadow-inner mb-2">
+              <AnimatePresence>
+                {(animatingJar === 'spend' || animatingJar === 'all') && (
+                  <motion.div
+                    initial={{ y: -40, opacity: 0, scale: 1.5 }}
+                    animate={{ y: 20, opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute top-0 left-1/2 -translate-x-1/2 text-2xl z-20 pointer-events-none"
+                  >
+                    🍦
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <motion.div
+                className="w-full bg-gradient-to-t from-rose-500 via-rose-400 to-pink-300 rounded-b-2xl relative flex items-center justify-center overflow-hidden"
+                animate={{ height: getFillHeight(totalSpend, 30) }}
+                transition={{ type: 'spring', stiffness: 120 }}
+              >
+                <span className="text-base font-black text-rose-950 font-mono drop-shadow-sm select-none">
+                  ${totalSpend.toFixed(2)}
+                </span>
+              </motion.div>
+            </div>
+
+            <p className="text-xs text-rose-900 font-medium">
+              Accumulated over {allocatedMonthsCount} months
+            </p>
+          </div>
+
+          {/* GIVE JAR */}
+          <div data-jar="give" className={`bg-cyan-50/90 border-2 ${animatingJar === 'give' || animatingJar === 'all' ? 'border-cyan-500 ring-2 ring-cyan-300 scale-102' : 'border-cyan-200'} rounded-2xl p-4 flex flex-col items-center text-center relative overflow-hidden transition-all shadow-sm`}>
+            <div className="flex items-center gap-1 text-xs font-extrabold text-cyan-900 bg-cyan-200/80 px-3 py-1 rounded-full mb-2 uppercase">
+              <HandHeart size={14} /> GIVE JAR TOTAL
+            </div>
+
+            {/* Glass Jar Graphic Frame */}
+            <div className="w-full h-36 bg-white border-4 border-cyan-300 rounded-b-3xl rounded-t-lg relative flex flex-col justify-end p-1 overflow-hidden shadow-inner mb-2">
+              <AnimatePresence>
+                {(animatingJar === 'give' || animatingJar === 'all') && (
+                  <motion.div
+                    initial={{ y: -40, opacity: 0, scale: 1.5 }}
+                    animate={{ y: 20, opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute top-0 left-1/2 -translate-x-1/2 text-2xl z-20 pointer-events-none"
+                  >
+                    ❤️
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <motion.div
+                className="w-full bg-gradient-to-t from-cyan-500 via-cyan-400 to-sky-300 rounded-b-2xl relative flex items-center justify-center overflow-hidden"
+                animate={{ height: getFillHeight(totalGive, 30) }}
+                transition={{ type: 'spring', stiffness: 120 }}
+              >
+                <span className="text-base font-black text-cyan-950 font-mono drop-shadow-sm select-none">
+                  ${totalGive.toFixed(2)}
+                </span>
+              </motion.div>
+            </div>
+
+            <p className="text-xs text-cyan-900 font-medium">
+              Accumulated over {allocatedMonthsCount} months
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* YEAR-END MILESTONE CELEBRATION */}
+      {isYearComplete && (
         <motion.div
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="bg-gradient-to-r from-emerald-500 to-green-600 text-white p-4 rounded-2xl shadow-lg border-2 border-emerald-300 mb-5 flex flex-wrap items-center justify-between gap-3"
+          className="bg-gradient-to-r from-emerald-500 via-teal-600 to-emerald-600 text-white p-5 rounded-2xl shadow-lg border-2 border-emerald-300 my-5 flex flex-wrap items-center justify-between gap-3"
         >
           <div className="flex items-center gap-3">
-            <div className="bg-white text-emerald-700 p-2 rounded-full font-bold text-2xl shadow-inner">
-              🏆
+            <div className="bg-white text-emerald-700 p-2.5 rounded-2xl font-bold text-3xl shadow-inner">
+              🎓
             </div>
             <div>
-              <h4 className="font-display font-extrabold text-base flex items-center gap-1">
-                Goal Unlocked! <Sparkles size={18} className="text-yellow-300" />
+              <h4 className="font-display font-extrabold text-lg flex items-center gap-1.5">
+                Full 12-Month Plan Completed! <Sparkles size={20} className="text-yellow-300" />
               </h4>
-              <p className="text-xs text-emerald-100">
-                You saved ${saveJar.toFixed(2)} in your Save Jar! You can now get the {selectedGoal.name}!
+              <p className="text-xs text-emerald-100 max-w-xl">
+                By budgeting $5 each month for 12 months ($60 total), you saved <strong className="text-white font-mono">${totalSave.toFixed(2)}</strong>, budgeted <strong className="text-white font-mono">${totalSpend.toFixed(2)}</strong> for treats, and donated <strong className="text-white font-mono">${totalGive.toFixed(2)}</strong> to help others!
               </p>
             </div>
           </div>
@@ -237,7 +623,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
                 onClick={claimReward}
                 className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-xs px-4 py-2.5 rounded-xl shadow-md border-b-2 border-yellow-600 cursor-pointer animate-bounce flex items-center gap-1"
               >
-                <span>Claim 10 Stars 🌟</span>
+                <span>Claim 10 Gold Stars 🌟</span>
               </button>
             ) : (
               <>
@@ -260,182 +646,13 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
         </motion.div>
       )}
 
-      {/* STEP 2: AUTO SPLIT BUTTON + THE 3 VISUAL JARS */}
-      <div className="mb-4 bg-emerald-50/70 p-3.5 rounded-2xl border-2 border-emerald-100 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div>
-          <h3 className="font-display text-emerald-950 font-extrabold text-sm flex items-center gap-1.5">
-            <span>💵</span> Step 2: Fill Your Jars!
-          </h3>
-          <p className="text-xs text-emerald-800">Tap <strong>Split $5 Allowance</strong> to automatically divide money across all 3 jars, or add money directly below.</p>
-        </div>
-        <button
-          id="btn-add-allowance-5"
-          onClick={() => handleSplitAllowance(5)}
-          className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold py-2.5 px-5 rounded-xl text-xs sm:text-sm shadow-md border-b-4 border-emerald-800 active:translate-y-0.5 transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
-        >
-          <span>✨ Split $5 Allowance</span>
-        </button>
-      </div>
-
-      {/* THE 3 JARS GRID */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-        
-        {/* SAVE JAR */}
-        <div data-jar="save" className={`bg-purple-50/90 border-2 ${animatingJar === 'save' || animatingJar === 'all' ? 'border-purple-500 ring-2 ring-purple-300 scale-102' : 'border-purple-200'} rounded-2xl p-4 flex flex-col items-center text-center relative overflow-hidden transition-all shadow-sm`}>
-          <div className="flex items-center gap-1 text-xs font-extrabold text-purple-900 bg-purple-200/80 px-3 py-1 rounded-full mb-2 uppercase">
-            <PiggyBank size={14} /> SAVE (Goal)
-          </div>
-
-          {/* Glass Jar Graphic Frame */}
-          <div className="w-full h-36 bg-white border-4 border-purple-300 rounded-b-3xl rounded-t-lg relative flex flex-col justify-end p-1 overflow-hidden shadow-inner mb-3">
-            
-            <AnimatePresence>
-              {(animatingJar === 'save' || animatingJar === 'all') && (
-                <motion.div
-                  initial={{ y: -40, opacity: 0, scale: 1.5 }}
-                  animate={{ y: 20, opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="absolute top-0 left-1/2 -translate-x-1/2 text-2xl z-20 pointer-events-none"
-                >
-                  🪙
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            <motion.div
-              className="w-full bg-gradient-to-t from-purple-500 via-purple-400 to-amber-300 rounded-b-2xl relative flex items-center justify-center overflow-hidden"
-              animate={{ height: getFillHeight(saveJar, selectedGoal.price) }}
-              transition={{ type: 'spring', stiffness: 120 }}
-            >
-              <span className="text-sm font-black text-purple-950 font-mono drop-shadow-sm select-none">
-                ${saveJar.toFixed(2)}
-              </span>
-            </motion.div>
-          </div>
-
-          <div className="flex items-center gap-1.5 w-full">
-            <button
-              onClick={() => handleAddJar('save', 1.00)}
-              className="flex-1 text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-xl border-b-2 border-purple-800 cursor-pointer transition-all active:translate-y-0.5 shadow-sm"
-            >
-              +$1.00
-            </button>
-            <button
-              onClick={() => handleAddJar('save', 0.25)}
-              className="text-xs font-bold bg-purple-100 hover:bg-purple-200 text-purple-900 py-2 px-2.5 rounded-xl border border-purple-300 cursor-pointer transition-all active:translate-y-0.5"
-            >
-              +$0.25
-            </button>
-          </div>
-        </div>
-
-        {/* SPEND JAR */}
-        <div data-jar="spend" className={`bg-rose-50/90 border-2 ${animatingJar === 'spend' || animatingJar === 'all' ? 'border-rose-500 ring-2 ring-rose-300 scale-102' : 'border-rose-200'} rounded-2xl p-4 flex flex-col items-center text-center relative overflow-hidden transition-all shadow-sm`}>
-          <div className="flex items-center gap-1 text-xs font-extrabold text-rose-900 bg-rose-200/80 px-3 py-1 rounded-full mb-2 uppercase">
-            <ShoppingBag size={14} /> SPEND (Treats)
-          </div>
-
-          {/* Glass Jar Graphic Frame */}
-          <div className="w-full h-36 bg-white border-4 border-rose-300 rounded-b-3xl rounded-t-lg relative flex flex-col justify-end p-1 overflow-hidden shadow-inner mb-3">
-            
-            <AnimatePresence>
-              {(animatingJar === 'spend' || animatingJar === 'all') && (
-                <motion.div
-                  initial={{ y: -40, opacity: 0, scale: 1.5 }}
-                  animate={{ y: 20, opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="absolute top-0 left-1/2 -translate-x-1/2 text-2xl z-20 pointer-events-none"
-                >
-                  🍦
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            <motion.div
-              className="w-full bg-gradient-to-t from-rose-500 via-rose-400 to-pink-300 rounded-b-2xl relative flex items-center justify-center overflow-hidden"
-              animate={{ height: getFillHeight(spendJar, 10) }}
-              transition={{ type: 'spring', stiffness: 120 }}
-            >
-              <span className="text-sm font-black text-rose-950 font-mono drop-shadow-sm select-none">
-                ${spendJar.toFixed(2)}
-              </span>
-            </motion.div>
-          </div>
-
-          <div className="flex items-center gap-1.5 w-full">
-            <button
-              onClick={() => handleAddJar('spend', 1.00)}
-              className="flex-1 text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white py-2 rounded-xl border-b-2 border-rose-800 cursor-pointer transition-all active:translate-y-0.5 shadow-sm"
-            >
-              +$1.00
-            </button>
-            <button
-              onClick={() => handleAddJar('spend', 0.25)}
-              className="text-xs font-bold bg-rose-100 hover:bg-rose-200 text-rose-900 py-2 px-2.5 rounded-xl border border-rose-300 cursor-pointer transition-all active:translate-y-0.5"
-            >
-              +$0.25
-            </button>
-          </div>
-        </div>
-
-        {/* GIVE JAR */}
-        <div data-jar="give" className={`bg-cyan-50/90 border-2 ${animatingJar === 'give' || animatingJar === 'all' ? 'border-cyan-500 ring-2 ring-cyan-300 scale-102' : 'border-cyan-200'} rounded-2xl p-4 flex flex-col items-center text-center relative overflow-hidden transition-all shadow-sm`}>
-          <div className="flex items-center gap-1 text-xs font-extrabold text-cyan-900 bg-cyan-200/80 px-3 py-1 rounded-full mb-2 uppercase">
-            <HandHeart size={14} /> GIVE (Charity)
-          </div>
-
-          {/* Glass Jar Graphic Frame */}
-          <div className="w-full h-36 bg-white border-4 border-cyan-300 rounded-b-3xl rounded-t-lg relative flex flex-col justify-end p-1 overflow-hidden shadow-inner mb-3">
-            
-            <AnimatePresence>
-              {(animatingJar === 'give' || animatingJar === 'all') && (
-                <motion.div
-                  initial={{ y: -40, opacity: 0, scale: 1.5 }}
-                  animate={{ y: 20, opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="absolute top-0 left-1/2 -translate-x-1/2 text-2xl z-20 pointer-events-none"
-                >
-                  ❤️
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            <motion.div
-              className="w-full bg-gradient-to-t from-cyan-500 via-cyan-400 to-sky-300 rounded-b-2xl relative flex items-center justify-center overflow-hidden"
-              animate={{ height: getFillHeight(giveJar, 10) }}
-              transition={{ type: 'spring', stiffness: 120 }}
-            >
-              <span className="text-sm font-black text-cyan-950 font-mono drop-shadow-sm select-none">
-                ${giveJar.toFixed(2)}
-              </span>
-            </motion.div>
-          </div>
-
-          <div className="flex items-center gap-1.5 w-full">
-            <button
-              onClick={() => handleAddJar('give', 1.00)}
-              className="flex-1 text-xs font-bold bg-cyan-600 hover:bg-cyan-700 text-white py-2 rounded-xl border-b-2 border-cyan-800 cursor-pointer transition-all active:translate-y-0.5 shadow-sm"
-            >
-              +$1.00
-            </button>
-            <button
-              onClick={() => handleAddJar('give', 0.25)}
-              className="text-xs font-bold bg-cyan-100 hover:bg-cyan-200 text-cyan-900 py-2 px-2.5 rounded-xl border border-cyan-300 cursor-pointer transition-all active:translate-y-0.5"
-            >
-              +$0.25
-            </button>
-          </div>
-        </div>
-
-      </div>
-
-      <div className="flex justify-center pt-2">
+      <div className="flex justify-center pt-3 border-t border-slate-100 mt-4">
         <button
           id="btn-threejars-reset-all"
           onClick={handleReset}
           className="text-xs font-bold text-slate-400 hover:text-slate-600 flex items-center gap-1 cursor-pointer"
         >
-          <RefreshCw size={12} /> Reset Jars
+          <RefreshCw size={12} /> Reset 12-Month Plan
         </button>
       </div>
 

@@ -154,7 +154,7 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
                   All 5 Scenarios Completed! 🎉
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-700 mt-0.5">
-                  Great job matching coins! All stars and coins were added to your Piggy Wallet.
+                  Great job matching coins! You earned your Gold Stars reward.
                 </p>
               </div>
             </div>
@@ -260,7 +260,7 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Your Piggy Current</span>
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Your Current Count</span>
                 <div className="text-3xl font-mono font-bold text-lime-600">
                   ${currentSum.toFixed(2)}
                 </div>
@@ -312,7 +312,7 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
               {isAllCompleted ? (
                 <div className="bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-sm">
                   <CheckCircle size={18} className="text-emerald-600 shrink-0" />
-                  <span>Module 1 Completed! All Stars & Coins Added to Piggy Bank 🏆</span>
+                  <span>Module 1 Mastered! Gold Stars Reward Claimed! 🏆</span>
                 </div>
               ) : success ? (
                 <motion.button

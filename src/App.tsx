@@ -192,17 +192,11 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Coins Wallet */}
-              <div className="text-center px-2 border-r pr-3.5 border-slate-200">
-                <span className="text-xs text-slate-500 font-bold uppercase block">Piggy Wallet</span>
-                <span className="font-mono text-xl sm:text-lg font-bold block text-emerald-700">${profile.wallet.toFixed(2)}</span>
-              </div>
-
               {/* Stars Score */}
               <div className="text-center px-1 flex items-center gap-1.5">
                 <Star className="text-yellow-400 fill-yellow-400" size={24} />
                 <div>
-                  <span className="text-xs text-slate-500 font-bold uppercase block">Stars</span>
+                  <span className="text-xs text-slate-500 font-bold uppercase block">Stars Earned</span>
                   <span className="font-mono text-xl sm:text-lg font-bold text-slate-900">{profile.stars}</span>
                 </div>
               </div>
