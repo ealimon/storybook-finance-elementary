@@ -426,6 +426,7 @@ export default function App() {
                 )}
                 {activeModuleId === 'giving_station' && (
                   <DonationStation
+                    wallet={profile.wallet}
                     onAddStars={handleAddStars}
                     onAddMoney={handleAddMoney}
                     onNextModule={() => navigateToModule('needs_wants')}

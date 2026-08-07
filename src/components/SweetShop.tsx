@@ -89,6 +89,29 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
         </div>
       </div>
 
+      {/* Clear Starting Budget Banner */}
+      <div className="bg-gradient-to-r from-amber-50 via-pink-50 to-rose-50 p-4 rounded-2xl border-2 border-amber-200 mb-6 flex flex-wrap items-center justify-between gap-3 shadow-xs">
+        <div className="flex items-center gap-3">
+          <span className="text-3xl">💵</span>
+          <div>
+            <span className="text-xs font-bold text-amber-900 uppercase tracking-wider block">Your Starting Allowance / Budget</span>
+            <span className="text-lg font-display font-extrabold text-amber-950">$5.00 Bill</span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-6">
+          <div className="text-right">
+            <span className="text-xs font-bold text-slate-600 uppercase block">Total Spent</span>
+            <span className={`text-base font-mono font-bold ${isOverBudget ? 'text-red-600' : 'text-slate-800'}`}>${roundedSpent.toFixed(2)}</span>
+          </div>
+          <div className="h-8 w-px bg-amber-200"></div>
+          <div className="text-right">
+            <span className="text-xs font-bold text-emerald-800 uppercase block">Remaining Change</span>
+            <span className="text-base font-mono font-bold text-emerald-700">${Math.max(0, budget - roundedSpent).toFixed(2)}</span>
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Sweet Shelf shop items */}
         <div className="lg:col-span-7 bg-amber-50 rounded-3xl p-5 border-4 border-amber-200">

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Heart, Star, CheckCircle, HandHeart, ArrowRight } from 'lucide-react';
 
 interface DonationStationProps {
+  wallet?: number;
   onAddStars: (stars: number) => void;
   onAddMoney: (amount: number) => void;
   onNextModule?: () => void;
@@ -14,11 +15,15 @@ const CAUSES = [
   { id: 'forest', name: 'Plant-a-Tree Park Project', description: 'Plants green leafy trees to make playground parks pretty!', icon: '🌲', activeIcon: '🌳🍁🌸', bg: 'bg-emerald-50 border-emerald-200 text-emerald-900', accent: 'emerald' },
 ];
 
-export default function DonationStation({ onAddStars, onAddMoney, onNextModule }: DonationStationProps) {
+export default function DonationStation({ wallet = 10, onAddStars, onAddMoney, onNextModule }: DonationStationProps) {
   const [selectedCause, setSelectedCause] = useState(CAUSES[0]);
   const [donations, setDonations] = useState<Record<string, number>>({ puppies: 0, meals: 0, forest: 0 });
   const [animating, setAnimating] = useState(false);
   const [starsAwarded, setStarsAwarded] = useState<Record<string, boolean>>({ puppies: false, meals: false, forest: false });
+
+  const startingAllowance = wallet > 0 ? wallet : 10.00;
+  const totalDonated = (Object.values(donations) as number[]).reduce((sum, val) => sum + val, 0);
+  const remainingAllowance = Math.max(0, Math.round((startingAllowance - totalDonated) * 100) / 100);
 
   const currentCauseDonation = donations[selectedCause.id] || 0;
 
@@ -64,6 +69,29 @@ export default function DonationStation({ onAddStars, onAddMoney, onNextModule }
         <div className="flex items-center gap-2 bg-yellow-50 px-4 py-2 rounded-2xl border-2 border-yellow-200 shrink-0">
           <Star className="text-yellow-500 fill-yellow-400" size={24} />
           <span className="font-display font-bold text-slate-700 text-xs sm:text-sm">Generosity Star Bonus!</span>
+        </div>
+      </div>
+
+      {/* Clear Starting Money & Remaining Wallet Display */}
+      <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-cyan-50 p-4 rounded-2xl border-2 border-emerald-200 mb-6 flex flex-wrap items-center justify-between gap-3 shadow-xs">
+        <div className="flex items-center gap-3">
+          <span className="text-3xl">💵</span>
+          <div>
+            <span className="text-xs font-bold text-emerald-900 uppercase tracking-wider block">Your Starting Allowance</span>
+            <span className="text-lg font-display font-extrabold text-emerald-950">${startingAllowance.toFixed(2)}</span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-6">
+          <div className="text-right">
+            <span className="text-xs font-bold text-rose-800 uppercase block">Total Given</span>
+            <span className="text-base font-mono font-bold text-rose-600">${totalDonated.toFixed(2)}</span>
+          </div>
+          <div className="h-8 w-px bg-emerald-200"></div>
+          <div className="text-right">
+            <span className="text-xs font-bold text-emerald-800 uppercase block">Remaining Balance</span>
+            <span className="text-base font-mono font-bold text-emerald-700">${remainingAllowance.toFixed(2)}</span>
+          </div>
         </div>
       </div>
 
