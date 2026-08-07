@@ -131,11 +131,26 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
     setTimeout(() => setAnimatingJar(null), 600);
   };
 
-  // Calculate cumulative jar totals across confirmed allocated months
-  const totalSave = allocations.reduce((sum, m) => sum + (m.allocated ? m.save : 0), 0);
-  const totalSpend = allocations.reduce((sum, m) => sum + (m.allocated ? m.spend : 0), 0);
-  const totalGive = allocations.reduce((sum, m) => sum + (m.allocated ? m.give : 0), 0);
+  // Calculate cumulative jar totals across confirmed allocated months + live active month draft
+  const totalSave = allocations.reduce((sum, m, idx) => {
+    if (idx === activeMonthIndex) return sum + monthSave;
+    return sum + (m.allocated ? m.save : 0);
+  }, 0);
+
+  const totalSpend = allocations.reduce((sum, m, idx) => {
+    if (idx === activeMonthIndex) return sum + monthSpend;
+    return sum + (m.allocated ? m.spend : 0);
+  }, 0);
+
+  const totalGive = allocations.reduce((sum, m, idx) => {
+    if (idx === activeMonthIndex) return sum + monthGive;
+    return sum + (m.allocated ? m.give : 0);
+  }, 0);
+
   const allocatedMonthsCount = allocations.filter(m => m.allocated).length;
+  const isCurrentMonthDrafting = !allocations[activeMonthIndex]?.allocated && (monthSave + monthSpend + monthGive > 0);
+  const activeMonthsInTotal = allocatedMonthsCount + (isCurrentMonthDrafting ? 1 : 0);
+
   const isYearComplete = allocatedMonthsCount === 12;
 
   const claimReward = () => {
@@ -484,10 +499,10 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
       <div className="mb-2">
         <div className="flex items-center justify-between mb-2">
           <h3 className="font-display font-extrabold text-slate-800 text-base flex items-center gap-1.5">
-            <Sparkles size={18} className="text-purple-600" /> Year-to-Date Jar Accumulation ({allocatedMonthsCount} / 12 Months)
+            <Sparkles size={18} className="text-purple-600" /> Year-to-Date Jar Accumulation ({activeMonthsInTotal} / 12 Months)
           </h3>
           <span className="text-xs font-mono font-bold text-purple-900 bg-purple-100 px-2.5 py-1 rounded-full">
-            Total Allowance Allocated: ${(allocatedMonthsCount * 5).toFixed(2)} / $60.00
+            Total Allowance Allocated: ${(activeMonthsInTotal * 5).toFixed(2)} / $60.00
           </span>
         </div>
 
@@ -525,7 +540,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
             </div>
 
             <p className="text-xs text-purple-900 font-medium">
-              Accumulated over {allocatedMonthsCount} months
+              Accumulated over {activeMonthsInTotal} month{activeMonthsInTotal === 1 ? '' : 's'}
             </p>
           </div>
 
@@ -562,7 +577,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
             </div>
 
             <p className="text-xs text-rose-900 font-medium">
-              Accumulated over {allocatedMonthsCount} months
+              Accumulated over {activeMonthsInTotal} month{activeMonthsInTotal === 1 ? '' : 's'}
             </p>
           </div>
 
@@ -599,7 +614,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
             </div>
 
             <p className="text-xs text-cyan-900 font-medium">
-              Accumulated over {allocatedMonthsCount} months
+              Accumulated over {activeMonthsInTotal} month{activeMonthsInTotal === 1 ? '' : 's'}
             </p>
           </div>
         </div>
