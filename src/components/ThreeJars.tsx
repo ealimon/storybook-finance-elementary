@@ -80,7 +80,12 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
 
   // Adjust month allocation safely to keep total = $5.00
   const monthTotal = Math.round((monthSave + monthSpend + monthGive) * 100) / 100;
+  const remainingMonthAllowance = Math.max(0, Math.round((5.00 - monthTotal) * 100) / 100);
   const isMonthBalanced = Math.abs(monthTotal - 5.00) < 0.01;
+
+  const maxSave = monthSave + remainingMonthAllowance;
+  const maxSpend = monthSpend + remainingMonthAllowance;
+  const maxGive = monthGive + remainingMonthAllowance;
 
   // Confirm allocation for active month
   const handleConfirmMonth = () => {
@@ -126,10 +131,10 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
     setTimeout(() => setAnimatingJar(null), 600);
   };
 
-  // Calculate cumulative jar totals across allocated months plus active month live preview
-  const totalSave = allocations.reduce((sum, m, idx) => sum + (idx === activeMonthIndex ? monthSave : (m.allocated ? m.save : 0)), 0);
-  const totalSpend = allocations.reduce((sum, m, idx) => sum + (idx === activeMonthIndex ? monthSpend : (m.allocated ? m.spend : 0)), 0);
-  const totalGive = allocations.reduce((sum, m, idx) => sum + (idx === activeMonthIndex ? monthGive : (m.allocated ? m.give : 0)), 0);
+  // Calculate cumulative jar totals across confirmed allocated months
+  const totalSave = allocations.reduce((sum, m) => sum + (m.allocated ? m.save : 0), 0);
+  const totalSpend = allocations.reduce((sum, m) => sum + (m.allocated ? m.spend : 0), 0);
+  const totalGive = allocations.reduce((sum, m) => sum + (m.allocated ? m.give : 0), 0);
   const allocatedMonthsCount = allocations.filter(m => m.allocated).length;
   const isYearComplete = allocatedMonthsCount === 12;
 
@@ -295,13 +300,14 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
             </div>
             <div className="flex items-center gap-1">
               <button
+                disabled={monthSave <= 0}
                 onClick={() => {
                   playCoinSound();
                   setMonthSave(prev => Math.max(0, prev - 1));
                   setAnimatingJar('save');
                   setTimeout(() => setAnimatingJar(null), 400);
                 }}
-                className="bg-purple-100 text-purple-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-purple-200 cursor-pointer"
+                className="bg-purple-100 disabled:opacity-40 disabled:cursor-not-allowed text-purple-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-purple-200 cursor-pointer"
               >
                 -$1
               </button>
@@ -312,21 +318,24 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
                 step="1"
                 value={monthSave}
                 onChange={(e) => {
+                  const val = parseInt(e.target.value) || 0;
+                  const clamped = Math.min(maxSave, Math.max(0, val));
                   playCoinSound();
-                  setMonthSave(parseInt(e.target.value) || 0);
+                  setMonthSave(clamped);
                   setAnimatingJar('save');
                   setTimeout(() => setAnimatingJar(null), 400);
                 }}
                 className="w-full accent-purple-600 cursor-pointer"
               />
               <button
+                disabled={monthSave >= maxSave}
                 onClick={() => {
                   playCoinSound();
-                  setMonthSave(prev => Math.min(5, prev + 1));
+                  setMonthSave(prev => Math.min(maxSave, prev + 1));
                   setAnimatingJar('save');
                   setTimeout(() => setAnimatingJar(null), 400);
                 }}
-                className="bg-purple-100 text-purple-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-purple-200 cursor-pointer"
+                className="bg-purple-100 disabled:opacity-40 disabled:cursor-not-allowed text-purple-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-purple-200 cursor-pointer"
               >
                 +$1
               </button>
@@ -343,13 +352,14 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
             </div>
             <div className="flex items-center gap-1">
               <button
+                disabled={monthSpend <= 0}
                 onClick={() => {
                   playCoinSound();
                   setMonthSpend(prev => Math.max(0, prev - 1));
                   setAnimatingJar('spend');
                   setTimeout(() => setAnimatingJar(null), 400);
                 }}
-                className="bg-rose-100 text-rose-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-rose-200 cursor-pointer"
+                className="bg-rose-100 disabled:opacity-40 disabled:cursor-not-allowed text-rose-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-rose-200 cursor-pointer"
               >
                 -$1
               </button>
@@ -360,21 +370,24 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
                 step="1"
                 value={monthSpend}
                 onChange={(e) => {
+                  const val = parseInt(e.target.value) || 0;
+                  const clamped = Math.min(maxSpend, Math.max(0, val));
                   playCoinSound();
-                  setMonthSpend(parseInt(e.target.value) || 0);
+                  setMonthSpend(clamped);
                   setAnimatingJar('spend');
                   setTimeout(() => setAnimatingJar(null), 400);
                 }}
                 className="w-full accent-rose-600 cursor-pointer"
               />
               <button
+                disabled={monthSpend >= maxSpend}
                 onClick={() => {
                   playCoinSound();
-                  setMonthSpend(prev => Math.min(5, prev + 1));
+                  setMonthSpend(prev => Math.min(maxSpend, prev + 1));
                   setAnimatingJar('spend');
                   setTimeout(() => setAnimatingJar(null), 400);
                 }}
-                className="bg-rose-100 text-rose-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-rose-200 cursor-pointer"
+                className="bg-rose-100 disabled:opacity-40 disabled:cursor-not-allowed text-rose-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-rose-200 cursor-pointer"
               >
                 +$1
               </button>
@@ -391,13 +404,14 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
             </div>
             <div className="flex items-center gap-1">
               <button
+                disabled={monthGive <= 0}
                 onClick={() => {
                   playCoinSound();
                   setMonthGive(prev => Math.max(0, prev - 1));
                   setAnimatingJar('give');
                   setTimeout(() => setAnimatingJar(null), 400);
                 }}
-                className="bg-cyan-100 text-cyan-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-cyan-200 cursor-pointer"
+                className="bg-cyan-100 disabled:opacity-40 disabled:cursor-not-allowed text-cyan-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-cyan-200 cursor-pointer"
               >
                 -$1
               </button>
@@ -408,21 +422,24 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
                 step="1"
                 value={monthGive}
                 onChange={(e) => {
+                  const val = parseInt(e.target.value) || 0;
+                  const clamped = Math.min(maxGive, Math.max(0, val));
                   playCoinSound();
-                  setMonthGive(parseInt(e.target.value) || 0);
+                  setMonthGive(clamped);
                   setAnimatingJar('give');
                   setTimeout(() => setAnimatingJar(null), 400);
                 }}
                 className="w-full accent-cyan-600 cursor-pointer"
               />
               <button
+                disabled={monthGive >= maxGive}
                 onClick={() => {
                   playCoinSound();
-                  setMonthGive(prev => Math.min(5, prev + 1));
+                  setMonthGive(prev => Math.min(maxGive, prev + 1));
                   setAnimatingJar('give');
                   setTimeout(() => setAnimatingJar(null), 400);
                 }}
-                className="bg-cyan-100 text-cyan-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-cyan-200 cursor-pointer"
+                className="bg-cyan-100 disabled:opacity-40 disabled:cursor-not-allowed text-cyan-900 font-bold text-xs px-2.5 py-1.5 rounded-md hover:bg-cyan-200 cursor-pointer"
               >
                 +$1
               </button>
@@ -435,12 +452,16 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
           <div className="flex items-center gap-2">
             <span className="text-xs font-bold text-slate-700">Month Allocation Sum:</span>
             <span className={`font-mono font-bold text-sm px-2.5 py-0.5 rounded-md ${
-              isMonthBalanced ? 'bg-emerald-200 text-emerald-950' : 'bg-red-100 text-red-800'
+              isMonthBalanced ? 'bg-emerald-200 text-emerald-950' : 'bg-amber-100 text-amber-900'
             }`}>
               ${monthTotal.toFixed(2)} / $5.00
             </span>
-            {!isMonthBalanced && (
-              <span className="text-xs text-red-600 font-semibold">Adjust so sum equals $5.00</span>
+            {isMonthBalanced ? (
+              <span className="text-xs text-emerald-700 font-bold">✓ $5.00 Fully Allocated!</span>
+            ) : (
+              <span className="text-xs text-amber-800 font-semibold">
+                Allocate ${remainingMonthAllowance.toFixed(2)} more to reach $5.00
+              </span>
             )}
           </div>
 
