@@ -36,11 +36,11 @@ const PUZZLES: Puzzle[] = [
       { name: 'Juice Box', price: 1.10, icon: '🧃', bills: ['$1 Bill'], coins: ['10¢ Dime'] },
     ],
     options: [
-      { amount: 1.40, explanation: 'Too low! $1.40 forgot 20¢ from the juice box.' },
       { amount: 1.60, explanation: 'Exact match! $1.00 + $0.50 + $0.10 = $1.60.' },
+      { amount: 1.40, explanation: 'Too low! $1.40 forgot 20¢ from the juice box.' },
       { amount: 1.90, explanation: 'Too high! $1.90 added 30¢ extra.' },
     ],
-    correctIdx: 1,
+    correctIdx: 0,
     tip: 'Add Cents first: 50¢ + 10¢ = 60¢. Then add Dollars: $1.00 + $0.00 = $1.00. Total = $1.60!',
   },
   {
@@ -52,10 +52,10 @@ const PUZZLES: Puzzle[] = [
     ],
     options: [
       { amount: 1.50, explanation: 'Too low! Forgot the cookie 50¢.' },
-      { amount: 1.80, explanation: 'Close, but 25¢ + 75¢ equals $1.00 full dollar!' },
       { amount: 2.00, explanation: 'Exact match! $1.25 + $0.75 = $2.00.' },
+      { amount: 1.80, explanation: 'Close, but 25¢ + 75¢ equals $1.00 full dollar!' },
     ],
-    correctIdx: 2,
+    correctIdx: 1,
     tip: 'Notice that 25¢ + 75¢ = 100¢ ($1.00). Add that $1.00 to the donut $1.00 = $2.00!',
   },
   {
@@ -68,10 +68,10 @@ const PUZZLES: Puzzle[] = [
     ],
     options: [
       { amount: 2.90, explanation: 'Too low! Forgot to add the 40¢ banana.' },
-      { amount: 3.30, explanation: 'Exact match! $2.30 + $0.60 + $0.40 = $3.30.' },
       { amount: 3.50, explanation: 'Too high! Overcounted by 20¢.' },
+      { amount: 3.30, explanation: 'Exact match! $2.30 + $0.60 + $0.40 = $3.30.' },
     ],
-    correctIdx: 1,
+    correctIdx: 2,
     tip: 'Add up step by step: 2.30 + 0.60 = 2.90. Then 2.90 + 0.40 = 3.30!',
   },
   {
@@ -83,12 +83,43 @@ const PUZZLES: Puzzle[] = [
       { name: 'Sticky Notes', price: 1.00, icon: '📝', bills: ['$1'], coins: [] },
     ],
     options: [
-      { amount: 4.50, explanation: 'Too low! $3.50 + $0.50 is $4.00, plus $1.00 is $5.00.' },
       { amount: 5.00, explanation: 'Exact match! $3.50 + $0.50 + $1.00 = $5.00.' },
+      { amount: 4.50, explanation: 'Too low! $3.50 + $0.50 is $4.00, plus $1.00 is $5.00.' },
       { amount: 5.50, explanation: 'Too high! Overcounted by 50¢.' },
     ],
-    correctIdx: 1,
+    correctIdx: 0,
     tip: 'Combine 50¢ + 50¢ = $1.00 first. Then add $3.00 + $1.00 + $1.00 = $5.00!',
+  },
+  {
+    id: 'toy_corner',
+    category: 'Toy & Book Corner',
+    items: [
+      { name: 'Rubber Duckie', price: 1.40, icon: '🦆', bills: ['$1'], coins: ['25¢', '10¢', '5¢'] },
+      { name: 'Story Book', price: 2.60, icon: '📚', bills: ['$1', '$1'], coins: ['50¢', '10¢'] },
+    ],
+    options: [
+      { amount: 3.80, explanation: 'Too low! Forgot 20¢ from the cents sum.' },
+      { amount: 4.00, explanation: 'Exact match! $1.40 + $2.60 = $4.00 ($1+$2=$3, 40¢+60¢=$1).' },
+      { amount: 4.20, explanation: 'Too high! Overcounted by 20¢.' },
+    ],
+    correctIdx: 1,
+    tip: '40¢ + 60¢ = $1.00. Adding $1.00 + $2.00 + $1.00 gives a clean $4.00 total!',
+  },
+  {
+    id: 'art_crafts',
+    category: 'Art & Craft Supplies',
+    items: [
+      { name: 'Paint Set', price: 2.15, icon: '🎨', bills: ['$1', '$1'], coins: ['10¢', '5¢'] },
+      { name: 'Paint Brush', price: 0.85, icon: '🖌️', bills: [], coins: ['50¢', '25¢', '10¢'] },
+      { name: 'Drawing Pad', price: 1.50, icon: '📒', bills: ['$1'], coins: ['50¢'] },
+    ],
+    options: [
+      { amount: 4.20, explanation: 'Too low! Forgot 30¢.' },
+      { amount: 4.80, explanation: 'Too high! Overcounted by 30¢.' },
+      { amount: 4.50, explanation: 'Exact match! $2.15 + $0.85 = $3.00, plus $1.50 = $4.50.' },
+    ],
+    correctIdx: 2,
+    tip: 'Notice that 15¢ + 85¢ = $1.00. So $2.15 + $0.85 = $3.00. Then add $1.50 to get $4.50!',
   },
 ];
 
@@ -270,29 +301,43 @@ export default function ReceiptMatcher({ onAddStars, onNextModule }: ReceiptMatc
             </div>
           </div>
 
-          {/* Interactive Digital Cash Register Screen */}
-          <div className="bg-slate-900 text-emerald-400 rounded-2xl p-4 border-2 border-slate-700 font-mono shadow-inner space-y-2">
-            <div className="flex justify-between items-center text-xs text-slate-400 font-sans font-bold border-b border-slate-800 pb-1.5">
-              <span>CASH REGISTER TAPE DISPLAY</span>
-              <span>ITEMS: {scannedItems.length} / {activePuzzle.items.length}</span>
+          {/* Friendly Shopping Cart Running Total Summary */}
+          <div className="bg-emerald-50/90 rounded-2xl p-4 border-2 border-emerald-200 shadow-sm space-y-3">
+            <div className="flex justify-between items-center text-xs font-bold text-emerald-900 border-b border-emerald-200/80 pb-2">
+              <span className="flex items-center gap-1.5">
+                <ShoppingBag size={16} className="text-emerald-600" />
+                Scanned Items Summary
+              </span>
+              <span className="bg-emerald-200 text-emerald-800 px-2.5 py-0.5 rounded-full text-[11px]">
+                {scannedItems.length} of {activePuzzle.items.length} Scanned
+              </span>
             </div>
 
-            <div className="space-y-1 text-xs">
+            <div className="space-y-1.5 text-xs">
               {scannedItems.length === 0 ? (
-                <p className="text-slate-500 italic text-center py-1">Tap "Scan Item" to scan prices into register...</p>
+                <p className="text-slate-500 italic text-center py-2 bg-white/60 rounded-xl border border-dashed border-emerald-200">
+                  Tap "Scan Item 🔊" on any item above to add it to your scanner calculation!
+                </p>
               ) : (
                 scannedItems.map(i => (
-                  <div key={i} className="flex justify-between items-center">
-                    <span>{activePuzzle.items[i].icon} {activePuzzle.items[i].name}</span>
-                    <span className="font-bold">+${activePuzzle.items[i].price.toFixed(2)}</span>
+                  <div key={i} className="flex justify-between items-center bg-white px-3 py-1.5 rounded-xl border border-emerald-150 text-slate-700">
+                    <span className="font-medium flex items-center gap-1.5">
+                      <CheckCircle size={14} className="text-emerald-500" />
+                      {activePuzzle.items[i].icon} {activePuzzle.items[i].name}
+                    </span>
+                    <span className="font-mono font-bold text-emerald-700">+${activePuzzle.items[i].price.toFixed(2)}</span>
                   </div>
                 ))
               )}
             </div>
 
-            <div className="border-t border-slate-700 pt-2 flex justify-between items-center font-bold text-sm">
-              <span className="text-amber-300 font-sans">REGISTER CALCULATED SUB-TOTAL:</span>
-              <span className="text-lg text-emerald-300">${scannedTotal.toFixed(2)}</span>
+            <div className="border-t border-emerald-200 pt-2 flex justify-between items-center bg-emerald-100/70 p-2.5 rounded-xl border border-emerald-300">
+              <span className="text-xs font-bold text-emerald-950 uppercase tracking-wide">
+                Scanned Cart Total:
+              </span>
+              <span className="font-mono text-xl font-bold text-emerald-800">
+                ${scannedTotal.toFixed(2)}
+              </span>
             </div>
           </div>
 
