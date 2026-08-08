@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Star, Award, CheckCircle2, XCircle, ArrowRight, RefreshCw, Trophy, Sparkles, Download, Printer } from 'lucide-react';
+import { Star, Award, CheckCircle2, XCircle, ArrowRight, RefreshCw, Trophy, Sparkles, Download, Printer, Shuffle } from 'lucide-react';
 import { QuizQuestion } from '../types';
 
 interface SmartSaverQuizProps {
@@ -8,70 +8,150 @@ interface SmartSaverQuizProps {
   onNextModule?: () => void;
 }
 
-const QUIZ_QUESTIONS: QuizQuestion[] = [
+const QUESTION_BANK: QuizQuestion[] = [
   {
     id: 1,
     question: 'What is an essential "Need"?',
     options: [
-      'A shiny new video game console 🎮',
       'Nutritious food and clean water to survive 🍎💧',
+      'A shiny new video game console 🎮',
       'A massive box of sugary gummy worms 🍬',
       'A golden fancy wristwatch ⌚',
     ],
-    correctAnswer: 1,
+    correctAnswer: 0,
     explanation: 'Needs are things we absolutely must have to survive, keep healthy, and stay warm!',
   },
   {
     id: 2,
-    question: 'If you leave $10 in a magic savings bank, why does it grow over time?',
+    question: 'If you leave $10 in a savings account, why does it grow over time?',
     options: [
-      'It gets covered in sparkling dust ✨',
-      'The bank adds compound interest rewards! 🏦📈',
-      'Other people put their money in your pocket by mistake 💸',
-      'Dollars expand when they are stored in the dark 🌑',
+      'The bank pays you compound interest rewards! 🏦📈',
+      'It gets covered in sparkling magic dust ✨',
+      'Other people put money in your pocket by mistake 💸',
+      'Dollars expand when stored in dark places 🌑',
     ],
-    correctAnswer: 1,
+    correctAnswer: 0,
     explanation: 'Banks pay you extra cash called "interest" as a thank-you reward for saving your coins with them!',
   },
   {
     id: 3,
-    question: 'What is the "Delaying Gratification" trade-off?',
+    question: 'What is "Delaying Gratification"?',
     options: [
+      'Waiting patiently to save up for a high-quality goal! 🤖🚀',
       'Buying cheap toys instantly and breaking them 🎈',
-      'Patience: Waiting and saving up for a much higher quality reward! 🤖🚀',
-      'Refusing to clean chores because you are tired 🛌',
-      'Giving all of your digital coins to puppies 🐶',
+      'Refusing to clean up your room because you are tired 🛌',
+      'Giving all your coins to puppies 🐶',
     ],
-    correctAnswer: 1,
-    explanation: 'Waiting patiently to buy a high-quality item later makes you happier than buying cheap treats instantly!',
+    correctAnswer: 0,
+    explanation: 'Waiting patiently to buy a high-quality item later makes you happier than spending cash instantly on small treats!',
   },
   {
     id: 4,
     question: 'What are the three core Jars in a smart junior budget?',
     options: [
+      'Save, Spend, and Give! 🐖🍩🤝',
       'Eat, Play, Sleep 🍕',
       'Pennies, Nickels, Quarters 🪙',
-      'Save, Spend, and Give! 🐖🍩🤝',
       'Hide, Bury, Lose 🪵',
     ],
-    correctAnswer: 2,
-    explanation: 'Save for your future goals, Spend on immediate treats, and Give to help local charity groups!',
+    correctAnswer: 0,
+    explanation: 'Save for future goals, Spend on immediate needs, and Give to help local charity groups!',
   },
   {
     id: 5,
-    question: 'If you buy a sweet popsicle for $1.50 and pay with a $5.00 bill, how much change is yours to keep?',
+    question: 'If you buy a popsicle for $1.50 and pay with a $5.00 bill, how much change do you get?',
     options: [
-      '$1.00 💵',
       '$3.50 💵💵💵🪙',
+      '$1.00 💵',
       '$2.50 💵💵🪙',
       '$4.50 💵💵💵💵🪙',
     ],
-    correctAnswer: 1,
+    correctAnswer: 0,
     explanation: 'Subtracting $1.50 from $5.00 cash leaves exactly $3.50 in change. Math rules! 5.00 - 1.50 = 3.50',
+  },
+  {
+    id: 6,
+    question: 'What is an "Opportunity Cost"?',
+    options: [
+      'The item or benefit you give up when you choose one thing over another ⚖️',
+      'The price discount tag on a superhero toy 🏷️',
+      'Paying extra tax at the grocery store register 🧾',
+      'Finding a shiny quarter on the playground sidewalk 🪙',
+    ],
+    correctAnswer: 0,
+    explanation: 'Opportunity cost means if you buy a toy today, your trade-off is giving up the chance to save that money for a bike tomorrow!',
+  },
+  {
+    id: 7,
+    question: 'Why is having an "Emergency Savings Fund" helpful?',
+    options: [
+      'It protects you when unexpected surprises happen, like a flat bicycle tire 🚲🛠️',
+      'It guarantees you can buy free candy every day 🍭',
+      'It doubles your pocket money every Tuesday 🎩✨',
+      'It allows you to skip math class at school 🏫',
+    ],
+    correctAnswer: 0,
+    explanation: 'An emergency fund is money put aside to handle surprise expenses without going into debt or stress!',
+  },
+  {
+    id: 8,
+    question: 'What is a "Budget"?',
+    options: [
+      'A plan that tracks how much money you earn, save, and spend 📋💰',
+      'A secret lockbox buried in the backyard 🔑',
+      'A receipt you get after buying movie tickets 🎟️',
+      'A promise to buy toys for your friends 🤝',
+    ],
+    correctAnswer: 0,
+    explanation: 'A budget helps you manage your money so you do not run out before buying your important needs!',
+  },
+  {
+    id: 9,
+    question: 'Which of these is a smart way to earn allowance coins?',
+    options: [
+      'Helping out with household chores like sweeping or feeding pets 🧹🐶',
+      'Demanding dollars from parents without doing any work 🗣️',
+      'Hiding your friends’ toys until they pay you 🧸',
+      'Wishing on a shooting star at bedtime 🌟',
+    ],
+    correctAnswer: 0,
+    explanation: 'Earning money through helpful responsibilities teaches valuable work ethic and financial independence!',
+  },
+  {
+    id: 10,
+    question: 'What does "Smart Comparison Shopping" mean?',
+    options: [
+      'Checking prices at different stores to get the best value for your money 🔍💲',
+      'Buying the first item you see as fast as possible ⚡',
+      'Always picking the most expensive item because of its shiny box 📦',
+      'Asking the store clerk to give you everything for free 🏬',
+    ],
+    correctAnswer: 0,
+    explanation: 'Comparing prices helps you stretch your hard-earned dollars so you can save more for your future goals!',
   },
 ];
 
+// Helper to shuffle array and maintain track of correct answer
+function prepareRotatedQuestions(pool: QuizQuestion[], count: number = 5): QuizQuestion[] {
+  // Pick random subset
+  const shuffledPool = [...pool].sort(() => Math.random() - 0.5).slice(0, count);
+  
+  // For each question, shuffle options and track correct answer text
+  return shuffledPool.map((q) => {
+    const correctText = q.options[q.correctAnswer];
+    const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+    const newCorrectIdx = shuffledOptions.indexOf(correctText);
+
+    return {
+      ...q,
+      options: shuffledOptions,
+      correctAnswer: newCorrectIdx,
+    };
+  });
+}
+
 export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQuizProps) {
+  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -80,7 +160,24 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
   const [studentName, setStudentName] = useState('Super Saver');
   const [starsClaimed, setStarsClaimed] = useState(false);
 
-  const activeQuestion = QUIZ_QUESTIONS[currentIdx];
+  // Rotate and prepare questions on mount or reset
+  useEffect(() => {
+    setQuestions(prepareRotatedQuestions(QUESTION_BANK, 5));
+  }, []);
+
+  const handleShuffleNewQuestions = () => {
+    setQuestions(prepareRotatedQuestions(QUESTION_BANK, 5));
+    setCurrentIdx(0);
+    setSelectedOpt(null);
+    setIsAnswered(false);
+    setScore(0);
+    setQuizFinished(false);
+    setStarsClaimed(false);
+  };
+
+  if (questions.length === 0) return null;
+
+  const activeQuestion = questions[currentIdx];
 
   const handleSelectOption = (optIdx: number) => {
     if (isAnswered) return;
@@ -95,25 +192,15 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
   const handleNext = () => {
     setSelectedOpt(null);
     setIsAnswered(false);
-    if (currentIdx < QUIZ_QUESTIONS.length - 1) {
+    if (currentIdx < questions.length - 1) {
       setCurrentIdx(currentIdx + 1);
     } else {
       setQuizFinished(true);
     }
   };
 
-  const handleReset = () => {
-    setCurrentIdx(0);
-    setSelectedOpt(null);
-    setIsAnswered(false);
-    setScore(0);
-    setQuizFinished(false);
-    setStarsClaimed(false);
-  };
-
   const claimQuizReward = () => {
     if (!starsClaimed) {
-      // Reward based on correct answers
       const bonusStars = score * 5;
       onAddStars(bonusStars);
       setStarsClaimed(true);
@@ -126,31 +213,46 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
 
   return (
     <div className="bg-white rounded-3xl p-6 shadow-xl border-4 border-lime-200">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+      <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-3">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">
-            Module 9: Quiz &amp; Certificate
-          </span>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs font-bold uppercase tracking-wider bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">
+              Module 9: Quiz &amp; Certificate
+            </span>
+            <span className="text-xs font-bold bg-indigo-100 text-indigo-900 px-2.5 py-1 rounded-full flex items-center gap-1 border border-indigo-200">
+              <Shuffle size={12} /> Auto-Rotated Questions ({QUESTION_BANK.length} Pool)
+            </span>
+          </div>
           <h2 className="text-2xl md:text-3xl font-display text-slate-800 mt-1">Smart Saver Trivia &amp; Degree</h2>
-          <p className="text-sm text-slate-600">Test your financial literacy and unlock your printable Junior Financial Expert Certificate!</p>
+          <p className="text-sm text-slate-600">Questions rotate automatically on each try to help test and strengthen your financial literacy!</p>
         </div>
-        <div className="flex items-center gap-2 mt-3 md:mt-0 bg-yellow-50 px-4 py-2 rounded-2xl border-2 border-yellow-200">
-          <Trophy className="text-yellow-500 fill-yellow-400 animate-soft-bounce" size={24} />
-          <span className="font-display font-bold text-slate-700">Win up to 25 Stars!</span>
+        
+        <div className="flex items-center gap-2 mt-2 md:mt-0">
+          <button
+            onClick={handleShuffleNewQuestions}
+            className="flex items-center gap-1.5 text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-3 py-2 rounded-xl hover:bg-indigo-100 transition-colors cursor-pointer"
+            title="Load a fresh set of randomized trivia questions"
+          >
+            <Shuffle size={14} /> New Question Set
+          </button>
+          <div className="flex items-center gap-2 bg-yellow-50 px-4 py-2 rounded-2xl border-2 border-yellow-200">
+            <Trophy className="text-yellow-500 fill-yellow-400 animate-soft-bounce" size={22} />
+            <span className="font-display font-bold text-slate-700 text-xs sm:text-sm">Win up to 25 Stars!</span>
+          </div>
         </div>
       </div>
 
       {!quizFinished ? (
         <div className="bg-slate-50 rounded-3xl p-5 border-2 border-slate-200">
           {/* Progress gauge */}
-          <div className="flex justify-between text-xs text-slate-400 font-bold mb-3 uppercase">
-            <span>Question {currentIdx + 1} of {QUIZ_QUESTIONS.length}</span>
+          <div className="flex justify-between text-xs text-slate-500 font-bold mb-3 uppercase">
+            <span>Question {currentIdx + 1} of {questions.length}</span>
             <span>Current Score: {score} Correct</span>
           </div>
-          <div className="w-full bg-slate-200 rounded-full h-2 mb-6">
+          <div className="w-full bg-slate-200 rounded-full h-2.5 mb-6 overflow-hidden">
             <div 
               className="bg-yellow-400 h-full rounded-full transition-all duration-300" 
-              style={{ width: `${((currentIdx + 1) / QUIZ_QUESTIONS.length) * 100}%` }}
+              style={{ width: `${((currentIdx + 1) / questions.length) * 100}%` }}
             />
           </div>
 
@@ -182,7 +284,7 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
                   id={`btn-quiz-option-${idx}`}
                   onClick={() => handleSelectOption(idx)}
                   disabled={isAnswered}
-                  className={`w-full text-left p-4 rounded-2xl border-2 transition-all flex justify-between items-center ${optionStyle}`}
+                  className={`w-full text-left p-4 rounded-2xl border-2 transition-all flex justify-between items-center cursor-pointer ${optionStyle}`}
                 >
                   <span className="text-xs sm:text-sm font-semibold leading-relaxed">{option}</span>
                   {isAnswered && isCorrect && (
@@ -213,14 +315,17 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
           </AnimatePresence>
 
           {/* Controls */}
-          <div className="flex justify-end pt-2 border-t border-slate-200">
+          <div className="flex justify-between items-center pt-3 border-t border-slate-200">
+            <span className="text-[11px] text-slate-400 font-semibold italic">
+              💡 Option choices &amp; question order are randomly shuffled on every round!
+            </span>
             {isAnswered && (
               <button
                 id="btn-quiz-next"
                 onClick={handleNext}
-                className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-900 text-white font-display font-bold px-6 py-2.5 rounded-xl text-xs shadow-md transition-all active:scale-95"
+                className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-900 text-white font-display font-bold px-6 py-2.5 rounded-xl text-xs shadow-md transition-all active:scale-95 cursor-pointer"
               >
-                {currentIdx === QUIZ_QUESTIONS.length - 1 ? 'Finish Quiz 🎓' : 'Next Question'} <ArrowRight size={14} />
+                {currentIdx === questions.length - 1 ? 'Finish Quiz 🎓' : 'Next Question'} <ArrowRight size={14} />
               </button>
             )}
           </div>
@@ -232,7 +337,7 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
             <Trophy size={48} className="text-yellow-500 mx-auto animate-soft-bounce mb-2" />
             <h3 className="font-display font-bold text-slate-800 text-xl">Congratulations, Junior Expert!</h3>
             <p className="text-xs text-slate-500 mt-1">
-              You scored <strong className="font-mono text-sm text-yellow-700">{score} / {QUIZ_QUESTIONS.length}</strong> correct on the financial literacy trivia!
+              You scored <strong className="font-mono text-sm text-yellow-700">{score} / {questions.length}</strong> correct on this randomized trivia set!
             </p>
 
             <div className="mt-4 max-w-xs mx-auto">
@@ -267,10 +372,10 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
                 </span>
                 <button
                   id="btn-quiz-restart"
-                  onClick={handleReset}
-                  className="flex items-center gap-1 bg-white hover:bg-slate-100 text-slate-600 px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-200 cursor-pointer"
+                  onClick={handleShuffleNewQuestions}
+                  className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-md transition-all cursor-pointer"
                 >
-                  <RefreshCw size={12} /> Play Quiz Again
+                  <Shuffle size={14} /> Take Quiz Again (New Rotated Questions)
                 </button>
               </div>
             )}
@@ -297,13 +402,13 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
               {studentName}
             </h4>
             <p className="text-xs text-slate-600 px-6 leading-relaxed">
-              has completed the interactive modules in money basics, smart savings, compound interest sprouts, delayed gratification choices, and receipt math calculations, scoring <strong className="font-mono text-amber-700">{score}/{QUIZ_QUESTIONS.length}</strong>!
+              has completed the interactive modules in money basics, smart savings, compound interest sprouts, delayed gratification choices, and receipt math calculations, scoring <strong className="font-mono text-amber-700">{score}/{questions.length}</strong>!
             </p>
 
             <div className="mt-6 flex justify-between items-end">
               <div className="text-left">
                 <span className="text-[10px] uppercase text-slate-400 block font-bold">Award Date</span>
-                <span className="font-mono text-xs text-slate-700 font-semibold">July 4, 2026</span>
+                <span className="font-mono text-xs text-slate-700 font-semibold">August 8, 2026</span>
               </div>
               <div className="bg-yellow-500 text-yellow-950 font-display font-bold text-xs px-3 py-1.5 rounded-full shadow-sm">
                 Certified Saver ⭐
@@ -351,3 +456,4 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
     </div>
   );
 }
+
