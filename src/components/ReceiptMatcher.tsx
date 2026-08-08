@@ -385,20 +385,20 @@ export default function ReceiptMatcher({ onAddStars, onNextModule }: ReceiptMatc
                         </div>
                       </div>
 
-                      <div>
+                      <div className="shrink-0 ml-2">
                         {isSelected && isThisCorrect && (
-                          <span className="text-xs text-emerald-800 font-sans font-bold bg-emerald-200 px-3 py-1 rounded-full flex items-center gap-1 border border-emerald-300">
+                          <span className="text-xs text-emerald-800 font-sans font-bold bg-emerald-200 px-3 py-1 rounded-full flex items-center gap-1 border border-emerald-300 whitespace-nowrap shrink-0">
                             <Check size={14} /> Correct Math! 🎉
                           </span>
                         )}
                         {isSelected && !isThisCorrect && (
-                          <span className="text-xs text-red-800 font-sans font-bold bg-red-200 px-3 py-1 rounded-full flex items-center gap-1 border border-red-300">
+                          <span className="text-xs text-red-800 font-sans font-bold bg-red-200 px-3 py-1 rounded-full flex items-center gap-1 border border-red-300 whitespace-nowrap shrink-0">
                             <X size={14} /> Incorrect Total
                           </span>
                         )}
                         {!isSelected && !correct && (
-                          <span className="text-xs font-bold text-sky-700 bg-sky-50 px-2.5 py-1 rounded-lg border border-sky-150">
-                            Select Receipt ➡️
+                          <span className="text-xs font-bold text-sky-700 bg-sky-50 px-3 py-1.5 rounded-xl border border-sky-200 whitespace-nowrap shrink-0 flex items-center gap-1 hover:bg-sky-100 transition-colors">
+                            Select Receipt <ArrowRight size={14} className="text-sky-600" />
                           </span>
                         )}
                       </div>
