@@ -40,6 +40,7 @@ export interface Chore {
   payout: number;
   completed: boolean;
   icon: string;
+  minutes: number; // Duration in minutes
 }
 
 export interface NeedWantItem {
