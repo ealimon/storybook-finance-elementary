@@ -12,7 +12,8 @@ import {
   FileText,
   Award,
   ChevronRight,
-  Info
+  Info,
+  Smartphone
 } from 'lucide-react';
 
 // Import our custom game modules
@@ -27,6 +28,7 @@ import ReceiptMatcher from './components/ReceiptMatcher';
 import DonationStation from './components/DonationStation';
 import SmartSaverQuiz from './components/SmartSaverQuiz';
 import ModuleWorksheet from './components/ModuleWorksheet';
+import AppStoreGuideModal from './components/AppStoreGuideModal';
 
 import { UserProfile, ModuleDefinition } from './types';
 
@@ -65,6 +67,7 @@ export default function App() {
   const [viewingWorksheet, setViewingWorksheet] = useState<boolean>(false);
   const [gradeFilter, setGradeFilter] = useState<'ALL' | '2-3' | '3-4' | '4-5'>('ALL');
   const [showTeacherGuide, setShowTeacherGuide] = useState<boolean>(false);
+  const [isAppStoreGuideOpen, setIsAppStoreGuideOpen] = useState<boolean>(false);
 
   const getGradeColorBadge = (gradeLevel: string) => {
     if (gradeLevel.includes('2–3')) return 'bg-emerald-100 text-emerald-900 border-emerald-300';
@@ -146,7 +149,16 @@ export default function App() {
           </div>
         </div>
         <div className="flex items-center gap-3 text-xs font-semibold text-slate-300 flex-wrap justify-center">
-          <span className="flex items-center gap-1 bg-slate-800 px-3.5 py-2 sm:py-1.5 rounded-full text-lime-400 border border-slate-700 text-xs">
+          <button
+            id="btn-open-app-store-guide"
+            onClick={() => setIsAppStoreGuideOpen(true)}
+            className="flex items-center gap-1.5 bg-lime-400/20 hover:bg-lime-400/30 text-lime-300 border border-lime-400/40 px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer hover:text-white shadow-xs"
+            title="View Apple App Store packaging and preparation guide"
+          >
+            <Smartphone size={13} />
+            <span>Apple App Store Ready 🍏</span>
+          </button>
+          <span className="flex items-center gap-1 bg-slate-800 px-3.5 py-1.5 rounded-full text-lime-400 border border-slate-700 text-xs">
             🟢 Active Learning Suite
           </span>
           <span className="text-slate-400 hidden sm:inline text-xs">Classroom Edition 2026</span>
@@ -505,6 +517,12 @@ export default function App() {
           © 2026 Storybook Education • All Rights Reserved
         </div>
       </footer>
+
+      {/* Apple App Store Packaging & Export Guide Modal */}
+      <AppStoreGuideModal
+        isOpen={isAppStoreGuideOpen}
+        onClose={() => setIsAppStoreGuideOpen(false)}
+      />
 
     </div>
   );

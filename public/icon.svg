@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#bef264"/>
+      <stop offset="100%" stop-color="#84cc16"/>
+    </linearGradient>
+    <linearGradient id="piggyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f472b6"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <linearGradient id="coinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="100%" stop-color="#eab308"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- iOS App Icon Squircle Background -->
+  <rect width="512" height="512" rx="115" fill="url(#bgGrad)"/>
+
+  <!-- Inner Soft Glow Frame -->
+  <rect x="16" y="16" width="480" height="480" rx="100" fill="none" stroke="#ffffff" stroke-width="8" stroke-opacity="0.3"/>
+
+  <!-- Piggy Bank Mascot Silhouette -->
+  <g filter="url(#shadow)">
+    <!-- Ears -->
+    <path d="M190 145 L225 110 L245 155 Z" fill="#db2777"/>
+    <!-- Body -->
+    <ellipse cx="256" cy="275" rx="145" ry="120" fill="url(#piggyGrad)"/>
+    <!-- Snout -->
+    <ellipse cx="145" cy="285" rx="40" ry="32" fill="#fbcfe8"/>
+    <!-- Nostrils -->
+    <circle cx="135" cy="285" r="7" fill="#be185d"/>
+    <circle cx="155" cy="285" r="7" fill="#be185d"/>
+    <!-- Eye -->
+    <circle cx="205" cy="235" r="14" fill="#1e293b"/>
+    <circle cx="209" cy="231" r="5" fill="#ffffff"/>
+    <!-- Cheerful Blush -->
+    <ellipse cx="195" cy="270" rx="18" ry="12" fill="#f43f5e" fill-opacity="0.4"/>
+    <!-- Coin Slot -->
+    <rect x="235" y="152" width="55" height="12" rx="6" fill="#9d174d"/>
+    <!-- Little Feet -->
+    <rect x="185" y="370" width="36" height="42" rx="14" fill="#db2777"/>
+    <rect x="290" y="370" width="36" height="42" rx="14" fill="#db2777"/>
+  </g>
+
+  <!-- Floating Gold Coins with Dollar Sign -->
+  <g filter="url(#shadow)">
+    <!-- Top Floating Coin Dropping into Slot -->
+    <circle cx="262" cy="115" r="42" fill="url(#coinGrad)" stroke="#ca8a04" stroke-width="4"/>
+    <circle cx="262" cy="115" r="33" fill="none" stroke="#fef08a" stroke-width="2"/>
+    <text x="262" y="128" font-family="'Fredoka', sans-serif" font-weight="bold" font-size="36" fill="#854d0e" text-anchor="middle">$</text>
+
+    <!-- Side Little Coin -->
+    <circle cx="385" cy="180" r="28" fill="url(#coinGrad)" stroke="#ca8a04" stroke-width="3"/>
+    <text x="385" y="189" font-family="'Fredoka', sans-serif" font-weight="bold" font-size="24" fill="#854d0e" text-anchor="middle">★</text>
+  </g>
+
+  <!-- Sparkle Stars -->
+  <path d="M120 120 Q120 135 105 135 Q120 135 120 150 Q120 135 135 135 Q120 135 120 120 Z" fill="#fde047"/>
+  <path d="M390 350 Q390 365 375 365 Q390 365 390 380 Q390 365 405 365 Q390 365 390 350 Z" fill="#ffffff" fill-opacity="0.9"/>
+  <path d="M350 85 Q350 95 340 95 Q350 95 350 105 Q350 95 360 95 Q350 95 350 85 Z" fill="#ffffff" fill-opacity="0.8"/>
+</svg>

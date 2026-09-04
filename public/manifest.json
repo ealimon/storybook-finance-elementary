@@ -1,0 +1,18 @@
+{
+  "short_name": "Storybook Finance",
+  "name": "Storybook Financial Literacy",
+  "description": "Interactive money management and saving modules for elementary students.",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#f7fee7",
+  "theme_color": "#f7fee7",
+  "display": "standalone",
+  "orientation": "portrait"
+}

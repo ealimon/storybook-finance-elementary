@@ -1,0 +1,215 @@
+name: Build and Upload to App Store Connect
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Select Highest Xcode Version on Runner
+        run: |
+          echo "Available Xcode installations:"
+          ls -d /Applications/Xcode* || true
+          LATEST_XCODE=$(ls -d /Applications/Xcode* 2>/dev/null | sort -V | tail -n 1)
+          if [ -n "$LATEST_XCODE" ]; then
+            echo "Selecting: $LATEST_XCODE"
+            sudo xcode-select -s "$LATEST_XCODE/Contents/Developer"
+            echo "DEVELOPER_DIR=$LATEST_XCODE/Contents/Developer" >> $GITHUB_ENV
+          fi
+          xcodebuild -version
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Project Dependencies
+        run: npm install
+
+      - name: Build Web Production Assets
+        run: npm run build
+
+      - name: Initialize and Configure iOS Project
+        run: |
+          npm install -g @capacitor/cli
+          npm install --save @capacitor/core @capacitor/ios @capacitor/share @capacitor/filesystem @capgo/capacitor-printer
+
+          # Initialize iOS platform and sync plugins automatically
+          npx cap add ios || true
+
+          # Raise the Podfile's platform line BEFORE any pod install runs (cap add's
+          # own internal pod install already failed once above with "|| true" swallowing
+          # it - Capacitor 8 requires iOS 15.0+, and this project targets 16.0 everywhere
+          # else, so the Podfile's own platform line needs to match before cap sync ios
+          # triggers pod install again).
+          node -e '
+            const fs = require("fs");
+            const podfilePath = "ios/App/Podfile";
+            if (fs.existsSync(podfilePath)) {
+              let content = fs.readFileSync(podfilePath, "utf-8");
+              content = content.replace(/platform :ios, .[0-9.]+./, "platform :ios, \"16.0\"");
+              if (!content.includes("post_install")) {
+                const postInstall = "\n\npost_install do |installer|\n" +
+                  "  installer.pods_project.targets.each do |target|\n" +
+                  "    target.build_configurations.each do |config|\n" +
+                  "      config.build_settings[\"IPHONEOS_DEPLOYMENT_TARGET\"] = \"16.0\"\n" +
+                  "    end\n" +
+                  "  end\n" +
+                  "end\n";
+                content += postInstall;
+              }
+              fs.writeFileSync(podfilePath, content);
+              console.log("Patched Podfile: platform line raised to 16.0, post_install block ensured");
+            } else {
+              console.log("Podfile not found yet - will rely on post-copy patch step");
+            }
+          '
+
+          npx cap sync ios
+
+          # Copy web build assets to iOS app
+          npx cap copy ios
+
+          # Configure project.pbxproj with bundle ID, team ID, deployment target, iPad-only device family (2), and build number
+          node -e '
+            const fs = require("fs");
+            const pbxPath = "ios/App/App.xcodeproj/project.pbxproj";
+            if (fs.existsSync(pbxPath)) {
+              let content = fs.readFileSync(pbxPath, "utf-8");
+              content = content.replace(/PRODUCT_BUNDLE_IDENTIFIER\s*=\s*[^;]+;/g, "PRODUCT_BUNDLE_IDENTIFIER = com.limon.storybookeducation;");
+              content = content.replace(/IPHONEOS_DEPLOYMENT_TARGET\s*=\s*[0-9.]+;/g, "IPHONEOS_DEPLOYMENT_TARGET = 16.0;");
+              content = content.replace(/TARGETED_DEVICE_FAMILY\s*=\s*[^;]+;/g, "TARGETED_DEVICE_FAMILY = \"2\";");
+              content = content.replace(/CURRENT_PROJECT_VERSION\s*=\s*[0-9.]+;/g, "CURRENT_PROJECT_VERSION = ${{ github.run_number }};");
+              content = content.replace(/DEVELOPMENT_TEAM\s*=\s*[^;]+;/g, "DEVELOPMENT_TEAM = EYQARSHNW2;");
+              fs.writeFileSync(pbxPath, content);
+              console.log("✅ Configured Bundle ID com.limon.storybookeducation, iPad-Only (Family 2), and Team ID EYQARSHNW2");
+            }
+
+            // Configure Info.plist to bypass export compliance and support iPad orientations
+            const plistPath = "ios/App/App/Info.plist";
+            if (fs.existsSync(plistPath)) {
+              let plist = fs.readFileSync(plistPath, "utf-8");
+              if (!plist.includes("ITSAppUsesNonExemptEncryption")) {
+                plist = plist.replace("</dict>", "    <key>ITSAppUsesNonExemptEncryption</key>\n    <false/>\n</dict>");
+              }
+              fs.writeFileSync(plistPath, plist);
+              console.log("✅ Configured Info.plist with ITSAppUsesNonExemptEncryption = false");
+            }
+          '
+
+          # Install CocoaPods
+          cd ios/App
+          pod install --repo-update || pod install
+
+      - name: Setup App Store Connect API Key
+        env:
+          KEY_P8: ${{ secrets.APP_STORE_CONNECT_KEY_P8 }}
+          KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+        run: |
+          mkdir -p ~/.appstoreconnect/private_keys
+
+          node -e '
+            const fs = require("fs");
+            let raw = (process.env.KEY_P8 || "").trim();
+            const keyId = (process.env.KEY_ID || "").trim();
+
+            if (!raw) {
+              console.error("APP_STORE_CONNECT_KEY_P8 secret is empty!");
+              process.exit(1);
+            }
+
+            raw = raw.replace(/^["\x27]|["\x27]$/g, "").replace(/\\n/g, "\n").trim();
+            let b64 = raw
+              .replace(/-----BEGIN [^-]+-----/g, "")
+              .replace(/-----END [^-]+-----/g, "")
+              .replace(/\s+/g, "");
+
+            if (b64.length > 500) {
+              try {
+                const decoded = Buffer.from(b64, "base64").toString("utf-8");
+                if (decoded.includes("BEGIN")) {
+                  b64 = decoded
+                    .replace(/-----BEGIN [^-]+-----/g, "")
+                    .replace(/-----END [^-]+-----/g, "")
+                    .replace(/\s+/g, "");
+                }
+              } catch(e) {}
+            }
+
+            const chunks = b64.match(/.{1,64}/g) || [];
+            const standardPem = `-----BEGIN PRIVATE KEY-----\n${chunks.join("\n")}\n-----END PRIVATE KEY-----\n`;
+
+            const keyPath = `${process.env.HOME}/.appstoreconnect/private_keys/AuthKey_${keyId}.p8`;
+            fs.writeFileSync(keyPath, standardPem, { mode: 0o600 });
+            console.log(`✅ Saved AuthKey_${keyId}.p8 successfully.`);
+          '
+
+      - name: Build, Codesign & Upload Directly to TestFlight
+        env:
+          KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+        run: |
+          cd ios/App
+          CLEAN_KEY_ID=$(echo "$KEY_ID" | tr -d '[:space:]')
+          CLEAN_ISSUER_ID=$(echo "$ISSUER_ID" | tr -d '[:space:]')
+          KEY_PATH="$HOME/.appstoreconnect/private_keys/AuthKey_${CLEAN_KEY_ID}.p8"
+
+          # 1. Build Xcode Release Archive
+          xcodebuild -workspace App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -archivePath build/App.xcarchive \
+            -destination "generic/platform=iOS" \
+            IPHONEOS_DEPLOYMENT_TARGET=16.0 \
+            DEVELOPMENT_TEAM=EYQARSHNW2 \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            archive
+
+          # 2. Write ExportOptions plist with direct upload destination
+          node -e '
+            const fs = require("fs");
+            const plist = [
+              "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+              "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">",
+              "<plist version=\"1.0\">",
+              "<dict>",
+              "  <key>destination</key>",
+              "  <string>upload</string>",
+              "  <key>method</key>",
+              "  <string>app-store</string>",
+              "  <key>teamID</key>",
+              "  <string>EYQARSHNW2</string>",
+              "  <key>signingStyle</key>",
+              "  <string>automatic</string>",
+              "  <key>stripSwiftSymbols</key>",
+              "  <true/>",
+              "  <key>uploadSymbols</key>",
+              "  <true/>",
+              "  <key>manageAppVersionAndBuildNumber</key>",
+              "  <true/>",
+              "</dict>",
+              "</plist>",
+              ""
+            ].join("\n");
+            fs.writeFileSync("exportOptions.plist", plist);
+            console.log("✅ Wrote exportOptions.plist");
+          '
+
+          # 3. Direct Native Upload to App Store Connect / TestFlight
+          echo "🚀 Exporting and uploading directly via xcodebuild to TestFlight..."
+          xcodebuild -exportArchive \
+            -archivePath build/App.xcarchive \
+            -exportPath build/Export \
+            -exportOptionsPlist exportOptions.plist \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$KEY_PATH" \
+            -authenticationKeyID "$CLEAN_KEY_ID" \
+            -authenticationKeyIssuerID "$CLEAN_ISSUER_ID"

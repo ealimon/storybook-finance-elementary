@@ -7,10 +7,28 @@
   --font-mono: "JetBrains Mono", monospace;
 }
 
+:root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: #f7fee7; /* beautiful soft lime/green child-friendly background */
   color: #1e293b;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  -webkit-tap-highlight-color: transparent;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
 }
 
 /* Custom bounce animations */
