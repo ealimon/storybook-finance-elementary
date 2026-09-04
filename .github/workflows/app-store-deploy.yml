@@ -103,9 +103,14 @@ jobs:
             }
           '
 
-          # Install CocoaPods
+          # Install CocoaPods if Podfile exists (Capacitor 8 uses Swift Package Manager by default)
           cd ios/App
-          pod install --repo-update || pod install
+          if [ -f "Podfile" ]; then
+            echo "Installing CocoaPods dependencies..."
+            pod install --repo-update || pod install
+          else
+            echo "✅ Swift Package Manager (SPM) detected - no CocoaPods Podfile required."
+          fi
 
       - name: Setup App Store Connect API Key
         env:
@@ -161,8 +166,15 @@ jobs:
           CLEAN_ISSUER_ID=$(echo "$ISSUER_ID" | tr -d '[:space:]')
           KEY_PATH="$HOME/.appstoreconnect/private_keys/AuthKey_${CLEAN_KEY_ID}.p8"
 
+          # Determine if workspace or project should be targeted
+          if [ -d "App.xcworkspace" ]; then
+            XCODE_CONTAINER="-workspace App.xcworkspace"
+          else
+            XCODE_CONTAINER="-project App.xcodeproj"
+          fi
+
           # 1. Build Xcode Release Archive
-          xcodebuild -workspace App.xcworkspace \
+          xcodebuild $XCODE_CONTAINER \
             -scheme App \
             -configuration Release \
             -archivePath build/App.xcarchive \
