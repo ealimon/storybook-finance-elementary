@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.limon.storybookeducation',
-  appName: 'Storybook Financial Literacy',
+  appId: 'com.limon.storybook-finance',
+  appName: 'Storybook Finance Suite',
   webDir: 'dist',
   server: {
     androidScheme: 'https',

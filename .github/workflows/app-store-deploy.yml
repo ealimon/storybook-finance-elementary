@@ -82,13 +82,13 @@ jobs:
             const pbxPath = "ios/App/App.xcodeproj/project.pbxproj";
             if (fs.existsSync(pbxPath)) {
               let content = fs.readFileSync(pbxPath, "utf-8");
-              content = content.replace(/PRODUCT_BUNDLE_IDENTIFIER\s*=\s*[^;]+;/g, "PRODUCT_BUNDLE_IDENTIFIER = com.limon.storybookeducation;");
+              content = content.replace(/PRODUCT_BUNDLE_IDENTIFIER\s*=\s*[^;]+;/g, "PRODUCT_BUNDLE_IDENTIFIER = com.limon.storybook-finance;");
               content = content.replace(/IPHONEOS_DEPLOYMENT_TARGET\s*=\s*[0-9.]+;/g, "IPHONEOS_DEPLOYMENT_TARGET = 16.0;");
               content = content.replace(/TARGETED_DEVICE_FAMILY\s*=\s*[^;]+;/g, "TARGETED_DEVICE_FAMILY = \"2\";");
               content = content.replace(/CURRENT_PROJECT_VERSION\s*=\s*[0-9.]+;/g, "CURRENT_PROJECT_VERSION = ${{ github.run_number }};");
               content = content.replace(/DEVELOPMENT_TEAM\s*=\s*[^;]+;/g, "DEVELOPMENT_TEAM = EYQARSHNW2;");
               fs.writeFileSync(pbxPath, content);
-              console.log("✅ Configured Bundle ID com.limon.storybookeducation, iPad-Only (Family 2), and Team ID EYQARSHNW2");
+              console.log("✅ Configured Bundle ID com.limon.storybook-finance, iPad-Only (Family 2), and Team ID EYQARSHNW2");
             }
 
             // Configure Info.plist to bypass export compliance and support iPad orientations
