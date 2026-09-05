@@ -104,10 +104,14 @@ jobs:
 
             const capJsonPath = "ios/App/App/capacitor.config.json";
             if (fs.existsSync(capJsonPath)) {
-              let capJson = fs.readFileSync(capJsonPath, "utf-8");
-              capJson = capJson.replace(/"appId":\s*"[^"]+"/g, '"appId": "com.limon.storybook-finance"');
-              fs.writeFileSync(capJsonPath, capJson);
-              console.log("✅ Configured ios capacitor.config.json appId = com.limon.storybook-finance");
+              try {
+                const capData = JSON.parse(fs.readFileSync(capJsonPath, "utf-8"));
+                capData.appId = "com.limon.storybook-finance";
+                fs.writeFileSync(capJsonPath, JSON.stringify(capData, null, 2));
+                console.log("✅ Configured ios capacitor.config.json appId = com.limon.storybook-finance");
+              } catch (e) {
+                console.log("Capacitor JSON note:", e.message);
+              }
             }
           '
 
