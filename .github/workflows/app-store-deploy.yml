@@ -101,6 +101,14 @@ jobs:
               fs.writeFileSync(plistPath, plist);
               console.log("✅ Configured Info.plist with ITSAppUsesNonExemptEncryption = false");
             }
+
+            const capJsonPath = "ios/App/App/capacitor.config.json";
+            if (fs.existsSync(capJsonPath)) {
+              let capJson = fs.readFileSync(capJsonPath, "utf-8");
+              capJson = capJson.replace(/"appId":\s*"[^"]+"/g, '"appId": "com.limon.storybook-finance"');
+              fs.writeFileSync(capJsonPath, capJson);
+              console.log("✅ Configured ios capacitor.config.json appId = com.limon.storybook-finance");
+            }
           '
 
           # Install CocoaPods if Podfile exists (Capacitor 8 uses Swift Package Manager by default)
