@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Printer, BookOpen, CheckCircle, HelpCircle, Sparkles } from 'lucide-react';
+import { Printer, BookOpen, CheckCircle, HelpCircle, Sparkles, Loader2 } from 'lucide-react';
+import { buildWorksheetHtml, triggerPrint } from '../utils/printService';
 
 interface Question {
   question: string;
@@ -727,8 +728,36 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
     }));
   };
 
-  const handlePrint = () => {
-    window.print();
+  const [isPrinting, setIsPrinting] = useState(false);
+
+  const handlePrint = async () => {
+    setIsPrinting(true);
+    try {
+      const currentAnswers: Record<string | number, string> = {};
+      sheet.questions.forEach((_, idx) => {
+        const key = `${moduleId}-${idx}`;
+        if (completedAnswers[key]) {
+          currentAnswers[idx] = completedAnswers[key];
+        }
+      });
+
+      const html = buildWorksheetHtml({
+        title: sheet.title,
+        topic: sheet.topic,
+        gradeLevelTarget: sheet.gradeLevelTarget,
+        studentName,
+        date: dateStr,
+        questions: sheet.questions,
+        userAnswers: currentAnswers,
+        showAnswers
+      });
+
+      await triggerPrint(html, `${sheet.title} - Worksheet`);
+    } catch (err) {
+      console.error('Worksheet printing failed:', err);
+    } finally {
+      setIsPrinting(false);
+    }
   };
 
   return (
@@ -959,9 +988,11 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
             <button
               id="btn-print-action"
               onClick={handlePrint}
-              className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-display font-bold px-4 py-2.5 rounded-xl text-sm sm:text-xs shadow-md transition-all active:scale-95 cursor-pointer"
+              disabled={isPrinting}
+              className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-display font-bold px-4 py-2.5 rounded-xl text-sm sm:text-xs shadow-md transition-all active:scale-95 cursor-pointer"
             >
-              <Printer size={16} /> Print Worksheet
+              {isPrinting ? <Loader2 size={16} className="animate-spin" /> : <Printer size={16} />}
+              <span>{isPrinting ? 'Opening Print...' : 'Print Worksheet'}</span>
             </button>
             <button
               id="btn-close-worksheet"

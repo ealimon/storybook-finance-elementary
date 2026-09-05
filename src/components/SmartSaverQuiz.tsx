@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Star, Award, CheckCircle2, XCircle, ArrowRight, RefreshCw, Trophy, Sparkles, Download, Printer, Shuffle } from 'lucide-react';
+import { Star, Award, CheckCircle2, XCircle, ArrowRight, RefreshCw, Trophy, Sparkles, Download, Printer, Shuffle, Loader2 } from 'lucide-react';
 import { QuizQuestion } from '../types';
+import { buildCertificateHtml, triggerPrint } from '../utils/printService';
 
 interface SmartSaverQuizProps {
   onAddStars: (stars: number) => void;
@@ -207,8 +208,27 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
     }
   };
 
-  const handlePrint = () => {
-    window.print();
+  const [isPrinting, setIsPrinting] = useState(false);
+
+  const handlePrint = async () => {
+    setIsPrinting(true);
+    try {
+      const html = buildCertificateHtml({
+        studentName: studentName || 'Outstanding Saver',
+        score,
+        totalQuestions: questions.length,
+        awardDate: new Date().toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric'
+        })
+      });
+      await triggerPrint(html, 'Storybook Finance - Certificate');
+    } catch (err) {
+      console.error('Certificate printing failed:', err);
+    } finally {
+      setIsPrinting(false);
+    }
   };
 
   return (
@@ -430,9 +450,11 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
                 <button
                   id="btn-print-certificate"
                   onClick={handlePrint}
-                  className="flex items-center gap-1 bg-slate-800 hover:bg-slate-900 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md cursor-pointer"
+                  disabled={isPrinting}
+                  className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-900 disabled:bg-slate-500 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md transition-all cursor-pointer"
                 >
-                  <Printer size={14} /> Print Certificate
+                  {isPrinting ? <Loader2 size={14} className="animate-spin" /> : <Printer size={14} />}
+                  <span>{isPrinting ? 'Opening Print...' : 'Print Certificate'}</span>
                 </button>
                 {onNextModule && (
                   <button
