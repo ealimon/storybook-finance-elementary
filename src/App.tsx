@@ -344,22 +344,7 @@ export default function App() {
               {isMuted ? <VolumeX size={18} className="text-slate-400" /> : <Volume2 size={18} className="text-slate-800" />}
             </button>
 
-            {/* Worksheets Quick Button */}
-            <button
-              id="btn-header-worksheets"
-              onClick={() => {
-                if (currentScreen === 'module') {
-                  setViewingWorksheet(true);
-                } else {
-                  setGradeFilter('WORKSHEETS');
-                }
-                playPopSound();
-              }}
-              className="flex items-center gap-1.5 bg-[#c084fc] hover:bg-[#a855f7] text-white border-3 border-black rounded-2xl px-3.5 py-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-display font-black text-xs sm:text-sm active:translate-y-0.5 transition-all cursor-pointer"
-            >
-              <Printer size={15} />
-              <span className="hidden xs:inline">WORKSHEETS</span> (PRINT)
-            </button>
+
 
             {/* Certificate Pill */}
             <button
