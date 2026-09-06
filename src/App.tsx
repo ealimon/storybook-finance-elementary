@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-  PiggyBank,
-  Star,
-  Coins,
-  Heart,
-  ShoppingBag,
-  CheckSquare,
-  TrendingUp,
-  Gift,
-  FileText,
+  Volume2,
+  VolumeX,
+  ArrowLeft,
+  Printer,
   Award,
+  Sparkles,
+  CheckCircle2,
   ChevronRight,
-  Info,
-  Smartphone
+  RotateCcw
 } from 'lucide-react';
 
-// Import our custom game modules
+// Import all 10 custom game modules
 import CoinCatcher from './components/CoinCatcher';
 import NeedsWants from './components/NeedsWants';
 import ThreeJars from './components/ThreeJars';
@@ -28,75 +24,207 @@ import ReceiptMatcher from './components/ReceiptMatcher';
 import DonationStation from './components/DonationStation';
 import SmartSaverQuiz from './components/SmartSaverQuiz';
 import ModuleWorksheet from './components/ModuleWorksheet';
-import AppStoreGuideModal from './components/AppStoreGuideModal';
 
-import { UserProfile, ModuleDefinition } from './types';
+import { UserProfile } from './types';
+import { playPopSound, playCoinSound, playFanfareSound, toggleMute, getMuteState } from './utils/soundEffects';
 
-const MODULES_LIST: ModuleDefinition[] = [
-  { id: 'coin_matching', title: '1. Coin Matcher', description: 'Count coins and match target amounts', iconName: 'Coins', category: 'Basics', difficulty: 'Elementary', gradeLevel: 'Grade 2–3', starsReward: 5 },
-  { id: 'giving_station', title: '2. Donation Station', description: 'Calculate spare coin donations to local charities', iconName: 'Heart', category: 'Give', difficulty: 'Elementary', gradeLevel: 'Grade 2–3', starsReward: 5 },
-  { id: 'needs_wants', title: '3. Needs vs. Wants', description: 'Categorize essential survival needs vs. desires', iconName: 'Heart', category: 'Basics', difficulty: 'Elementary', gradeLevel: 'Grade 2–3', starsReward: 10 },
-  { id: 'sweet_shop', title: '4. Sweet Shop Spend', description: 'Calculate totals and buy treats under budget', iconName: 'ShoppingBag', category: 'Spend', difficulty: 'Elementary', gradeLevel: 'Grade 2–3', starsReward: 8 },
-  { id: 'three_jars', title: '5. The 3-Jar Budget', description: 'Split weekly cash allowance into Save, Spend, Give', iconName: 'PiggyBank', category: 'Save', difficulty: 'Elementary', gradeLevel: 'Grade 2–3', starsReward: 10 },
-  { id: 'chore_board', title: '6. Chore Board Builder', description: 'Earn dollars through home & classroom responsibilities', iconName: 'CheckSquare', category: 'Earn', difficulty: 'Elementary', gradeLevel: 'Grade 2–3', starsReward: 12 },
-  { id: 'toy_tradeoff', title: '7. Great Toy Trade-off', description: 'Practice delayed gratification for higher rewards', iconName: 'Gift', category: 'Save', difficulty: 'Elementary', gradeLevel: 'Grade 3–4', starsReward: 10 },
-  { id: 'receipt_math', title: '8. Receipt Adder Match', description: 'Add shopping bills and compute correct change', iconName: 'FileText', category: 'Basics', difficulty: 'Elementary', gradeLevel: 'Grade 3–4', starsReward: 8 },
-  { id: 'smart_quiz', title: '9. Smart Saver Quiz', description: 'Solve financial literacy scenarios & earn your degree!', iconName: 'Award', category: 'Quiz', difficulty: 'Elementary', gradeLevel: 'Grade 3–5', starsReward: 25 },
-  { id: 'interest_magic', title: '10. Magic Money Sprout', description: 'Calculate compound interest to multiply savings', iconName: 'TrendingUp', category: 'Save', difficulty: 'Elementary', gradeLevel: 'Grade 4–5', starsReward: 10 }
+interface RichModuleDefinition {
+  id: string;
+  title: string;
+  categoryLabel: string;
+  description: string;
+  actionLabel: string;
+  emoji: string;
+  bgColor: string; // Tailored WonderKids color palette
+  btnColor: string;
+  gradeLevel: 'Grade 2–3' | 'Grade 3–4' | 'Grade 4–5' | 'Grade 3–5';
+  starsReward: number;
+}
+
+const MODULES_LIST: RichModuleDefinition[] = [
+  {
+    id: 'coin_matching',
+    title: 'COIN MATCHER',
+    categoryLabel: 'COINS & COUNTING',
+    description: 'Count coins and match target store amounts into the cash tray!',
+    actionLabel: "LET'S COUNT! ›",
+    emoji: '🪙',
+    bgColor: 'bg-amber-300',
+    btnColor: 'bg-white',
+    gradeLevel: 'Grade 2–3',
+    starsReward: 5
+  },
+  {
+    id: 'giving_station',
+    title: 'DONATION STATION',
+    categoryLabel: 'COMMUNITY & GIVING',
+    description: 'Calculate spare coin donations to animal rescues and local food banks!',
+    actionLabel: "LET'S SHARE! ›",
+    emoji: '❤️',
+    bgColor: 'bg-sky-300',
+    btnColor: 'bg-white',
+    gradeLevel: 'Grade 2–3',
+    starsReward: 5
+  },
+  {
+    id: 'needs_wants',
+    title: 'NEEDS VS. WANTS',
+    categoryLabel: 'SMART CHOICES',
+    description: 'Classify essential survival needs vs. fun extras into interactive bins!',
+    actionLabel: "LET'S SORT! ›",
+    emoji: '🍎',
+    bgColor: 'bg-purple-300',
+    btnColor: 'bg-white',
+    gradeLevel: 'Grade 2–3',
+    starsReward: 10
+  },
+  {
+    id: 'sweet_shop',
+    title: 'SWEET SHOP SPEND',
+    categoryLabel: 'SPENDING & BUDGETS',
+    description: 'Calculate totals, pay with cash, and keep purchases under your sweet budget!',
+    actionLabel: "LET'S SHOP! ›",
+    emoji: '🛍️',
+    bgColor: 'bg-pink-300',
+    btnColor: 'bg-white',
+    gradeLevel: 'Grade 2–3',
+    starsReward: 8
+  },
+  {
+    id: 'three_jars',
+    title: 'THE 3-JAR BUDGET',
+    categoryLabel: 'SAVINGS & JARS',
+    description: 'Split weekly cash allowance into Save, Spend, and Give jars!',
+    actionLabel: "LET'S SPLIT! ›",
+    emoji: '🐷',
+    bgColor: 'bg-emerald-300',
+    btnColor: 'bg-white',
+    gradeLevel: 'Grade 2–3',
+    starsReward: 10
+  },
+  {
+    id: 'chore_board',
+    title: 'CHORE BOARD',
+    categoryLabel: 'EARNING & WORK',
+    description: 'Earn real dollars through helpful home and classroom responsibilities!',
+    actionLabel: "LET'S EARN! ›",
+    emoji: '📋',
+    bgColor: 'bg-orange-300',
+    btnColor: 'bg-white',
+    gradeLevel: 'Grade 2–3',
+    starsReward: 12
+  },
+  {
+    id: 'toy_tradeoff',
+    title: 'TOY TRADE-OFF',
+    categoryLabel: 'DELAYED GRATIFICATION',
+    description: 'Practice waiting and saving for big dream toys vs. instant impulse treats!',
+    actionLabel: "LET'S CHOOSE! ›",
+    emoji: '🎁',
+    bgColor: 'bg-indigo-300',
+    btnColor: 'bg-white',
+    gradeLevel: 'Grade 3–4',
+    starsReward: 10
+  },
+  {
+    id: 'receipt_math',
+    title: 'RECEIPT ADDER',
+    categoryLabel: 'MATH & RECEIPTS',
+    description: 'Add grocery receipts and verify correct cash change from the clerk!',
+    actionLabel: "LET'S ADD! ›",
+    emoji: '🧾',
+    bgColor: 'bg-teal-300',
+    btnColor: 'bg-white',
+    gradeLevel: 'Grade 3–4',
+    starsReward: 8
+  },
+  {
+    id: 'smart_quiz',
+    title: 'SMART SAVER QUIZ',
+    categoryLabel: 'KNOWLEDGE & DIPLOMA',
+    description: 'Answer fun money scenarios and earn your Official Junior Saver Diploma!',
+    actionLabel: "LET'S TEST! ›",
+    emoji: '🎓',
+    bgColor: 'bg-yellow-300',
+    btnColor: 'bg-white',
+    gradeLevel: 'Grade 3–5',
+    starsReward: 25
+  },
+  {
+    id: 'interest_magic',
+    title: 'MONEY SPROUT',
+    categoryLabel: 'COMPOUND INTEREST',
+    description: 'Water your savings seeds and watch compound interest multiply your coins!',
+    actionLabel: "LET'S GROW! ›",
+    emoji: '🌱',
+    bgColor: 'bg-lime-300',
+    btnColor: 'bg-white',
+    gradeLevel: 'Grade 4–5',
+    starsReward: 10
+  }
 ];
 
 export default function App() {
-  const [profile, setProfile] = useState<UserProfile>({
-    name: 'Young Investor',
-    avatar: '🦉',
-    wallet: 5.00, // starting cash
-    stars: 15,
-    completedModules: [],
-    choreEarnings: 0,
-    savingsGoal: {
-      name: 'Lego Rocket',
-      target: 15.0,
-      saved: 2.50
-    },
-    jarSave: 2.50,
-    jarSpend: 1.50,
-    jarGive: 1.00
+  const [profile, setProfile] = useState<UserProfile>(() => {
+    // Attempt to load from localStorage if available
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('storybook_finance_profile');
+        if (saved) return JSON.parse(saved);
+      } catch {
+        // ignore
+      }
+    }
+    return {
+      name: 'Young Investor',
+      avatar: '🦉',
+      wallet: 5.00,
+      stars: 15,
+      completedModules: [],
+      choreEarnings: 0,
+      savingsGoal: {
+        name: 'Lego Rocket',
+        target: 15.0,
+        saved: 2.50
+      },
+      jarSave: 2.50,
+      jarSpend: 1.50,
+      jarGive: 1.00
+    };
   });
 
+  // Current Screen: 'playground' (the big WonderKids grid) vs 'module' (the active fullscreen game)
+  const [currentScreen, setCurrentScreen] = useState<'playground' | 'module'>('playground');
   const [activeModuleId, setActiveModuleId] = useState<string>('coin_matching');
   const [viewingWorksheet, setViewingWorksheet] = useState<boolean>(false);
-  const [gradeFilter, setGradeFilter] = useState<'ALL' | '2-3' | '3-4' | '4-5'>('ALL');
-  const [showTeacherGuide, setShowTeacherGuide] = useState<boolean>(false);
-  const [isAppStoreGuideOpen, setIsAppStoreGuideOpen] = useState<boolean>(false);
+  const [gradeFilter, setGradeFilter] = useState<'ALL' | '2-3' | '3-4' | '4-5' | 'WORKSHEETS'>('ALL');
+  const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [showCurriculumMap, setShowCurriculumMap] = useState<boolean>(false);
 
-  const getGradeColorBadge = (gradeLevel: string) => {
-    if (gradeLevel.includes('2–3')) return 'bg-emerald-100 text-emerald-900 border-emerald-300';
-    if (gradeLevel.includes('3–4')) return 'bg-purple-100 text-purple-900 border-purple-300';
-    if (gradeLevel.includes('4–5')) return 'bg-indigo-100 text-indigo-900 border-indigo-300';
-    return 'bg-teal-100 text-teal-900 border-teal-300';
-  };
-
-  const renderGradeBadge = (gradeLevelStr: string, extraClasses: string = '') => {
-    const levelOnly = gradeLevelStr.replace(/^Grade\s*/i, '').trim();
-    const badgeColors = getGradeColorBadge(gradeLevelStr);
-
-    return (
-      <span className={`inline-flex flex-col items-center justify-center px-2 py-0.5 rounded-lg border leading-none shrink-0 ${badgeColors} ${extraClasses}`}>
-        <span className="text-[8px] uppercase tracking-wider font-extrabold opacity-75 select-none">GRADE</span>
-        <span className="text-[11px] font-black whitespace-nowrap mt-0.5">{levelOnly}</span>
-      </span>
-    );
+  // Sync profile changes
+  const updateProfile = (updater: (prev: UserProfile) => UserProfile) => {
+    setProfile(prev => {
+      const next = updater(prev);
+      try {
+        localStorage.setItem('storybook_finance_profile', JSON.stringify(next));
+      } catch {
+        // ignore
+      }
+      return next;
+    });
   };
 
   const handleAddMoney = (amount: number) => {
-    setProfile(prev => ({
+    playCoinSound();
+    updateProfile(prev => ({
       ...prev,
       wallet: Math.max(0, Math.round((prev.wallet + amount) * 100) / 100)
     }));
   };
 
   const handleAddStars = (starsAwarded: number) => {
-    setProfile(prev => {
+    playFanfareSound();
+    updateProfile(prev => {
       const nextCompleted = prev.completedModules.includes(activeModuleId)
         ? prev.completedModules
         : [...prev.completedModules, activeModuleId];
@@ -109,298 +237,418 @@ export default function App() {
     });
   };
 
-  const navigateToModule = (nextModuleId: string) => {
+  const handleSoundToggle = () => {
+    const muted = toggleMute();
+    setIsMuted(muted);
+    if (!muted) playPopSound();
+  };
+
+  // Launch a game module into full screen
+  const openModule = (moduleId: string, asWorksheet = false) => {
+    playPopSound();
+    setActiveModuleId(moduleId);
+    setViewingWorksheet(asWorksheet);
+    setCurrentScreen('module');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Return to WonderKids playground grid
+  const backToPlayground = () => {
+    playPopSound();
+    setCurrentScreen('playground');
+    setViewingWorksheet(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Navigate to next module in sequence
+  const navigateToNextModule = (nextModuleId: string) => {
+    playPopSound();
     setActiveModuleId(nextModuleId);
     setViewingWorksheet(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const completedCount = profile.completedModules.filter(id => {
-    const found = MODULES_LIST.find(m => m.id === id);
-    return found !== undefined;
-  }).length;
-
-  // Icon mapping helper
-  const renderModuleIcon = (name: string) => {
-    switch (name) {
-      case 'Coins': return <Coins className="text-amber-500" size={20} />;
-      case 'Heart': return <Heart className="text-rose-500" size={20} />;
-      case 'PiggyBank': return <PiggyBank className="text-purple-500" size={20} />;
-      case 'ShoppingBag': return <ShoppingBag className="text-pink-500" size={20} />;
-      case 'CheckSquare': return <CheckSquare className="text-emerald-500" size={20} />;
-      case 'TrendingUp': return <TrendingUp className="text-yellow-500" size={20} />;
-      case 'Gift': return <Gift className="text-orange-500" size={20} />;
-      case 'FileText': return <FileText className="text-sky-500" size={20} />;
-      case 'Award': return <Award className="text-yellow-500 animate-pulse" size={20} />;
-      default: return <Coins className="text-slate-500" size={20} />;
+  const resetProgress = () => {
+    if (window.confirm('Reset stars and completed activities?')) {
+      updateProfile(prev => ({
+        ...prev,
+        stars: 0,
+        completedModules: [],
+        wallet: 5.00
+      }));
+      playPopSound();
     }
   };
 
+  const activeModule = MODULES_LIST.find(m => m.id === activeModuleId) || MODULES_LIST[0];
+  const completedCount = profile.completedModules.length;
+  const isCertificateUnlocked = completedCount >= 5 || profile.stars >= 30;
+
+  // Filtered list of modules
+  const displayedModules = MODULES_LIST.filter(mod => {
+    if (gradeFilter === 'ALL' || gradeFilter === 'WORKSHEETS') return true;
+    if (gradeFilter === '2-3') return mod.gradeLevel.includes('2–3');
+    if (gradeFilter === '3-4') return mod.gradeLevel.includes('3–4');
+    if (gradeFilter === '4-5') return mod.gradeLevel.includes('4–5') || mod.gradeLevel.includes('3–5');
+    return true;
+  });
+
   return (
-    <div className="min-h-screen bg-slate-50 pb-16 font-sans print:bg-white print:p-0 print:m-0">
+    <div className="min-h-screen bg-[#faf8f5] text-slate-900 font-sans pb-16 selection:bg-amber-200">
       
-      {/* BRANDING TOP UTILITY BAR (HUMBLE & LITERAL LABELS) */}
-      <div className="bg-slate-900 text-slate-100 py-3.5 px-6 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-3 border-b border-slate-850 no-print">
-        <div className="flex items-center gap-2.5">
-          <span className="text-2xl">🦉</span>
-          <div>
-            <h1 className="text-base font-display font-bold tracking-wider text-white">Storybook Education</h1>
-            <p className="text-xs text-slate-300">Transformative Kids Financial Literacy Applications</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 text-xs font-semibold text-slate-300 flex-wrap justify-center">
-          <button
-            id="btn-open-app-store-guide"
-            onClick={() => setIsAppStoreGuideOpen(true)}
-            className="flex items-center gap-1.5 bg-lime-400/20 hover:bg-lime-400/30 text-lime-300 border border-lime-400/40 px-3 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer hover:text-white shadow-xs"
-            title="View Apple App Store packaging and preparation guide"
+      {/* ========================================================================= */}
+      {/* TOP HEADER (WONDERKIDS STYLE WITH BOLD BORDERS & PLAYFUL PILLS) */}
+      {/* ========================================================================= */}
+      <header className="sticky top-0 z-40 bg-white border-b-4 border-black px-4 py-3 shadow-sm no-print">
+        <div className="max-w-6xl mx-auto flex items-center justify-between gap-2 flex-wrap sm:flex-nowrap">
+          
+          {/* Logo & Portal Branding */}
+          <div 
+            onClick={backToPlayground}
+            className="flex items-center gap-2.5 cursor-pointer group"
           >
-            <Smartphone size={13} />
-            <span>Apple App Store Ready 🍏</span>
-          </button>
-          <span className="flex items-center gap-1 bg-slate-800 px-3.5 py-1.5 rounded-full text-lime-400 border border-slate-700 text-xs">
-            🟢 Active Learning Suite
-          </span>
-          <span className="text-slate-400 hidden sm:inline text-xs">Classroom Edition 2026</span>
-        </div>
-      </div>
-
-      {/* CORE STATS BOARD PANEL */}
-      <header className="max-w-7xl mx-auto px-4 mt-6 sm:px-6 no-print">
-        <div className="rounded-3xl p-6 shadow-lg border-4 transition-all duration-300 relative overflow-hidden bg-gradient-to-r from-lime-400 via-emerald-400 to-green-500 border-white text-slate-900">
-          {/* Subtle graphic background */}
-          <div className="absolute right-0 bottom-[-20px] opacity-10 text-9xl select-none">
-            🐷🪙🌟
+            <div className="w-11 h-11 rounded-2xl bg-amber-400 border-3 border-black flex items-center justify-center text-2xl shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:scale-105 transition-all">
+              🦉
+            </div>
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 block leading-none">
+                ADVENTURE PORTAL
+              </span>
+              <h1 className="text-xl sm:text-2xl font-display font-black tracking-tight text-slate-950 uppercase leading-none mt-0.5">
+                Storybook Finance
+              </h1>
+            </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-5 relative z-10">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full bg-white/40 text-emerald-950 inline-block">
-                Elementary School Modules (Grades 2-5)
-              </span>
-              <h1 className="text-3xl sm:text-4xl font-display font-extrabold mt-2 text-slate-950">
-                Storybook Finance Suite
-              </h1>
-              <p className="text-base mt-2 font-medium max-w-xl text-slate-900 leading-relaxed">
-                Start your adventure in money management! Earn coins completing chores, split budgets into 3 Jars, buy treats, grow savings sprouts, and claim your certified expert diploma!
-              </p>
+          {/* Action & Stats Pills */}
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+            
+            {/* Stars Counter Pill */}
+            <div 
+              id="header-stars-pill"
+              className="flex items-center gap-1.5 bg-[#fde047] border-3 border-black rounded-2xl px-3.5 py-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-display font-black text-sm"
+              title="Stars earned by completing activities!"
+            >
+              <span className="text-base animate-soft-bounce">⭐</span>
+              <span>{profile.stars}</span>
+              <span className="text-xs uppercase opacity-80">STARS</span>
             </div>
 
-            {/* Live profile stats */}
-            <div className="flex flex-wrap gap-4 items-center p-4 rounded-2xl shadow-md border-2 transition-all bg-white/95 border-white/60 text-slate-900 w-full md:w-auto justify-around sm:justify-start">
-              {/* Profile Avatar */}
-              <div className="flex items-center gap-2.5 border-r pr-3.5 border-slate-200">
-                <span className="text-3xl animate-soft-bounce">🦉</span>
-                <div>
-                  <span className="text-xs text-slate-500 font-bold uppercase block">Student Avatar</span>
-                  <input
-                    id="input-app-student-name"
-                    type="text"
-                    value={profile.name}
-                    onChange={(e) => setProfile(prev => ({ ...prev, name: e.target.value }))}
-                    className="text-sm font-bold focus:outline-none bg-transparent rounded px-1 max-w-[120px] text-slate-900 hover:bg-slate-100"
-                    title="Click to edit name"
-                  />
-                </div>
-              </div>
+            {/* Sound Toggle Button */}
+            <button
+              id="btn-toggle-sound"
+              onClick={handleSoundToggle}
+              className="w-10 h-10 rounded-2xl bg-white hover:bg-slate-100 border-3 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 transition-all cursor-pointer"
+              title={isMuted ? 'Unmute Sound Effects' : 'Mute Sound Effects'}
+            >
+              {isMuted ? <VolumeX size={18} className="text-slate-400" /> : <Volume2 size={18} className="text-slate-800" />}
+            </button>
 
-              {/* Stars Score */}
-              <div className="text-center px-1 flex items-center gap-1.5">
-                <Star className="text-yellow-400 fill-yellow-400" size={24} />
-                <div>
-                  <span className="text-xs text-slate-500 font-bold uppercase block">Stars Earned</span>
-                  <span className="font-mono text-xl sm:text-lg font-bold text-slate-900">{profile.stars}</span>
-                </div>
-              </div>
-            </div>
+            {/* Worksheets Quick Button */}
+            <button
+              id="btn-header-worksheets"
+              onClick={() => {
+                if (currentScreen === 'module') {
+                  setViewingWorksheet(true);
+                } else {
+                  setGradeFilter('WORKSHEETS');
+                }
+                playPopSound();
+              }}
+              className="flex items-center gap-1.5 bg-[#c084fc] hover:bg-[#a855f7] text-white border-3 border-black rounded-2xl px-3.5 py-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-display font-black text-xs sm:text-sm active:translate-y-0.5 transition-all cursor-pointer"
+            >
+              <Printer size={15} />
+              <span className="hidden xs:inline">WORKSHEETS</span> (PRINT)
+            </button>
+
+            {/* Certificate Pill */}
+            <button
+              id="btn-header-certificate"
+              onClick={() => openModule('smart_quiz')}
+              className={`flex items-center gap-1.5 border-3 border-black rounded-2xl px-3 py-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-display font-black text-xs sm:text-sm active:translate-y-0.5 transition-all cursor-pointer ${
+                isCertificateUnlocked
+                  ? 'bg-amber-400 hover:bg-amber-300 text-black'
+                  : 'bg-slate-200 text-slate-600'
+              }`}
+            >
+              <Award size={15} />
+              <span>{isCertificateUnlocked ? 'CERTIFICATE (UNLOCKED ⭐)' : 'CERTIFICATE (LOCKED)'}</span>
+            </button>
+
           </div>
         </div>
       </header>
 
-      {/* CORE WORKSPACE: MODULE NAVIGATION + ACTIVE GAME AREA */}
-      <main className="max-w-7xl mx-auto px-4 mt-6 sm:px-6 space-y-6 print:p-0 print:m-0 print:max-w-none">
-        
-        {/* Teacher Grade Level Alignment Banner */}
-        <div className="bg-amber-50/90 border border-amber-200 rounded-2xl p-4 shadow-xs no-print">
-          <div className="flex justify-between items-center flex-wrap gap-2">
-            <div className="flex items-center gap-2">
-              <span className="text-xl">🍎</span>
-              <div>
-                <h3 className="text-sm font-display font-bold text-amber-950">Teacher's Grade 2–5 Curriculum Map</h3>
-                <p className="text-xs text-amber-800 font-medium">All 10 modules are aligned with Grade 2 through 5 reading and elementary financial literacy standards.</p>
-              </div>
-            </div>
+      {/* ========================================================================= */}
+      {/* SCREEN 1: PLAYGROUND / HOME VIEW (WONDERKIDS LARGE MODULE GRID) */}
+      {/* ========================================================================= */}
+      {currentScreen === 'playground' && (
+        <main className="max-w-6xl mx-auto px-4 pt-6 space-y-6">
+          
+          {/* CATEGORY & GRADE TABS (WONDERKIDS STYLE SUB-NAV) */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+            {[
+              { id: 'ALL', label: 'ALL GAMES' },
+              { id: 'WORKSHEETS', label: '🖨️ PRINTABLE WORKSHEETS' },
+              { id: '2-3', label: 'GRADE 2–3' },
+              { id: '3-4', label: 'GRADE 3–4' },
+              { id: '4-5', label: 'GRADE 4–5' }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                id={`btn-filter-tab-${tab.id}`}
+                onClick={() => {
+                  setGradeFilter(tab.id as any);
+                  playPopSound();
+                }}
+                className={`font-display font-black text-xs sm:text-sm px-4 py-2 rounded-2xl border-3 border-black whitespace-nowrap transition-all cursor-pointer ${
+                  gradeFilter === tab.id
+                    ? 'bg-black text-white shadow-[3px_3px_0px_0px_rgba(0,0,0,0.2)] -translate-y-0.5'
+                    : 'bg-white text-slate-800 hover:bg-slate-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+
             <button
-              id="btn-toggle-teacher-guide"
-              onClick={() => setShowTeacherGuide(!showTeacherGuide)}
-              className="text-xs font-bold text-amber-900 hover:text-amber-950 bg-amber-100 hover:bg-amber-200 px-3 py-1.5 rounded-xl border border-amber-300 transition-all cursor-pointer flex items-center gap-1"
+              id="btn-curriculum-toggle"
+              onClick={() => setShowCurriculumMap(!showCurriculumMap)}
+              className="ml-auto font-display font-black text-xs px-3.5 py-2 rounded-2xl border-3 border-black bg-amber-100 hover:bg-amber-200 text-amber-950 whitespace-nowrap shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] cursor-pointer"
             >
-              {showTeacherGuide ? 'Hide Curriculum Map ▲' : 'View Grade Map & Alignment ▼'}
+              {showCurriculumMap ? 'Hide Curriculum Map ▲' : '🍎 Curriculum Map ▼'}
             </button>
           </div>
 
-          {showTeacherGuide && (
-            <div className="mt-4 pt-3 border-t border-amber-200/80 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-amber-950">
-              <div className="bg-white/80 p-3 rounded-xl border border-amber-200">
-                <span className="font-bold text-amber-900 block mb-1">🌱 Lower Elementary (Grades 2–3)</span>
-                <p className="text-slate-700 leading-relaxed">
-                  Focuses on reading-based coin counting (Coin Matcher), calculating community donations (Donation Station), analyzing Needs vs. Wants, and budgeting in the Sweet Shop & 3-Jar system.
-                </p>
+          {/* CURRICULUM MAP ACCORDION */}
+          {showCurriculumMap && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              className="bg-amber-50 border-4 border-black rounded-3xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-xs text-amber-950"
+            >
+              <h3 className="font-display font-black text-base text-amber-950 mb-2">
+                🍎 Teacher &amp; Parent Curriculum Standards Alignment
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div className="bg-white border-2 border-amber-300 rounded-2xl p-3">
+                  <span className="font-bold text-amber-900 block mb-1">🌱 Lower Elementary (Grades 2–3)</span>
+                  <p className="text-slate-700">
+                    Coin identification and counting, community donation math, Needs vs. Wants classification, Sweet Shop budgeting, and 3-Jar weekly allocation.
+                  </p>
+                </div>
+                <div className="bg-white border-2 border-amber-300 rounded-2xl p-3">
+                  <span className="font-bold text-amber-900 block mb-1">🌿 Intermediate (Grades 3–4)</span>
+                  <p className="text-slate-700">
+                    Earning through responsible chores, grocery receipt addition &amp; change calculation, and practicing delayed gratification (Toy Trade-Off).
+                  </p>
+                </div>
+                <div className="bg-white border-2 border-amber-300 rounded-2xl p-3">
+                  <span className="font-bold text-amber-900 block mb-1">🚀 Upper Elementary (Grades 4–5)</span>
+                  <p className="text-slate-700">
+                    Magic compound interest sprout multiplier and the 10-question comprehensive Smart Saver scenario quiz diploma!
+                  </p>
+                </div>
               </div>
-              <div className="bg-white/80 p-3 rounded-xl border border-amber-200">
-                <span className="font-bold text-amber-900 block mb-1">🌿 Intermediate (Grades 3–4)</span>
-                <p className="text-slate-700 leading-relaxed">
-                  Introduces earning through responsible home/classroom chores, receipt addition & change calculation, and practicing delayed gratification (Toy Trade-off).
-                </p>
-              </div>
-              <div className="bg-white/80 p-3 rounded-xl border border-amber-200">
-                <span className="font-bold text-amber-900 block mb-1">🚀 Upper Elementary (Grades 4–5)</span>
-                <p className="text-slate-700 leading-relaxed">
-                  Covers compound growth with the Magic Money Sprout interest multiplier and evaluates comprehensive financial literacy reading and problem-solving in the Smart Saver Degree Quiz.
-                </p>
-              </div>
-            </div>
+            </motion.div>
           )}
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 print:grid-cols-1 print:gap-0">
-          {/* LEFT COLUMN: Sidebar listing modules */}
-          <div className="lg:col-span-4 space-y-4 no-print">
-            <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-200">
-              <div className="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
-                <h3 className="font-display font-bold text-slate-800 text-base sm:text-sm flex items-center gap-2">
-                  🎮 Elementary Modules ({MODULES_LIST.length})
-                </h3>
-                <span className="text-xs font-bold bg-slate-100 text-slate-700 px-3 py-1 rounded-full">
-                  {completedCount} / {MODULES_LIST.length} Done
+          {/* WONDERKIDS HERO BANNER (ORANGE/WARM PLAYFUL CARD WITH TROPHY CASE) */}
+          <section className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 border-4 border-black rounded-3xl p-6 sm:p-8 text-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">
+              <div className="max-w-xl">
+                <span className="inline-flex items-center gap-1 bg-[#fde047] text-black border-2 border-black px-3.5 py-1 rounded-full font-display font-black text-xs uppercase tracking-wider mb-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                  WELCOME FRIEND! 👋
+                </span>
+                <h2 className="text-3xl sm:text-5xl font-display font-black tracking-tight text-white drop-shadow-[2px_2px_0px_rgba(0,0,0,0.4)] leading-tight">
+                  LET'S PLAY &amp; LEARN!
+                </h2>
+                <p className="text-base sm:text-lg font-medium text-amber-100 mt-2 leading-relaxed">
+                  Select any creative financial activity below. Count in the coin tray, sort survival needs &amp; fun wants, budget 3 jars, grow interest sprouts, or practice printable worksheets!
+                </p>
+              </div>
+
+              {/* Trophy Case Widget */}
+              <div className="bg-[#fef08a] text-black border-4 border-black rounded-3xl p-4 sm:p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] w-full md:w-auto min-w-[220px] text-center">
+                <span className="font-display font-black text-xs uppercase tracking-widest text-slate-700 block">
+                  🏆 TROPHY CASE
+                </span>
+                <div className="text-2xl sm:text-3xl font-display font-black text-slate-950 mt-1">
+                  {completedCount} <span className="text-base font-bold text-slate-600">of 10 Activities</span>
+                </div>
+                <div className="w-full bg-white border-2 border-black rounded-full h-3.5 mt-2 overflow-hidden p-0.5">
+                  <div
+                    className="bg-emerald-500 h-full rounded-full transition-all duration-500"
+                    style={{ width: `${Math.min(100, (completedCount / 10) * 100)}%` }}
+                  />
+                </div>
+                <span className="text-[11px] font-bold text-slate-700 mt-1 block">
+                  {completedCount === 10 ? '🎉 All Complete!' : `${10 - completedCount} more to complete all!`}
                 </span>
               </div>
+            </div>
+          </section>
 
-              {/* Grade Level Filter Pills */}
-              <div className="flex items-center gap-1.5 mb-3.5 flex-wrap">
-                <span className="text-xs font-bold text-slate-500 mr-1">Filter Grade:</span>
-                {[
-                  { id: 'ALL', label: 'All (2-5)' },
-                  { id: '2-3', label: '2–3' },
-                  { id: '3-4', label: '3–4' },
-                  { id: '4-5', label: '4–5' }
-                ].map((btn) => (
-                  <button
-                    key={btn.id}
-                    id={`btn-filter-grade-${btn.id}`}
-                    onClick={() => setGradeFilter(btn.id as any)}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                      gradeFilter === btn.id
-                        ? 'bg-slate-900 text-white shadow-xs'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                    }`}
-                  >
-                    {btn.label}
-                  </button>
-                ))}
-              </div>
+          {/* SECTION TITLE: CHOOSE YOUR ADVENTURE */}
+          <div className="pt-2">
+            <h3 className="font-display font-black text-xl sm:text-2xl text-slate-950 tracking-wide uppercase">
+              CHOOSE YOUR ADVENTURE:
+            </h3>
+          </div>
 
-              <div className="space-y-2.5 max-h-[500px] overflow-y-auto pr-1">
-                {MODULES_LIST.filter(mod => {
-                  if (gradeFilter === 'ALL') return true;
-                  if (gradeFilter === '2-3') return mod.gradeLevel.includes('2–3');
-                  if (gradeFilter === '3-4') return mod.gradeLevel.includes('3–4');
-                  if (gradeFilter === '4-5') return mod.gradeLevel.includes('4–5') || mod.gradeLevel.includes('3–5');
-                  return true;
-                }).map((mod) => {
-                  const isActive = activeModuleId === mod.id;
-                  const isCompleted = profile.completedModules.includes(mod.id);
+          {/* ========================================================================= */}
+          {/* THE 10 LARGE MODULE BUTTONS / CARDS (WONDERKIDS 2-COLUMN CHUNKY BENTO) */}
+          {/* ========================================================================= */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+            {displayedModules.map((mod) => {
+              const isCompleted = profile.completedModules.includes(mod.id);
 
-                  return (
-                    <button
-                      key={mod.id}
-                      id={`btn-nav-module-${mod.id}`}
-                      onClick={() => {
-                        setActiveModuleId(mod.id);
-                        setViewingWorksheet(false);
-                      }}
-                      className={`w-full text-left p-3 rounded-2xl border-2 transition-all flex items-center justify-between group cursor-pointer ${
-                        isActive
-                          ? 'bg-lime-50 border-lime-400 font-bold ring-2 ring-lime-100'
-                          : 'bg-white border-slate-100 hover:border-slate-200'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
-                          {renderModuleIcon(mod.iconName)}
-                        </div>
-                        <div>
-                          <span className="text-sm font-display font-bold text-slate-900 block line-clamp-1">
-                            {mod.title}
-                          </span>
-                          <div className="flex items-center gap-2 mt-1">
-                            {renderGradeBadge(mod.gradeLevel)}
-                            <span className="text-xs text-slate-500 line-clamp-1 group-hover:text-slate-700">
-                              {mod.description}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-1 shrink-0 ml-2">
-                        {isCompleted ? (
-                          <span className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full font-bold">Done ✅</span>
-                        ) : (
-                          <span className="text-xs text-slate-500 group-hover:text-slate-700 flex items-center gap-0.5 font-bold">
-                            Play <ChevronRight size={12} />
+              return (
+                <div
+                  key={mod.id}
+                  id={`card-module-${mod.id}`}
+                  className={`${mod.bgColor} border-4 border-black rounded-3xl p-5 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:shadow-[7px_7px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex flex-col justify-between`}
+                >
+                  <div>
+                    {/* Category Label Pill & Grade Badge */}
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <span className="bg-black text-white px-3 py-1 rounded-xl font-display font-black text-[11px] tracking-wider uppercase">
+                        {mod.categoryLabel}
+                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="bg-white/80 border-2 border-black rounded-lg px-2 py-0.5 text-[10px] font-black uppercase text-slate-900">
+                          {mod.gradeLevel}
+                        </span>
+                        {isCompleted && (
+                          <span className="bg-emerald-400 border-2 border-black rounded-lg px-2 py-0.5 text-[10px] font-black uppercase text-black">
+                            DONE ✅
                           </span>
                         )}
                       </div>
+                    </div>
+
+                    {/* Icon + Title + Description */}
+                    <div className="flex items-start gap-4 mb-4">
+                      <div className="w-16 h-16 rounded-2xl bg-white border-3 border-black flex items-center justify-center text-3xl shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] shrink-0">
+                        {mod.emoji}
+                      </div>
+                      <div>
+                        <h4 className="font-display font-black text-xl sm:text-2xl text-slate-950 uppercase tracking-tight leading-tight">
+                          {mod.title}
+                        </h4>
+                        <p className="text-sm font-semibold text-slate-800 mt-1 leading-snug">
+                          {mod.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* WonderKids Action Buttons: WORKSHEET (left) & LET'S PLAY (right) */}
+                  <div className="pt-3 border-t-2 border-black/15 flex items-center gap-2.5">
+                    {/* Left Button: Direct to Worksheet */}
+                    <button
+                      id={`btn-card-worksheet-${mod.id}`}
+                      onClick={() => openModule(mod.id, true)}
+                      className="bg-[#e879f9] hover:bg-[#d946ef] text-black border-3 border-black rounded-2xl px-4 py-2.5 font-display font-black text-xs sm:text-sm shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 transition-all flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <Printer size={15} />
+                      <span>WORKSHEET</span>
                     </button>
-                  );
-                })}
-              </div>
-            </div>
+
+                    {/* Right Button: Big Primary Play Action */}
+                    <button
+                      id={`btn-card-play-${mod.id}`}
+                      onClick={() => openModule(mod.id, false)}
+                      className="ml-auto bg-white hover:bg-slate-100 text-black border-3 border-black rounded-2xl px-5 py-2.5 font-display font-black text-xs sm:text-sm shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 transition-all flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <span>{mod.actionLabel}</span>
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
-          {/* RIGHT COLUMN: Active Game / Content Window */}
-          <div className="lg:col-span-8 print:col-span-12 print:w-full print:p-0 print:m-0">
-            {/* Top segment control picker within active module */}
-            <div className="bg-white rounded-2xl p-3 shadow-sm border border-slate-200 mb-4 flex justify-between items-center flex-wrap gap-3 no-print">
-              <div className="flex items-center gap-2.5">
-                <span className="text-2xl">🏫</span>
-                <div>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h4 className="text-sm font-display font-bold text-slate-800">Module Workspace</h4>
-                    {(() => {
-                      const activeObj = MODULES_LIST.find(m => m.id === activeModuleId);
-                      return activeObj ? renderGradeBadge(activeObj.gradeLevel) : null;
-                    })()}
-                  </div>
-                  <p className="text-xs text-slate-500">Toggle between the interactive game and printable worksheet!</p>
-                </div>
-              </div>
-              <div className="flex gap-2 w-full sm:w-auto">
-                <button
-                  id="btn-toggle-game"
-                  onClick={() => setViewingWorksheet(false)}
-                  className={`flex-1 sm:flex-initial px-4 py-2 rounded-xl text-sm font-display font-bold transition-all border-2 flex items-center justify-center gap-1.5 cursor-pointer ${
-                    !viewingWorksheet
-                      ? 'bg-lime-500 border-lime-600 text-white shadow-sm'
-                      : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
-                  }`}
-                >
-                  🎮 Play Game
-                </button>
-                <button
-                  id="btn-toggle-worksheet"
-                  onClick={() => setViewingWorksheet(true)}
-                  className={`flex-1 sm:flex-initial px-4 py-2 rounded-xl text-sm font-display font-bold transition-all border-2 flex items-center justify-center gap-1.5 cursor-pointer ${
-                    viewingWorksheet
-                      ? 'bg-lime-500 border-lime-600 text-white shadow-sm'
-                      : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
-                  }`}
-                >
-                  📝 Topic Worksheet
-                </button>
-              </div>
+          {/* FOOTER WONDERKIDS STYLE WITH RESET */}
+          <div className="pt-8 pb-4 text-center border-t-2 border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-bold text-slate-600">
+            <span>© 2026 Storybook Education • Built for Active Play &amp; Financial Literacy</span>
+            <button
+              id="btn-reset-progress"
+              onClick={resetProgress}
+              className="text-slate-500 hover:text-red-600 underline font-bold cursor-pointer flex items-center gap-1"
+            >
+              <RotateCcw size={13} /> Reset Stars &amp; Progress
+            </button>
+          </div>
+
+        </main>
+      )}
+
+      {/* ========================================================================= */}
+      {/* SCREEN 2: DEDICATED MODULE / GAME VIEW (100% SCREEN WIDTH, NO SQUEEZE!) */}
+      {/* ========================================================================= */}
+      {currentScreen === 'module' && (
+        <main className="max-w-5xl mx-auto px-4 pt-5 space-y-4">
+          
+          {/* TOP NAV BAR INSIDE MODULE (WONDERKIDS HEADER BAR) */}
+          <div className="flex items-center justify-between gap-3 flex-wrap no-print">
+            
+            {/* Back to Playground Button */}
+            <button
+              id="btn-back-to-playground"
+              onClick={backToPlayground}
+              className="bg-white hover:bg-slate-100 text-black border-3 border-black rounded-2xl px-5 py-2.5 font-display font-black text-sm shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 transition-all flex items-center gap-2 cursor-pointer"
+            >
+              <ArrowLeft size={18} />
+              <span>BACK TO PLAYGROUND</span>
+            </button>
+
+            {/* Current Playing Indicator */}
+            <div className={`flex items-center gap-2 ${activeModule.bgColor} border-3 border-black rounded-2xl px-4 py-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]`}>
+              <span className="text-xl">{activeModule.emoji}</span>
+              <span className="font-display font-black text-sm uppercase tracking-wide text-black">
+                PLAYING: {activeModule.title}
+              </span>
             </div>
 
+          </div>
+
+          {/* TOGGLE TABS: PLAY GAME vs PRINT WORKSHEET */}
+          <div className="flex gap-2.5 no-print">
+            <button
+              id="btn-module-tab-play"
+              onClick={() => {
+                setViewingWorksheet(false);
+                playPopSound();
+              }}
+              className={`flex-1 font-display font-black text-sm sm:text-base py-3 px-4 rounded-2xl border-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                !viewingWorksheet
+                  ? `${activeModule.bgColor} text-black -translate-y-0.5`
+                  : 'bg-white hover:bg-slate-50 text-slate-700'
+              }`}
+            >
+              <span>🎮 PLAY {activeModule.title}</span>
+            </button>
+            <button
+              id="btn-module-tab-worksheet"
+              onClick={() => {
+                setViewingWorksheet(true);
+                playPopSound();
+              }}
+              className={`flex-1 font-display font-black text-sm sm:text-base py-3 px-4 rounded-2xl border-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                viewingWorksheet
+                  ? 'bg-[#e879f9] text-black -translate-y-0.5'
+                  : 'bg-white hover:bg-slate-50 text-slate-700'
+              }`}
+            >
+              <Printer size={18} />
+              <span>PRINT {activeModule.title} WORKSHEET</span>
+            </button>
+          </div>
+
+          {/* ======================================================================= */}
+          {/* THE FULL GAME WORKSPACE (100% WIDTH CANVAS FOR IPAD PERFECTION!) */}
+          {/* ======================================================================= */}
           <AnimatePresence mode="wait">
             {viewingWorksheet ? (
               <motion.div
@@ -420,14 +668,15 @@ export default function App() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
+                className="w-full"
               >
-                {/* Elementary Game Switch Cases */}
+                {/* 10 Interactive Educational Modules */}
                 {activeModuleId === 'coin_matching' && (
                   <CoinCatcher
                     wallet={profile.wallet}
                     onAddMoney={handleAddMoney}
                     onAddStars={handleAddStars}
-                    onNextModule={() => navigateToModule('giving_station')}
+                    onNextModule={() => navigateToNextModule('giving_station')}
                   />
                 )}
                 {activeModuleId === 'giving_station' && (
@@ -435,27 +684,27 @@ export default function App() {
                     wallet={profile.wallet}
                     onAddStars={handleAddStars}
                     onAddMoney={handleAddMoney}
-                    onNextModule={() => navigateToModule('needs_wants')}
+                    onNextModule={() => navigateToNextModule('needs_wants')}
                   />
                 )}
                 {activeModuleId === 'needs_wants' && (
                   <NeedsWants
                     onAddStars={handleAddStars}
-                    onNextModule={() => navigateToModule('sweet_shop')}
+                    onNextModule={() => navigateToNextModule('sweet_shop')}
                   />
                 )}
                 {activeModuleId === 'sweet_shop' && (
                   <SweetShop
                     onAddStars={handleAddStars}
                     onAddMoney={handleAddMoney}
-                    onNextModule={() => navigateToModule('three_jars')}
+                    onNextModule={() => navigateToNextModule('three_jars')}
                   />
                 )}
                 {activeModuleId === 'three_jars' && (
                   <ThreeJars
                     onAddStars={handleAddStars}
                     onAddMoney={handleAddMoney}
-                    onNextModule={() => navigateToModule('chore_board')}
+                    onNextModule={() => navigateToNextModule('chore_board')}
                   />
                 )}
                 {activeModuleId === 'chore_board' && (
@@ -463,66 +712,65 @@ export default function App() {
                     wallet={profile.wallet}
                     onAddMoney={handleAddMoney}
                     onAddStars={handleAddStars}
-                    onNextModule={() => navigateToModule('toy_tradeoff')}
+                    onNextModule={() => navigateToNextModule('toy_tradeoff')}
                   />
                 )}
                 {activeModuleId === 'toy_tradeoff' && (
                   <ToyTradeoff
                     onAddStars={handleAddStars}
-                    onNextModule={() => navigateToModule('receipt_math')}
+                    onNextModule={() => navigateToNextModule('receipt_math')}
                   />
                 )}
                 {activeModuleId === 'receipt_math' && (
                   <ReceiptMatcher
                     onAddStars={handleAddStars}
-                    onNextModule={() => navigateToModule('smart_quiz')}
+                    onNextModule={() => navigateToNextModule('smart_quiz')}
                   />
                 )}
                 {activeModuleId === 'smart_quiz' && (
                   <SmartSaverQuiz
                     onAddStars={handleAddStars}
-                    onNextModule={() => navigateToModule('interest_magic')}
+                    onNextModule={() => navigateToNextModule('interest_magic')}
                   />
                 )}
                 {activeModuleId === 'interest_magic' && (
                   <InterestMagic
                     onAddStars={handleAddStars}
-                    onNextModule={() => navigateToModule('coin_matching')}
+                    onNextModule={() => navigateToNextModule('coin_matching')}
                   />
                 )}
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
-      </div>
 
-      </main>
+          {/* BOTTOM QUICK NAV BUTTONS */}
+          <div className="pt-4 pb-8 flex items-center justify-between gap-3 no-print">
+            <button
+              onClick={backToPlayground}
+              className="bg-white hover:bg-slate-100 text-black border-3 border-black rounded-2xl px-4 py-2.5 font-display font-black text-xs sm:text-sm shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
+            >
+              <ArrowLeft size={16} /> All Activities
+            </button>
 
-      {/* CORE INFO & ADULT GUIDELINES FOOTER */}
-      <footer className="max-w-7xl mx-auto px-4 mt-12 sm:px-6 no-print">
-        <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
-          <div className="flex items-start gap-3">
-            <div className="p-2.5 bg-indigo-100 text-indigo-800 rounded-xl shrink-0">
-              <Info size={22} />
-            </div>
-            <div>
-              <h4 className="font-display font-bold text-slate-800 text-base">Parents &amp; Educators Guide:</h4>
-              <p className="text-sm text-slate-600 mt-1 leading-relaxed">
-                Storybook Finance is built specifically to address core state standards for elementary school economics and math. Every interactive game translates abstract savings principles into tactile experiences. We encourage you to click the <strong>Topic Worksheet</strong> tab inside any of our 10 modules above to view and print tangible activity sheets matching these digital games for school or homework exercises!
-              </p>
-            </div>
+            {(() => {
+              const currentIdx = MODULES_LIST.findIndex(m => m.id === activeModuleId);
+              const nextIdx = (currentIdx + 1) % MODULES_LIST.length;
+              const nextMod = MODULES_LIST[nextIdx];
+
+              return (
+                <button
+                  onClick={() => navigateToNextModule(nextMod.id)}
+                  className="bg-black hover:bg-slate-800 text-white border-3 border-black rounded-2xl px-5 py-2.5 font-display font-black text-xs sm:text-sm shadow-[3px_3px_0px_0px_rgba(0,0,0,0.3)] active:translate-y-0.5 cursor-pointer flex items-center gap-1.5 ml-auto"
+                >
+                  <span>Next: {nextMod.title}</span>
+                  <ChevronRight size={16} />
+                </button>
+              );
+            })()}
           </div>
-        </div>
-        <div className="mt-6 mb-12 text-center text-xs text-slate-400 font-semibold tracking-wide">
-          © 2026 Storybook Education • All Rights Reserved
-        </div>
-      </footer>
 
-      {/* Apple App Store Packaging & Export Guide Modal */}
-      <AppStoreGuideModal
-        isOpen={isAppStoreGuideOpen}
-        onClose={() => setIsAppStoreGuideOpen(false)}
-      />
+        </main>
+      )}
 
     </div>
   );
