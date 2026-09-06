@@ -1121,3 +1121,26 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
     </div>
   );
 }
+
+/**
+ * Direct standalone print function for any module's worksheet.
+ * Can be called from any view without requiring DOM elements.
+ */
+export async function printDirectWorksheet(moduleId: string, studentName: string = '', dateStr?: string): Promise<boolean> {
+  const sheet = WORKSHEETS_BY_MODULE[moduleId] || WORKSHEETS_BY_MODULE['coin_matching'];
+  if (!sheet) return false;
+
+  const html = buildWorksheetHtml({
+    title: sheet.title,
+    topic: sheet.topic,
+    gradeLevelTarget: sheet.gradeLevelTarget,
+    studentName: studentName || '',
+    date: dateStr || new Date().toLocaleDateString(),
+    questions: sheet.questions,
+    userAnswers: {},
+    showAnswers: false
+  });
+
+  return await triggerPrint(html, `${sheet.title} - Worksheet`);
+}
+

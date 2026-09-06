@@ -509,10 +509,12 @@ export async function triggerPrint(htmlContent: string, jobTitle = 'Worksheet'):
     printFrame.style.position = 'fixed';
     printFrame.style.right = '0';
     printFrame.style.bottom = '0';
-    printFrame.style.width = '0';
-    printFrame.style.height = '0';
+    printFrame.style.width = '1px';
+    printFrame.style.height = '1px';
+    printFrame.style.opacity = '0.01';
     printFrame.style.border = '0';
     printFrame.setAttribute('aria-hidden', 'true');
+    printFrame.setAttribute('tabindex', '-1');
     document.body.appendChild(printFrame);
 
     const frameDoc = printFrame.contentWindow?.document;
@@ -521,13 +523,21 @@ export async function triggerPrint(htmlContent: string, jobTitle = 'Worksheet'):
       frameDoc.write(htmlContent);
       frameDoc.close();
 
-      setTimeout(() => {
+      const runPrint = () => {
         try {
           printFrame.contentWindow?.focus();
           printFrame.contentWindow?.print();
         } catch (printErr) {
-          console.warn('Iframe print failed, falling back to window.print():', printErr);
-          window.print();
+          console.warn('Iframe print failed, opening dedicated print popup:', printErr);
+          try {
+            const printWin = window.open('', '_blank');
+            if (printWin) {
+              printWin.document.write(htmlContent);
+              printWin.document.close();
+              printWin.focus();
+              printWin.print();
+            }
+          } catch {}
         } finally {
           setTimeout(() => {
             try {
@@ -535,20 +545,28 @@ export async function triggerPrint(htmlContent: string, jobTitle = 'Worksheet'):
                 document.body.removeChild(printFrame);
               }
             } catch {}
-          }, 3000);
+          }, 4000);
         }
-      }, 300);
+      };
+
+      // Allow 200ms for browser to render styles and fonts in the iframe
+      setTimeout(runPrint, 200);
       return true;
     } else {
-      window.print();
-      return true;
+      throw new Error('Unable to access iframe document');
     }
   } catch (webErr: unknown) {
-    console.warn('Printing error, falling back to window.print():', webErr);
-    if (typeof window !== 'undefined' && typeof window.print === 'function') {
-      window.print();
-      return true;
-    }
+    console.warn('Printing error, opening dedicated popup:', webErr);
+    try {
+      const printWin = window.open('', '_blank');
+      if (printWin) {
+        printWin.document.write(htmlContent);
+        printWin.document.close();
+        printWin.focus();
+        printWin.print();
+        return true;
+      }
+    } catch {}
     return false;
   }
 }

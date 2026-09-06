@@ -23,7 +23,7 @@ import ToyTradeoff from './components/ToyTradeoff';
 import ReceiptMatcher from './components/ReceiptMatcher';
 import DonationStation from './components/DonationStation';
 import SmartSaverQuiz from './components/SmartSaverQuiz';
-import ModuleWorksheet from './components/ModuleWorksheet';
+import ModuleWorksheet, { printDirectWorksheet } from './components/ModuleWorksheet';
 
 import { UserProfile } from './types';
 import { playPopSound, playCoinSound, playFanfareSound, toggleMute, getMuteState } from './utils/soundEffects';
@@ -623,20 +623,19 @@ export default function App() {
             </button>
             <button
               id="btn-module-tab-worksheet"
-              onClick={() => {
+              onClick={async () => {
                 playPopSound();
                 if (!viewingWorksheet) {
                   setViewingWorksheet(true);
                 }
-                // Trigger the print dialog (either immediately if already on worksheet, or after view switch)
-                setTimeout(() => {
-                  const printBtn = document.getElementById('btn-print-action') as HTMLButtonElement | null;
-                  if (printBtn) {
-                    printBtn.click();
-                  } else {
-                    window.print();
-                  }
-                }, 100);
+                // If worksheet is already active, trigger its handler to preserve any student name/answers entered
+                const printBtn = document.getElementById('btn-print-action') as HTMLButtonElement | null;
+                if (printBtn && viewingWorksheet) {
+                  printBtn.click();
+                } else {
+                  // Direct standalone print: builds and prints the pristine worksheet HTML without relying on DOM
+                  await printDirectWorksheet(activeModule.id);
+                }
               }}
               className={`flex-1 font-display font-black text-sm sm:text-base py-3 px-4 rounded-2xl border-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer flex items-center justify-center gap-2 ${
                 viewingWorksheet
