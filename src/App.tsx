@@ -492,36 +492,37 @@ export default function App() {
                 <div
                   key={mod.id}
                   id={`card-module-${mod.id}`}
-                  className={`${mod.bgColor} border-4 border-black rounded-3xl p-5 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:shadow-[7px_7px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex flex-col justify-between`}
+                  onClick={() => openModule(mod.id, false)}
+                  className={`${mod.bgColor} border-4 border-black rounded-3xl p-5 sm:p-6 lg:p-7 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:shadow-[7px_7px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex flex-col justify-between cursor-pointer group`}
                 >
-                  <div>
+                  <div className="cursor-pointer">
                     {/* Category Label Pill & Grade Badge */}
-                    <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="bg-black text-white px-3 py-1 rounded-xl font-display font-black text-[11px] tracking-wider uppercase">
+                    <div className="flex items-center justify-between gap-2 mb-3.5">
+                      <span className="bg-black text-white px-3.5 py-1.5 rounded-xl font-display font-black text-xs sm:text-sm tracking-wider uppercase">
                         {mod.categoryLabel}
                       </span>
-                      <div className="flex items-center gap-1.5">
-                        <span className="bg-white/80 border-2 border-black rounded-lg px-2 py-0.5 text-[10px] font-black uppercase text-slate-900">
+                      <div className="flex items-center gap-2">
+                        <span className="bg-white/90 border-2 border-black rounded-lg px-2.5 py-1 text-xs font-black uppercase text-slate-900">
                           {mod.gradeLevel}
                         </span>
                         {isCompleted && (
-                          <span className="bg-emerald-400 border-2 border-black rounded-lg px-2 py-0.5 text-[10px] font-black uppercase text-black">
+                          <span className="bg-emerald-400 border-2 border-black rounded-lg px-2.5 py-1 text-xs font-black uppercase text-black">
                             DONE ✅
                           </span>
                         )}
                       </div>
                     </div>
 
-                    {/* Icon + Title + Description */}
-                    <div className="flex items-start gap-4 mb-4">
-                      <div className="w-16 h-16 rounded-2xl bg-white border-3 border-black flex items-center justify-center text-3xl shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] shrink-0">
+                    {/* Icon + Title + Description (Clickable Area) */}
+                    <div className="flex items-start gap-4 sm:gap-5 mb-5">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white border-3 sm:border-4 border-black flex items-center justify-center text-3xl sm:text-4xl shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] shrink-0 group-hover:scale-105 transition-transform">
                         {mod.emoji}
                       </div>
                       <div>
-                        <h4 className="font-display font-black text-xl sm:text-2xl text-slate-950 uppercase tracking-tight leading-tight">
+                        <h4 className="font-display font-black text-2xl sm:text-3xl lg:text-[28px] text-slate-950 uppercase tracking-tight leading-tight group-hover:underline decoration-black/30 underline-offset-4">
                           {mod.title}
                         </h4>
-                        <p className="text-sm font-semibold text-slate-800 mt-1 leading-snug">
+                        <p className="text-base sm:text-lg lg:text-xl font-bold text-slate-900 mt-1.5 leading-snug">
                           {mod.description}
                         </p>
                       </div>
@@ -529,22 +530,28 @@ export default function App() {
                   </div>
 
                   {/* WonderKids Action Buttons: WORKSHEET (left) & LET'S PLAY (right) */}
-                  <div className="pt-3 border-t-2 border-black/15 flex items-center gap-2.5">
+                  <div className="pt-4 border-t-2 border-black/15 flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
                     {/* Left Button: Direct to Worksheet */}
                     <button
                       id={`btn-card-worksheet-${mod.id}`}
-                      onClick={() => openModule(mod.id, true)}
-                      className="bg-[#e879f9] hover:bg-[#d946ef] text-black border-3 border-black rounded-2xl px-4 py-2.5 font-display font-black text-xs sm:text-sm shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 transition-all flex items-center gap-1.5 cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openModule(mod.id, true);
+                      }}
+                      className="bg-[#e879f9] hover:bg-[#d946ef] text-black border-3 border-black rounded-2xl px-4 sm:px-5 py-2.5 sm:py-3 font-display font-black text-xs sm:text-base shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 transition-all flex items-center gap-2 cursor-pointer"
                     >
-                      <Printer size={15} />
+                      <Printer size={17} />
                       <span>WORKSHEET</span>
                     </button>
 
                     {/* Right Button: Big Primary Play Action */}
                     <button
                       id={`btn-card-play-${mod.id}`}
-                      onClick={() => openModule(mod.id, false)}
-                      className="ml-auto bg-white hover:bg-slate-100 text-black border-3 border-black rounded-2xl px-5 py-2.5 font-display font-black text-xs sm:text-sm shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 transition-all flex items-center gap-1.5 cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openModule(mod.id, false);
+                      }}
+                      className="ml-auto bg-white hover:bg-slate-100 text-black border-3 border-black rounded-2xl px-5 sm:px-6 py-2.5 sm:py-3 font-display font-black text-xs sm:text-base shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 transition-all flex items-center gap-2 cursor-pointer group-hover:bg-slate-50"
                     >
                       <span>{mod.actionLabel}</span>
                     </button>
@@ -617,12 +624,23 @@ export default function App() {
             <button
               id="btn-module-tab-worksheet"
               onClick={() => {
-                setViewingWorksheet(true);
                 playPopSound();
+                if (!viewingWorksheet) {
+                  setViewingWorksheet(true);
+                }
+                // Trigger the print dialog (either immediately if already on worksheet, or after view switch)
+                setTimeout(() => {
+                  const printBtn = document.getElementById('btn-print-action') as HTMLButtonElement | null;
+                  if (printBtn) {
+                    printBtn.click();
+                  } else {
+                    window.print();
+                  }
+                }, 100);
               }}
               className={`flex-1 font-display font-black text-sm sm:text-base py-3 px-4 rounded-2xl border-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer flex items-center justify-center gap-2 ${
                 viewingWorksheet
-                  ? 'bg-[#e879f9] text-black -translate-y-0.5'
+                  ? 'bg-[#e879f9] hover:bg-[#d946ef] text-black -translate-y-0.5'
                   : 'bg-white hover:bg-slate-50 text-slate-700'
               }`}
             >

@@ -505,16 +505,50 @@ export async function triggerPrint(htmlContent: string, jobTitle = 'Worksheet'):
 
   // Running in desktop web browser
   try {
-    // Check if Printer plugin works in browser or fallback to window.print
-    window.print();
-    return true;
-  } catch (webErr: unknown) {
-    console.warn('window.print() error in web:', webErr);
-    try {
-      await Printer.printHtml({ html: htmlContent, name: jobTitle });
+    const printFrame = document.createElement('iframe');
+    printFrame.style.position = 'fixed';
+    printFrame.style.right = '0';
+    printFrame.style.bottom = '0';
+    printFrame.style.width = '0';
+    printFrame.style.height = '0';
+    printFrame.style.border = '0';
+    printFrame.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(printFrame);
+
+    const frameDoc = printFrame.contentWindow?.document;
+    if (frameDoc) {
+      frameDoc.open();
+      frameDoc.write(htmlContent);
+      frameDoc.close();
+
+      setTimeout(() => {
+        try {
+          printFrame.contentWindow?.focus();
+          printFrame.contentWindow?.print();
+        } catch (printErr) {
+          console.warn('Iframe print failed, falling back to window.print():', printErr);
+          window.print();
+        } finally {
+          setTimeout(() => {
+            try {
+              if (document.body.contains(printFrame)) {
+                document.body.removeChild(printFrame);
+              }
+            } catch {}
+          }, 3000);
+        }
+      }, 300);
       return true;
-    } catch {
-      return false;
+    } else {
+      window.print();
+      return true;
     }
+  } catch (webErr: unknown) {
+    console.warn('Printing error, falling back to window.print():', webErr);
+    if (typeof window !== 'undefined' && typeof window.print === 'function') {
+      window.print();
+      return true;
+    }
+    return false;
   }
 }
