@@ -710,6 +710,7 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
   const [showAnswers, setShowAnswers] = useState(false);
   const [studentName, setStudentName] = useState('');
   const [dateStr, setDateStr] = useState(new Date().toLocaleDateString());
+  const [isPrinting, setIsPrinting] = useState(false);
 
   const sheet = WORKSHEETS_BY_MODULE[moduleId];
 
@@ -727,8 +728,6 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
       [`${moduleId}-${idx}`]: value
     }));
   };
-
-  const [isPrinting, setIsPrinting] = useState(false);
 
   const handlePrint = async () => {
     setIsPrinting(true);

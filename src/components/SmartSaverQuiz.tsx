@@ -152,7 +152,7 @@ function prepareRotatedQuestions(pool: QuizQuestion[], count: number = 5): QuizQ
 }
 
 export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQuizProps) {
-  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
+  const [questions, setQuestions] = useState<QuizQuestion[]>(() => prepareRotatedQuestions(QUESTION_BANK, 5));
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -160,11 +160,7 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
   const [quizFinished, setQuizFinished] = useState(false);
   const [studentName, setStudentName] = useState('Super Saver');
   const [starsClaimed, setStarsClaimed] = useState(false);
-
-  // Rotate and prepare questions on mount or reset
-  useEffect(() => {
-    setQuestions(prepareRotatedQuestions(QUESTION_BANK, 5));
-  }, []);
+  const [isPrinting, setIsPrinting] = useState(false);
 
   const handleShuffleNewQuestions = () => {
     setQuestions(prepareRotatedQuestions(QUESTION_BANK, 5));
@@ -176,12 +172,10 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
     setStarsClaimed(false);
   };
 
-  if (questions.length === 0) return null;
-
-  const activeQuestion = questions[currentIdx];
+  const activeQuestion = questions[currentIdx] || questions[0];
 
   const handleSelectOption = (optIdx: number) => {
-    if (isAnswered) return;
+    if (isAnswered || !activeQuestion) return;
     setSelectedOpt(optIdx);
     setIsAnswered(true);
     
@@ -207,8 +201,6 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
       setStarsClaimed(true);
     }
   };
-
-  const [isPrinting, setIsPrinting] = useState(false);
 
   const handlePrint = async () => {
     setIsPrinting(true);
@@ -277,22 +269,22 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
           </div>
 
           {/* Question text */}
-          <h3 className="font-display font-bold text-slate-800 text-lg md:text-xl mb-6">
+          <h3 className="font-display font-black text-slate-900 text-xl sm:text-2xl md:text-3xl mb-6 leading-tight">
             {activeQuestion.question}
           </h3>
 
           {/* Option buttons */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 mb-6">
             {activeQuestion.options.map((option, idx) => {
               const isSelected = selectedOpt === idx;
               const isCorrect = idx === activeQuestion.correctAnswer;
               
-              let optionStyle = 'bg-white border-slate-200 hover:border-yellow-400';
+              let optionStyle = 'bg-white border-slate-200 hover:border-yellow-400 hover:bg-yellow-50/50';
               if (isAnswered) {
                 if (isCorrect) {
-                  optionStyle = 'bg-green-100 border-green-400 text-green-900 font-bold';
+                  optionStyle = 'bg-green-100 border-green-500 text-green-950 font-black ring-2 ring-green-300';
                 } else if (isSelected) {
-                  optionStyle = 'bg-red-100 border-red-300 text-red-900';
+                  optionStyle = 'bg-red-100 border-red-400 text-red-950 font-bold';
                 } else {
                   optionStyle = 'bg-white border-slate-100 opacity-60';
                 }
@@ -304,14 +296,14 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
                   id={`btn-quiz-option-${idx}`}
                   onClick={() => handleSelectOption(idx)}
                   disabled={isAnswered}
-                  className={`w-full text-left p-4 rounded-2xl border-2 transition-all flex justify-between items-center cursor-pointer ${optionStyle}`}
+                  className={`w-full text-left p-4 sm:p-5 rounded-2xl border-3 transition-all flex justify-between items-center cursor-pointer shadow-sm ${optionStyle}`}
                 >
-                  <span className="text-xs sm:text-sm font-semibold leading-relaxed">{option}</span>
+                  <span className="text-sm sm:text-base md:text-lg font-bold leading-snug">{option}</span>
                   {isAnswered && isCorrect && (
-                    <CheckCircle2 className="text-green-500 flex-shrink-0 ml-2" size={20} />
+                    <CheckCircle2 className="text-green-600 flex-shrink-0 ml-3" size={24} />
                   )}
                   {isAnswered && isSelected && !isCorrect && (
-                    <XCircle className="text-red-500 flex-shrink-0 ml-2" size={20} />
+                    <XCircle className="text-red-500 flex-shrink-0 ml-3" size={24} />
                   )}
                 </button>
               );
@@ -324,28 +316,28 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-yellow-50 border border-yellow-250 rounded-2xl p-4 text-xs text-yellow-900 flex flex-col gap-2 mb-4"
+                className="bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-4 sm:p-5 text-sm sm:text-base text-yellow-950 flex flex-col gap-2 mb-5 shadow-sm"
               >
-                <div className="flex items-center gap-1 font-bold">
-                  <Sparkles size={14} /> Wise Owl Explanation:
+                <div className="flex items-center gap-1.5 font-black text-amber-900 text-base">
+                  <Sparkles size={16} /> Wise Owl Explanation:
                 </div>
-                <p className="leading-relaxed italic">{activeQuestion.explanation}</p>
+                <p className="leading-relaxed font-medium">{activeQuestion.explanation}</p>
               </motion.div>
             )}
           </AnimatePresence>
 
           {/* Controls */}
           <div className="flex justify-between items-center pt-3 border-t border-slate-200">
-            <span className="text-[11px] text-slate-400 font-semibold italic">
+            <span className="text-xs sm:text-sm text-slate-500 font-bold italic">
               💡 Option choices &amp; question order are randomly shuffled on every round!
             </span>
             {isAnswered && (
               <button
                 id="btn-quiz-next"
                 onClick={handleNext}
-                className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-900 text-white font-display font-bold px-6 py-2.5 rounded-xl text-xs shadow-md transition-all active:scale-95 cursor-pointer"
+                className="flex items-center gap-2 bg-slate-900 hover:bg-black text-white font-display font-black px-6 sm:px-8 py-3 rounded-2xl text-sm sm:text-base shadow-md transition-all active:scale-95 cursor-pointer ml-auto"
               >
-                {currentIdx === questions.length - 1 ? 'Finish Quiz 🎓' : 'Next Question'} <ArrowRight size={14} />
+                {currentIdx === questions.length - 1 ? 'Finish Quiz 🎓' : 'Next Question'} <ArrowRight size={16} />
               </button>
             )}
           </div>
