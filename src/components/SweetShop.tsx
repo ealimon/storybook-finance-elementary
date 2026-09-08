@@ -81,7 +81,7 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
             Module 4: Smart Spending
           </span>
           <h2 className="text-2xl md:text-3xl font-display text-slate-800 mt-1">Sweet Shop Budgeting</h2>
-          <p className="text-sm text-slate-600">You have a $5.00 bill. Spend it wisely without going over budget!</p>
+          <p className="text-base sm:text-lg text-slate-700 font-medium mt-1">You have a $5.00 bill. Spend it wisely without going over budget!</p>
         </div>
         <div className="flex items-center gap-2 mt-3 md:mt-0 bg-yellow-50 px-4 py-2 rounded-2xl border-2 border-yellow-200">
           <Star className="text-yellow-500 fill-yellow-400" size={24} />
@@ -128,11 +128,11 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
                 className={`flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-b-4 hover:brightness-105 active:translate-y-0.5 transition-all bg-white ${item.color} border-slate-200 hover:border-amber-400`}
               >
                 <span className="text-4xl filter drop-shadow-sm mb-1">{item.icon}</span>
-                <span className="font-display font-bold text-xs text-slate-800 text-center line-clamp-1">{item.name}</span>
-                <span className="font-mono font-bold text-sm text-amber-700 mt-1">
+                <span className="font-display font-bold text-xs sm:text-sm text-slate-800 text-center line-clamp-1">{item.name}</span>
+                <span className="font-mono font-bold text-base text-amber-800 mt-1">
                   ${item.price.toFixed(2)}
                 </span>
-                <span className="text-xs text-slate-400 mt-1 bg-white border px-2 py-0.5 rounded-full font-bold">
+                <span className="text-xs sm:text-sm text-slate-600 mt-1 bg-white border border-slate-200 px-2.5 py-0.5 rounded-full font-bold shadow-2xs">
                   Add ➕
                 </span>
               </button>
@@ -144,10 +144,10 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
         <div className="lg:col-span-5 bg-slate-50 rounded-3xl p-5 border-2 border-slate-200 flex flex-col justify-between">
           <div>
             <div className="flex justify-between items-center mb-4 border-b border-slate-200 pb-2">
-              <h3 className="font-display text-slate-800 font-bold text-md flex items-center gap-1.5">
-                <ShoppingBag size={18} className="text-slate-500" /> Shopping Bag
+              <h3 className="font-display text-slate-800 font-bold text-base sm:text-lg flex items-center gap-2">
+                <ShoppingBag size={20} className="text-slate-600" /> Shopping Bag
               </h3>
-              <div className="bg-emerald-100 border border-emerald-300 text-emerald-800 font-mono font-bold px-3 py-1 rounded-xl text-sm">
+              <div className="bg-emerald-100 border border-emerald-300 text-emerald-800 font-mono font-bold px-3 py-1 rounded-xl text-sm sm:text-base">
                 Budget: ${budget.toFixed(2)}
               </div>
             </div>
@@ -157,52 +157,54 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
               {cart.map((entry) => (
                 <div
                   key={entry.item.id}
-                  className="flex items-center justify-between p-2 bg-white rounded-xl border border-slate-100 shadow-sm"
+                  className="flex items-center justify-between p-2.5 bg-white rounded-xl border border-slate-200 shadow-xs"
                 >
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl">{entry.item.icon}</span>
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-2xl sm:text-3xl">{entry.item.icon}</span>
                     <div>
-                      <h4 className="font-display font-bold text-xs text-slate-700">{entry.item.name}</h4>
-                      <p className="text-xs text-slate-400 font-bold font-mono">
+                      <h4 className="font-display font-bold text-xs sm:text-sm text-slate-800">{entry.item.name}</h4>
+                      <p className="text-xs sm:text-sm text-slate-500 font-bold font-mono">
                         ${entry.item.price.toFixed(2)} x {entry.quantity}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs font-bold text-slate-800">
+                    <span className="font-mono text-sm sm:text-base font-bold text-slate-900">
                       ${(entry.item.price * entry.quantity).toFixed(2)}
                     </span>
                     <button
                       id={`btn-shop-remove-${entry.item.id}`}
                       onClick={() => handleRemoveFromCart(entry.item.id)}
-                      className="text-red-400 hover:text-red-600 p-1 hover:bg-red-50 rounded-lg transition-colors"
+                      className="text-red-500 hover:text-red-700 p-1.5 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
                     >
-                      <Trash2 size={14} />
+                      <Trash2 size={16} />
                     </button>
                   </div>
                 </div>
               ))}
 
               {cart.length === 0 && (
-                <p className="text-xs text-slate-400 font-display italic text-center py-8">Bag is empty! Add sweet treats from the shelf.</p>
+                <p className="text-sm sm:text-base text-slate-600 font-display font-medium italic text-center py-8">
+                  Bag is empty! Add sweet treats from the shelf.
+                </p>
               )}
             </div>
           </div>
 
           <div>
             {/* Calculation details */}
-            <div className="bg-white p-3 rounded-2xl border border-slate-200 mb-4 space-y-2">
-              <div className="flex justify-between text-xs font-bold text-slate-500">
+            <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 mb-4 space-y-2.5 shadow-2xs">
+              <div className="flex justify-between text-sm sm:text-base font-bold text-slate-600">
                 <span>Subtotal:</span>
-                <span className="font-mono text-slate-700">${roundedSpent.toFixed(2)}</span>
+                <span className="font-mono font-bold text-slate-800">${roundedSpent.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-xs font-bold text-slate-500">
+              <div className="flex justify-between text-sm sm:text-base font-bold text-slate-600">
                 <span>Your Budget Limit:</span>
-                <span className="font-mono text-slate-700">${budget.toFixed(2)}</span>
+                <span className="font-mono font-bold text-slate-800">${budget.toFixed(2)}</span>
               </div>
-              <div className="border-t border-slate-100 my-1 pt-1 flex justify-between font-bold text-sm">
-                <span>Total Spent:</span>
-                <span className={`font-mono ${isOverBudget ? 'text-red-600' : 'text-emerald-600'}`}>
+              <div className="border-t border-slate-200 my-1.5 pt-2 flex justify-between font-bold text-base sm:text-lg">
+                <span className="text-slate-900">Total Spent:</span>
+                <span className={`font-mono font-black ${isOverBudget ? 'text-red-600' : 'text-emerald-600'}`}>
                   ${roundedSpent.toFixed(2)}
                 </span>
               </div>
@@ -210,77 +212,77 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
 
             {/* Notifications and Checkout button */}
             {isOverBudget && (
-              <div className="mb-3 flex items-center gap-1.5 bg-red-100 border border-red-200 p-2 px-3 rounded-xl text-xs font-bold text-red-800 animate-pulse">
-                <AlertTriangle size={14} className="flex-shrink-0" />
+              <div className="mb-3 flex items-center gap-2 bg-red-100 border border-red-200 p-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold text-red-800 animate-pulse">
+                <AlertTriangle size={16} className="flex-shrink-0" />
                 Over budget by ${(roundedSpent - budget).toFixed(2)}! Put some sweets back.
               </div>
             )}
 
             {checkedOut ? (
-              <div className="bg-green-100 border-2 border-green-300 p-3 rounded-2xl shadow-sm text-center">
-                <CheckCircle size={24} className="text-green-600 mx-auto mb-1" />
-                <h4 className="font-display font-bold text-sm text-green-800">Checkout Complete!</h4>
-                <p className="text-xs text-green-600 font-bold font-mono mb-2">
+              <div className="bg-green-100 border-2 border-green-300 p-4 rounded-2xl shadow-sm text-center">
+                <CheckCircle size={28} className="text-green-600 mx-auto mb-1.5" />
+                <h4 className="font-display font-bold text-base text-green-900">Checkout Complete!</h4>
+                <p className="text-sm text-green-700 font-bold font-mono mb-2">
                   Change Back: ${checkoutChange.toFixed(2)}
                 </p>
                 {starsAwarded ? (
                   <div className="flex flex-col items-center justify-center gap-2 mt-2">
-                    <div className="bg-amber-50 border border-amber-300 rounded-xl p-2.5 text-xs font-bold text-amber-900 flex items-center justify-center gap-1.5 shadow-sm">
+                    <div className="bg-amber-50 border border-amber-300 rounded-xl p-3 text-xs sm:text-sm font-bold text-amber-900 flex items-center justify-center gap-1.5 shadow-sm">
                       <span>🎉 Spent ${roundedSpent.toFixed(2)} — Added ${checkoutChange.toFixed(2)} Change to Wallet! +8 Stars Claimed! 💵</span>
                     </div>
-                    <p className="text-xs font-bold text-emerald-800">
+                    <p className="text-xs sm:text-sm font-bold text-emerald-800">
                       👉 Step 2: Continue to the next module!
                     </p>
                     <div className="flex flex-wrap items-center justify-center gap-2">
                       <button
                         id="btn-sweetshop-playagain"
                         onClick={handleClearCart}
-                        className="flex items-center gap-1 bg-white hover:bg-slate-100 text-slate-600 px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-200 cursor-pointer"
+                        className="flex items-center gap-1.5 bg-white hover:bg-slate-100 text-slate-700 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 cursor-pointer"
                       >
-                        <RefreshCw size={12} /> Buy New Sweets
+                        <RefreshCw size={14} /> Buy New Sweets
                       </button>
                       {onNextModule && (
                         <button
                           id="btn-sweetshop-next-module"
                           onClick={onNextModule}
-                          className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-800 active:translate-y-0.5 transition-all cursor-pointer animate-pulse"
+                          className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold px-5 py-2.5 rounded-xl text-sm sm:text-base shadow-md border-b-2 border-emerald-800 active:translate-y-0.5 transition-all cursor-pointer animate-pulse"
                         >
                           <span>NEXT: The 3-Jar Budget</span>
-                          <ArrowRight size={14} />
+                          <ArrowRight size={16} />
                         </button>
                       )}
                     </div>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center justify-center gap-1.5 mt-2">
-                    <p className="text-xs font-bold text-emerald-800">
+                    <p className="text-xs sm:text-sm font-bold text-emerald-800">
                       👉 Step 1: Claim your reward stars!
                     </p>
                     <button
                       id="btn-sweetshop-claim-reward"
                       onClick={claimReward}
-                      className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 text-xs font-bold px-5 py-2.5 rounded-xl shadow-md border-b-2 border-yellow-600 flex items-center gap-1.5 animate-bounce cursor-pointer"
+                      className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 text-sm font-bold px-5 py-2.5 rounded-xl shadow-md border-b-2 border-yellow-600 flex items-center gap-2 animate-bounce cursor-pointer"
                     >
                       <span>Claim 8 Stars + Coins</span>
-                      <ArrowRight size={14} />
+                      <ArrowRight size={16} />
                     </button>
                   </div>
                 )}
               </div>
             ) : (
-              <div className="flex gap-2">
+              <div className="flex gap-2.5">
                 <button
                   id="btn-sweetshop-clear"
                   onClick={handleClearCart}
-                  className="flex items-center justify-center gap-1 bg-slate-200 hover:bg-slate-300 text-slate-600 font-bold px-3 py-2.5 rounded-xl text-xs"
+                  className="flex items-center justify-center gap-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-3 rounded-xl text-sm sm:text-base transition-colors"
                 >
-                  <RefreshCw size={14} /> Clear Bag
+                  <RefreshCw size={16} /> Clear Bag
                 </button>
                 <button
                   id="btn-sweetshop-checkout"
                   onClick={handleCheckout}
                   disabled={cart.length === 0 || isOverBudget}
-                  className="flex-1 bg-emerald-500 hover:bg-emerald-600 disabled:bg-slate-300 text-white font-display font-bold p-2.5 rounded-xl text-sm border-b-4 border-emerald-700 shadow-md transition-all active:translate-y-0.5"
+                  className="flex-1 bg-emerald-500 hover:bg-emerald-600 disabled:bg-slate-300 text-white font-display font-bold p-3 rounded-xl text-sm sm:text-base border-b-4 border-emerald-700 shadow-md transition-all active:translate-y-0.5"
                 >
                   Pay with $5.00 Bill 🪙
                 </button>

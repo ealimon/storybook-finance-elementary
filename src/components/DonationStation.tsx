@@ -228,41 +228,41 @@ export default function DonationStation({ wallet = 10, onAddStars, onAddMoney, o
           </div>
 
           {/* Bottom resets/feedback */}
-          <div className="mt-auto w-full pt-4 border-t border-slate-200 flex flex-wrap justify-between items-center gap-2">
+          <div className="mt-auto w-full pt-4 border-t border-slate-200 flex flex-wrap justify-between items-center gap-3 text-sm sm:text-base">
             <button
               id="btn-donation-reset"
               onClick={handleReset}
-              className="text-xs text-slate-400 font-bold hover:text-slate-600 cursor-pointer"
+              className="text-sm sm:text-base text-slate-500 font-bold hover:text-slate-800 cursor-pointer flex items-center gap-1.5 transition-colors"
             >
               🔄 Start Over
             </button>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               {starsAwarded[selectedCause.id] ? (
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs font-bold text-rose-800 bg-rose-100 px-3 py-1.5 rounded-xl border border-rose-200 flex items-center gap-1">
-                    <CheckCircle size={14} /> You Helped! +5 Stars Earned 🌟
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  <span className="text-sm sm:text-base font-bold text-rose-800 bg-rose-100 px-3.5 py-1.5 rounded-xl border border-rose-200 flex items-center gap-1.5">
+                    <CheckCircle size={16} /> You Helped! +5 Stars Earned 🌟
                   </span>
                   {onNextModule && (
                     <button
                       id="btn-donation-next-module"
                       onClick={onNextModule}
-                      className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce cursor-pointer"
+                      className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-5 py-2.5 rounded-xl text-sm sm:text-base shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce cursor-pointer"
                     >
-                      <span>NEXT: Needs vs. Wants</span> <ArrowRight size={14} />
+                      <span>NEXT: Needs vs. Wants</span> <ArrowRight size={16} />
                     </button>
                   )}
                 </div>
               ) : (
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-rose-900 font-bold bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-200">
-                    👉 Tap a coin button to give!
+                <div className="flex items-center gap-2.5">
+                  <span className="text-sm sm:text-base text-rose-950 font-bold bg-rose-50 px-3.5 py-2 rounded-xl border-2 border-rose-200 shadow-xs flex items-center gap-1.5">
+                    <span className="text-base">👉</span> Tap a coin button to give!
                   </span>
                   {onNextModule && (
                     <button
                       id="btn-donation-next-module-direct"
                       onClick={onNextModule}
-                      className="flex items-center gap-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-3 py-1.5 rounded-xl text-xs cursor-pointer"
+                      className="flex items-center gap-1.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-4 py-2 rounded-xl text-sm sm:text-base cursor-pointer shadow-xs transition-colors"
                     >
                       Skip ➡️
                     </button>

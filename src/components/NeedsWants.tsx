@@ -173,7 +173,7 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
                 className="w-full flex flex-col items-center text-center touch-none cursor-grab active:cursor-grabbing select-none"
               >
                 {!explanation && (
-                  <span className="text-xs font-bold text-amber-800 bg-amber-100 px-3 py-1.5 rounded-full mb-3 shadow-xs border border-amber-200 animate-pulse">
+                  <span className="text-sm sm:text-base font-bold text-amber-900 bg-amber-100 px-4 py-2 rounded-full mb-3 shadow-xs border-2 border-amber-300 animate-pulse">
                     🖐️ Drag card to a Bin or tap below!
                   </span>
                 )}
@@ -275,50 +275,52 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
         {/* Bins Column */}
         <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Needs Bin */}
-          <div data-bin="need" className="bg-emerald-50 border-4 border-dashed border-emerald-300 rounded-3xl p-4 flex flex-col min-h-[300px] transition-all hover:bg-emerald-100/60">
-            <h4 className="font-display text-lg text-emerald-800 font-bold mb-3 flex items-center gap-2 border-b-2 border-emerald-100 pb-2 pointer-events-none">
-              <Heart className="fill-emerald-400 text-emerald-600" size={20} /> 
+          <div data-bin="need" className="bg-emerald-50 border-4 border-dashed border-emerald-300 rounded-3xl p-4 sm:p-5 flex flex-col min-h-[300px] transition-all hover:bg-emerald-100/60">
+            <h4 className="font-display text-lg sm:text-xl text-emerald-800 font-bold mb-3 flex items-center gap-2 border-b-2 border-emerald-100 pb-2.5 pointer-events-none">
+              <Heart className="fill-emerald-400 text-emerald-600" size={22} /> 
               Essential Needs ({needsBin.length})
             </h4>
             <div className="grid grid-cols-2 gap-2 overflow-y-auto max-h-[220px] p-1 pointer-events-none">
               {needsBin.map((item, idx) => (
                 <div
                   key={`${item.id}-${idx}`}
-                  className="flex items-center gap-2 p-2 bg-white rounded-xl border border-emerald-100 shadow-sm"
+                  className="flex items-center gap-2 p-2.5 bg-white rounded-xl border border-emerald-100 shadow-sm"
                 >
-                  <span className="text-xl">{item.icon}</span>
-                  <span className="text-xs font-bold text-slate-700">{item.name}</span>
-                  <Check size={14} className="text-emerald-500 ml-auto" />
+                  <span className="text-xl sm:text-2xl">{item.icon}</span>
+                  <span className="text-xs sm:text-sm font-bold text-slate-800">{item.name}</span>
+                  <Check size={16} className="text-emerald-500 ml-auto" />
                 </div>
               ))}
               {needsBin.length === 0 && (
-                <p className="col-span-2 text-xs text-emerald-500 font-bold italic font-display text-center my-auto p-4 border-2 border-dashed border-emerald-300 rounded-2xl bg-white/60">
-                  📥 Drop "Needs" here! (Things we need to survive)
+                <p className="col-span-2 text-sm sm:text-base text-emerald-800 font-bold italic font-display text-center my-auto p-4 sm:p-5 border-2 border-dashed border-emerald-300 rounded-2xl bg-white/80 leading-relaxed shadow-2xs">
+                  📥 Drop "Needs" here! <br />
+                  <span className="text-xs sm:text-sm text-emerald-700 font-semibold">(Things we need to survive)</span>
                 </p>
               )}
             </div>
           </div>
 
           {/* Wants Bin */}
-          <div data-bin="want" className="bg-purple-50 border-4 border-dashed border-purple-300 rounded-3xl p-4 flex flex-col min-h-[300px] transition-all hover:bg-purple-100/60">
-            <h4 className="font-display text-lg text-purple-800 font-bold mb-3 flex items-center gap-2 border-b-2 border-purple-100 pb-2 pointer-events-none">
-              <Gift className="fill-purple-400 text-purple-600" size={20} /> 
+          <div data-bin="want" className="bg-purple-50 border-4 border-dashed border-purple-300 rounded-3xl p-4 sm:p-5 flex flex-col min-h-[300px] transition-all hover:bg-purple-100/60">
+            <h4 className="font-display text-lg sm:text-xl text-purple-800 font-bold mb-3 flex items-center gap-2 border-b-2 border-purple-100 pb-2.5 pointer-events-none">
+              <Gift className="fill-purple-400 text-purple-600" size={22} /> 
               Fun Wants ({wantsBin.length})
             </h4>
             <div className="grid grid-cols-2 gap-2 overflow-y-auto max-h-[220px] p-1 pointer-events-none">
               {wantsBin.map((item, idx) => (
                 <div
                   key={`${item.id}-${idx}`}
-                  className="flex items-center gap-2 p-2 bg-white rounded-xl border border-purple-100 shadow-sm"
+                  className="flex items-center gap-2 p-2.5 bg-white rounded-xl border border-purple-100 shadow-sm"
                 >
-                  <span className="text-xl">{item.icon}</span>
-                  <span className="text-xs font-bold text-slate-700">{item.name}</span>
-                  <Check size={14} className="text-purple-500 ml-auto" />
+                  <span className="text-xl sm:text-2xl">{item.icon}</span>
+                  <span className="text-xs sm:text-sm font-bold text-slate-800">{item.name}</span>
+                  <Check size={16} className="text-purple-500 ml-auto" />
                 </div>
               ))}
               {wantsBin.length === 0 && (
-                <p className="col-span-2 text-xs text-purple-500 font-bold italic font-display text-center my-auto p-4 border-2 border-dashed border-purple-300 rounded-2xl bg-white/60">
-                  📥 Drop "Wants" here! (Fun things we can live without)
+                <p className="col-span-2 text-sm sm:text-base text-purple-800 font-bold italic font-display text-center my-auto p-4 sm:p-5 border-2 border-dashed border-purple-300 rounded-2xl bg-white/80 leading-relaxed shadow-2xs">
+                  📥 Drop "Wants" here! <br />
+                  <span className="text-xs sm:text-sm text-purple-700 font-semibold">(Fun things we can live without)</span>
                 </p>
               )}
             </div>
