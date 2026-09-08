@@ -193,35 +193,35 @@ export function buildWorksheetHtml(options: PrintWorksheetOptions): string {
     }
     .question-badge {
       display: inline-block;
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 800;
       background: #e0e7ff;
       color: #3730a3;
-      padding: 2px 7px;
+      padding: 2.5px 8px;
       border-radius: 4px;
       margin-bottom: 4px;
     }
     .question-title {
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 700;
       color: #0f172a;
-      line-height: 1.4;
+      line-height: 1.45;
     }
     .options-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
-      margin-top: 8px;
+      gap: 8px;
+      margin-top: 10px;
     }
     .option-item {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 6px 10px;
-      border: 1px solid #e2e8f0;
+      gap: 10px;
+      padding: 7px 12px;
+      border: 1px solid #cbd5e1;
       border-radius: 6px;
       background: #f8fafc;
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 600;
     }
     .option-item.selected {
@@ -231,7 +231,7 @@ export function buildWorksheetHtml(options: PrintWorksheetOptions): string {
       font-weight: bold;
     }
     .bubble {
-      font-size: 14px;
+      font-size: 16px;
       color: #64748b;
     }
     .option-item.selected .bubble {
@@ -240,46 +240,46 @@ export function buildWorksheetHtml(options: PrintWorksheetOptions): string {
     .math-answer-row {
       display: flex;
       align-items: baseline;
-      gap: 8px;
-      margin-top: 8px;
-      font-size: 12px;
+      gap: 10px;
+      margin-top: 10px;
+      font-size: 14px;
       font-weight: 600;
     }
     .math-line {
       display: inline-block;
-      min-width: 160px;
-      border-bottom: 1px dashed #64748b;
-      padding: 0 8px 2px;
-      font-size: 13px;
+      min-width: 180px;
+      border-bottom: 1.5px dashed #64748b;
+      padding: 0 8px 3px;
+      font-size: 15px;
       color: #0f172a;
     }
     .written-lines {
-      margin-top: 8px;
+      margin-top: 10px;
       position: relative;
     }
     .rule-line {
       border-bottom: 1px solid #cbd5e1;
-      height: 24px;
+      height: 28px;
     }
     .handwritten-text {
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 600;
       color: #1e293b;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
       font-style: italic;
     }
     .answer-key {
-      margin-top: 8px;
-      padding: 6px 10px;
+      margin-top: 10px;
+      padding: 8px 12px;
       background: #ecfdf5;
-      border: 1px solid #a7f3d0;
+      border: 1.5px solid #a7f3d0;
       border-radius: 6px;
-      font-size: 11px;
+      font-size: 13px;
       color: #065f46;
       font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
     .footer {
       border-top: 1px dashed #cbd5e1;

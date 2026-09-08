@@ -65,7 +65,7 @@ export default function DonationStation({ wallet = 10, onAddStars, onAddMoney, o
             </span>
           </div>
           <h2 className="text-2xl md:text-3xl font-display text-slate-800 mt-1">Donation Station (Sharing & Helping)</h2>
-          <p className="text-sm text-slate-600">Pick a project and tap big coins to share and help community friends!</p>
+          <p className="text-base sm:text-lg text-slate-700 font-medium mt-1">Pick a project and tap big coins to share and help community friends!</p>
         </div>
         <div className="flex items-center gap-2 bg-yellow-50 px-4 py-2 rounded-2xl border-2 border-yellow-200 shrink-0">
           <Star className="text-yellow-500 fill-yellow-400" size={24} />

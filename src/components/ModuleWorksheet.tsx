@@ -884,13 +884,13 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               border-top: none !important;
               border-left: none !important;
               border-right: none !important;
-              border-bottom: 1px dashed #64748b !important;
+              border-bottom: 1.5px dashed #64748b !important;
               border-radius: 0 !important;
               background: transparent !important;
-              width: 190px !important;
+              width: 210px !important;
               padding: 0 0.25rem !important;
               margin-left: 0.5rem !important;
-              font-size: 1rem !important;
+              font-size: 1.15rem !important;
               font-weight: bold !important;
               color: #0f172a !important;
               box-shadow: none !important;
@@ -903,15 +903,15 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
             #print-worksheet-wrapper textarea[id^="textarea-worksheet-text-"] {
               border: none !important;
               border-radius: 0 !important;
-              background: repeating-linear-gradient(transparent, transparent 24px, #cbd5e1 24px, #cbd5e1 25px) !important;
-              line-height: 25px !important;
-              height: 52px !important;
+              background: repeating-linear-gradient(transparent, transparent 26px, #cbd5e1 26px, #cbd5e1 27px) !important;
+              line-height: 27px !important;
+              height: 56px !important;
               padding: 0 !important;
               margin-top: 0.35rem !important;
               box-shadow: none !important;
               resize: none !important;
               color: #0f172a !important;
-              font-size: 1rem !important;
+              font-size: 1.15rem !important;
               font-weight: 600 !important;
             }
             #print-worksheet-wrapper textarea[id^="textarea-worksheet-text-"]::placeholder {
@@ -922,13 +922,13 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
             #print-worksheet-wrapper .grid-cols-2,
             #print-worksheet-wrapper .grid {
               grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-              gap: 0.45rem !important;
-              margin-top: 0.3rem !important;
+              gap: 0.5rem !important;
+              margin-top: 0.35rem !important;
             }
             #print-worksheet-wrapper .grid-cols-2 button,
             #print-worksheet-wrapper button[id^="btn-worksheet-option-"] {
-              padding: 0.42rem 0.75rem !important;
-              font-size: 0.98rem !important;
+              padding: 0.5rem 0.85rem !important;
+              font-size: 1.1rem !important;
               font-weight: 600 !important;
               border-radius: 6px !important;
               border: 1px solid #cbd5e1 !important;
@@ -939,7 +939,7 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
               align-items: center !important;
               justify-content: flex-start !important;
               box-shadow: none !important;
-              line-height: 1.3 !important;
+              line-height: 1.35 !important;
             }
             /* Add standard checkbox or bubble circle before choice in print */
             #print-worksheet-wrapper .grid-cols-2 button::before,
@@ -1044,35 +1044,35 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
 
                 {/* Question interactive forms */}
                 {q.answerType === 'choice' && q.options && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-2.5">
                     {q.options.map((opt) => (
                       <button
                         key={opt}
                         id={`btn-worksheet-option-${idx}-${opt.replace(/\s+/g, '-').toLowerCase()}`}
                         onClick={() => handleInputChange(idx, opt)}
-                        className={`p-3 rounded-xl text-left border text-base sm:text-sm font-semibold transition-all flex items-center justify-between cursor-pointer ${
+                        className={`p-3.5 sm:p-4 rounded-xl text-left border-2 text-base sm:text-lg font-semibold transition-all flex items-center justify-between cursor-pointer ${
                           currentAns === opt
-                            ? 'bg-indigo-100 border-indigo-400 font-extrabold text-indigo-950 shadow-sm ring-1 ring-indigo-200'
+                            ? 'bg-indigo-100 border-indigo-500 font-extrabold text-indigo-950 shadow-sm ring-2 ring-indigo-200'
                             : 'bg-white border-slate-200 hover:border-indigo-300 text-slate-800'
                         }`}
                       >
                         <span className="leading-snug">{opt}</span>
-                        {currentAns === opt && <span className="no-print text-indigo-700 shrink-0 ml-2 font-black text-xs">✏️ Selected</span>}
+                        {currentAns === opt && <span className="no-print text-indigo-800 shrink-0 ml-2 font-black text-sm">✏️ Selected</span>}
                       </button>
                     ))}
                   </div>
                 )}
 
                 {q.answerType === 'math' && (
-                  <div className="flex flex-wrap items-center gap-2.5 mt-2">
-                    <span className="text-xs font-bold text-slate-600 uppercase">Your Answer:</span>
+                  <div className="flex flex-wrap items-center gap-3 mt-2.5">
+                    <span className="text-sm sm:text-base font-bold text-slate-700 uppercase">Your Answer:</span>
                     <input
                       id={`input-worksheet-math-${idx}`}
                       type="text"
                       value={currentAns}
                       onChange={(e) => handleInputChange(idx, e.target.value)}
                       placeholder="Calculate sum..."
-                      className="bg-white border border-slate-300 rounded-xl px-4 py-2 text-base sm:text-sm text-slate-900 focus:outline-none focus:border-indigo-500 font-mono w-56 shadow-sm font-bold"
+                      className="bg-white border-2 border-slate-300 rounded-xl px-4 py-2.5 text-base sm:text-lg text-slate-900 focus:outline-none focus:border-indigo-500 font-mono w-64 shadow-xs font-bold"
                     />
                   </div>
                 )}
@@ -1084,15 +1084,15 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
                     value={currentAns}
                     onChange={(e) => handleInputChange(idx, e.target.value)}
                     placeholder="Write your answer or explanation here..."
-                    className="w-full bg-white border border-slate-300 rounded-xl p-3 text-base sm:text-sm text-slate-900 focus:outline-none focus:border-indigo-500 leading-relaxed resize-none shadow-sm font-medium"
+                    className="w-full bg-white border-2 border-slate-300 rounded-xl p-4 text-base sm:text-lg text-slate-900 focus:outline-none focus:border-indigo-500 leading-relaxed resize-none shadow-xs font-medium placeholder:text-slate-400 mt-2"
                   />
                 )}
 
                 {/* Show Correct answer key */}
                 {showAnswers && q.correctAnswer && (
-                  <div className="mt-2.5 text-xs font-extrabold text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-xl p-2 px-3 inline-flex items-center gap-1.5 animate-fade-in">
-                    <CheckCircle size={14} className="text-emerald-600" />
-                    <span>Answer Key: {q.correctAnswer}</span>
+                  <div className="mt-3 text-sm sm:text-base font-extrabold text-emerald-900 bg-emerald-50 border-2 border-emerald-300 rounded-xl p-3 px-4 inline-flex items-center gap-2 animate-fade-in shadow-xs">
+                    <CheckCircle size={18} className="text-emerald-600 shrink-0" />
+                    <span>Answer Key: <strong className="font-mono text-emerald-950 font-black">{q.correctAnswer}</strong></span>
                   </div>
                 )}
               </div>
@@ -1101,19 +1101,19 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
         </div>
 
         {/* Footer info line */}
-        <div className="mt-6 pt-4 border-t-4 border-dashed border-indigo-200 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 font-bold gap-2">
+        <div className="mt-6 pt-4 border-t-4 border-dashed border-indigo-200 flex flex-col sm:flex-row justify-between items-center text-sm sm:text-base text-slate-600 font-bold gap-3">
           <span>© 2026 Storybook Education • Classroom Worksheet</span>
           <div className="no-print flex items-center gap-4">
             <button
               id="btn-toggle-answer-key"
               onClick={() => setShowAnswers(!showAnswers)}
-              className="text-indigo-600 hover:underline cursor-pointer flex items-center gap-1"
+              className="text-indigo-700 hover:text-indigo-900 hover:underline cursor-pointer flex items-center gap-1.5 font-bold"
             >
-              <HelpCircle size={14} />
+              <HelpCircle size={18} />
               {showAnswers ? 'Hide Answer Key' : 'Reveal Answer Key'}
             </button>
             <span className="text-slate-300">|</span>
-            <span className="flex items-center gap-1 text-yellow-600"><Sparkles size={12} /> Double High Five!</span>
+            <span className="flex items-center gap-1.5 text-yellow-700 font-bold"><Sparkles size={16} /> Double High Five!</span>
           </div>
         </div>
       </div>
