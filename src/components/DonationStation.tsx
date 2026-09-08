@@ -100,10 +100,10 @@ export default function DonationStation({ wallet = 10, onAddStars, onAddMoney, o
         {/* Cause selection list */}
         <div className="lg:col-span-5 space-y-4">
           <div className="bg-rose-50/80 p-4 rounded-2xl border-2 border-rose-100">
-            <h3 className="font-display text-rose-950 font-bold mb-3 text-sm sm:text-base flex items-center gap-1.5">
+            <h3 className="font-display text-rose-950 font-bold mb-3 text-base sm:text-lg flex items-center gap-2">
               <span>❤️</span> Step 1: Pick Who to Help
             </h3>
-            <div className="space-y-2.5">
+            <div className="space-y-3">
               {CAUSES.map((cause) => {
                 const totalDonated = donations[cause.id] || 0;
                 const isSelected = selectedCause.id === cause.id;
@@ -112,20 +112,20 @@ export default function DonationStation({ wallet = 10, onAddStars, onAddMoney, o
                     key={cause.id}
                     id={`btn-select-cause-${cause.id}`}
                     onClick={() => setSelectedCause(cause)}
-                    className={`w-full text-left p-3 rounded-xl border-2 transition-all flex justify-between items-center bg-white cursor-pointer ${
+                    className={`w-full text-left p-3.5 rounded-2xl border-2 transition-all flex justify-between items-center bg-white cursor-pointer ${
                       isSelected
-                        ? 'border-rose-400 font-bold shadow-sm ring-2 ring-rose-100 scale-[1.01]'
+                        ? 'border-rose-400 font-bold shadow-md ring-2 ring-rose-200 scale-[1.01]'
                         : 'border-slate-100 hover:border-rose-200'
                     }`}
                   >
-                    <div className="flex items-center gap-2.5">
-                      <span className="text-3xl">{cause.icon}</span>
+                    <div className="flex items-center gap-3">
+                      <span className="text-3xl sm:text-4xl">{cause.icon}</span>
                       <div>
-                        <span className="text-xs sm:text-sm text-slate-800 block leading-tight font-display font-bold">{cause.name}</span>
-                        <span className="text-[10px] text-slate-500 block mt-0.5 line-clamp-1">{cause.description}</span>
+                        <span className="text-sm sm:text-base text-slate-900 block leading-tight font-display font-bold">{cause.name}</span>
+                        <span className="text-xs sm:text-sm text-slate-600 block mt-1 font-medium line-clamp-2">{cause.description}</span>
                       </div>
                     </div>
-                    <span className="font-mono text-xs font-black text-rose-600 bg-rose-50 px-2 py-1 rounded-lg border border-rose-200 shrink-0 ml-2">
+                    <span className="font-mono text-xs sm:text-sm font-black text-rose-600 bg-rose-50 px-2.5 py-1.5 rounded-xl border border-rose-200 shrink-0 ml-2">
                       ${totalDonated.toFixed(2)}
                     </span>
                   </button>
@@ -134,48 +134,48 @@ export default function DonationStation({ wallet = 10, onAddStars, onAddMoney, o
             </div>
           </div>
 
-          {/* Quick Coin Tap Buttons for Kindergarteners */}
-          <div className="bg-yellow-50/80 p-4 rounded-2xl border-2 border-yellow-200">
-            <h3 className="font-display text-yellow-950 font-bold text-sm sm:text-base mb-1 flex items-center gap-1.5">
+          {/* Quick Coin Tap Buttons for Kids */}
+          <div className="bg-yellow-50/80 p-4 sm:p-5 rounded-2xl border-2 border-yellow-200">
+            <h3 className="font-display text-yellow-950 font-bold text-base sm:text-lg mb-1 flex items-center gap-2">
               <span>🪙</span> Step 2: Tap Coins to Give
             </h3>
-            <p className="text-xs text-yellow-900/80 mb-3 font-medium">Click a button below to drop coins for {selectedCause.name}:</p>
+            <p className="text-xs sm:text-sm text-yellow-900 mb-3 font-semibold">Click a button below to drop coins for {selectedCause.name}:</p>
             
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2.5">
               <button
                 id="btn-donate-1-coin"
                 onClick={() => handleDonateCoins(1)}
                 disabled={animating || remainingAllowance < 1}
-                className="bg-emerald-500 hover:bg-emerald-600 disabled:bg-slate-300 disabled:opacity-60 text-white font-display font-bold py-2.5 px-2 rounded-xl text-xs sm:text-sm border-b-4 border-emerald-700 disabled:border-slate-400 active:translate-y-0.5 transition-all shadow-md flex flex-col items-center gap-0.5 cursor-pointer disabled:cursor-not-allowed"
+                className="bg-emerald-500 hover:bg-emerald-600 disabled:bg-slate-300 disabled:opacity-60 text-white font-display font-bold py-3 px-2 rounded-xl text-sm sm:text-base border-b-4 border-emerald-700 disabled:border-slate-400 active:translate-y-0.5 transition-all shadow-md flex flex-col items-center gap-1 cursor-pointer disabled:cursor-not-allowed"
               >
-                <span className="text-base">🪙</span>
+                <span className="text-lg sm:text-xl">🪙</span>
                 <span>Give $1</span>
               </button>
               <button
                 id="btn-donate-2-coins"
                 onClick={() => handleDonateCoins(2)}
                 disabled={animating || remainingAllowance < 2}
-                className="bg-blue-500 hover:bg-blue-600 disabled:bg-slate-300 disabled:opacity-60 text-white font-display font-bold py-2.5 px-2 rounded-xl text-xs sm:text-sm border-b-4 border-blue-700 disabled:border-slate-400 active:translate-y-0.5 transition-all shadow-md flex flex-col items-center gap-0.5 cursor-pointer disabled:cursor-not-allowed"
+                className="bg-blue-500 hover:bg-blue-600 disabled:bg-slate-300 disabled:opacity-60 text-white font-display font-bold py-3 px-2 rounded-xl text-sm sm:text-base border-b-4 border-blue-700 disabled:border-slate-400 active:translate-y-0.5 transition-all shadow-md flex flex-col items-center gap-1 cursor-pointer disabled:cursor-not-allowed"
               >
-                <span className="text-base">🪙🪙</span>
+                <span className="text-lg sm:text-xl">🪙🪙</span>
                 <span>Give $2</span>
               </button>
               <button
                 id="btn-donate-5-coins"
                 onClick={() => handleDonateCoins(5)}
                 disabled={animating || remainingAllowance < 5}
-                className="bg-purple-500 hover:bg-purple-600 disabled:bg-slate-300 disabled:opacity-60 text-white font-display font-bold py-2.5 px-2 rounded-xl text-xs sm:text-sm border-b-4 border-purple-700 disabled:border-slate-400 active:translate-y-0.5 transition-all shadow-md flex flex-col items-center gap-0.5 cursor-pointer disabled:cursor-not-allowed"
+                className="bg-purple-500 hover:bg-purple-600 disabled:bg-slate-300 disabled:opacity-60 text-white font-display font-bold py-3 px-2 rounded-xl text-sm sm:text-base border-b-4 border-purple-700 disabled:border-slate-400 active:translate-y-0.5 transition-all shadow-md flex flex-col items-center gap-1 cursor-pointer disabled:cursor-not-allowed"
               >
-                <span className="text-base">🪙🪙🪙</span>
+                <span className="text-lg sm:text-xl">🪙🪙🪙</span>
                 <span>Give $5</span>
               </button>
             </div>
             {remainingAllowance < 1 ? (
-              <p className="text-[11px] text-emerald-800 bg-emerald-100 p-1.5 rounded-lg mt-2 font-bold text-center border border-emerald-300">
+              <p className="text-xs sm:text-sm text-emerald-800 bg-emerald-100 p-2 rounded-xl mt-3 font-bold text-center border border-emerald-300">
                 🎉 All allowance shared with community projects!
               </p>
             ) : (
-              <p className="text-[10px] text-amber-900 mt-2 font-bold text-center">
+              <p className="text-xs sm:text-sm text-amber-950 mt-3 font-bold text-center">
                 🎁 Giving 1 or more coins unlocks 5 Gold Stars!
               </p>
             )}
@@ -183,13 +183,13 @@ export default function DonationStation({ wallet = 10, onAddStars, onAddMoney, o
         </div>
 
         {/* Visual interactive presentation of charity impact */}
-        <div className="lg:col-span-7 bg-slate-50 border-4 border-dashed border-slate-200 rounded-3xl p-5 flex flex-col justify-between items-center text-center min-h-[320px]">
+        <div className="lg:col-span-7 bg-slate-50 border-4 border-dashed border-slate-200 rounded-3xl p-5 sm:p-6 flex flex-col justify-between items-center text-center min-h-[340px]">
           
           <div className="w-full">
-            <div className="bg-white p-2.5 px-4 rounded-xl border border-slate-200 shadow-xs inline-block mb-2 text-xs font-bold text-slate-700">
+            <div className="bg-white p-2.5 px-4 rounded-xl border border-slate-200 shadow-xs inline-block mb-3 text-xs sm:text-sm font-bold text-slate-700">
               Active Project: <span className="text-rose-600">{selectedCause.name}</span>
             </div>
-            <p className="text-xs sm:text-sm text-slate-600 px-4 font-medium leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-slate-800 px-4 font-medium leading-relaxed italic">
               "{selectedCause.description}"
             </p>
           </div>

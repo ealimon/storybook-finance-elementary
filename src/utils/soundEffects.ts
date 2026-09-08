@@ -92,3 +92,50 @@ export function playFanfareSound() {
     // Ignore audio error
   }
 }
+
+export function playSoftChime() {
+  if (isMuted) return;
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    // Gentle high pleasant chime/ding
+    osc.frequency.setValueAtTime(880, now); // A5
+    osc.frequency.exponentialRampToValueAtTime(1174.66, now + 0.06); // D6
+    gain.gain.setValueAtTime(0.08, now); // Gentle, subtle volume
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.22);
+  } catch {
+    // Ignore audio error
+  }
+}
+
+export function playSoftBoop() {
+  if (isMuted) return;
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    // Gentle soft woodblock / low-pitch tap
+    osc.frequency.setValueAtTime(320, now);
+    osc.frequency.exponentialRampToValueAtTime(240, now + 0.1);
+    gain.gain.setValueAtTime(0.08, now); // Subtle volume
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.1);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.1);
+  } catch {
+    // Ignore audio error
+  }
+}
+

@@ -63,11 +63,11 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
             <h3 className="font-display text-xl text-rose-900 font-bold mb-2">
               Path A: Buy Whistle NOW!
             </h3>
-            <p className="text-sm text-rose-700 mb-4 leading-relaxed">
+            <p className="text-base sm:text-lg text-rose-800 mb-4 leading-relaxed font-medium">
               Spend $1.00 of your pocket cash immediately on a simple toy whistle. No waiting! You get to make loud noises right now.
             </p>
-            <span className="text-xs font-bold text-rose-800 group-hover:underline flex items-center gap-1">
-              Select this path <ArrowRight size={14} />
+            <span className="text-sm font-bold text-rose-800 group-hover:underline flex items-center gap-1">
+              Select this path <ArrowRight size={16} />
             </span>
           </button>
 
@@ -81,17 +81,17 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
             <h3 className="font-display text-xl text-purple-900 font-bold mb-2">
               Path B: Wait &amp; Save for the Robot!
             </h3>
-            <p className="text-sm text-purple-700 mb-4 leading-relaxed">
+            <p className="text-base sm:text-lg text-purple-800 mb-4 leading-relaxed font-medium">
               Hold onto your $1.00, earn chore cash for 3 weeks, and save up $5.00 to buy the Amazing Galactic Toy Robot with flashing lasers!
             </p>
-            <span className="text-xs font-bold text-purple-800 group-hover:underline flex items-center gap-1">
-              Select this path <ArrowRight size={14} />
+            <span className="text-sm font-bold text-purple-800 group-hover:underline flex items-center gap-1">
+              Select this path <ArrowRight size={16} />
             </span>
           </button>
         </div>
       ) : (
         <div className="bg-slate-50 rounded-3xl p-6 border border-slate-200">
-          <div className="flex justify-between text-xs text-slate-400 font-bold mb-4 uppercase">
+          <div className="flex justify-between text-xs sm:text-sm text-slate-500 font-bold mb-4 uppercase tracking-wider">
             <span>Your Chosen Path: {selectedPath === 'A' ? 'Path A (Instant Whistle)' : 'Path B (Patient Robot)'}</span>
             <span>Step {step} of 3</span>
           </div>
@@ -107,8 +107,8 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
                     exit={{ opacity: 0, x: -20 }}
                   >
                     <div className="text-4xl mb-3">🗣️🔊🎈</div>
-                    <h4 className="font-display font-bold text-slate-800 text-lg mb-2">Day 1: Instant Noise!</h4>
-                    <p className="text-sm text-slate-600 leading-relaxed">
+                    <h4 className="font-display font-bold text-slate-800 text-xl md:text-2xl mb-2">Day 1: Instant Noise!</h4>
+                    <p className="text-base sm:text-lg md:text-xl text-slate-700 leading-relaxed font-medium">
                       You bought the $1.00 whistle! You run around the house making loud "Screech! Toot!" noises. It is super fun for about 10 minutes, although your parents look a little tired.
                     </p>
                   </motion.div>
@@ -122,8 +122,8 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
                     exit={{ opacity: 0, x: -20 }}
                   >
                     <div className="text-4xl mb-3">💔🩹</div>
-                    <h4 className="font-display font-bold text-slate-800 text-lg mb-2">Day 2: Oh No, It Broke!</h4>
-                    <p className="text-sm text-slate-600 leading-relaxed">
+                    <h4 className="font-display font-bold text-slate-800 text-xl md:text-2xl mb-2">Day 2: Oh No, It Broke!</h4>
+                    <p className="text-base sm:text-lg md:text-xl text-slate-700 leading-relaxed font-medium">
                       You accidentally sat on your whistle, and the cheap plastic cracked. Now it doesn't make any sound. Your $1.00 is completely gone, and you have nothing left to show for it!
                     </p>
                   </motion.div>
@@ -137,12 +137,12 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
                     exit={{ opacity: 0, x: -20 }}
                   >
                     <div className="text-4xl mb-3">😔🏚️</div>
-                    <h4 className="font-display font-bold text-slate-800 text-lg mb-2">Week 3: Regret and Envy</h4>
-                    <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                    <h4 className="font-display font-bold text-slate-800 text-xl md:text-2xl mb-2">Week 3: Regret and Envy</h4>
+                    <p className="text-base sm:text-lg md:text-xl text-slate-700 leading-relaxed font-medium mb-4">
                       Your friend saved up and bought the Awesome Galactic Robot! You watch them play, wishing you had saved your cash instead of spending it on a cheap whistle that broke in a day.
                     </p>
-                    <div className="bg-rose-100 border border-rose-200 rounded-xl p-3 text-xs text-rose-800 font-semibold flex items-center gap-2">
-                      <ShieldAlert size={16} /> Lesson: Buying cheap things instantly often leads to short-term fun and long-term disappointment!
+                    <div className="bg-rose-100 border border-rose-200 rounded-xl p-3.5 text-sm md:text-base text-rose-800 font-semibold flex items-center gap-2">
+                      <ShieldAlert size={18} className="shrink-0" /> Lesson: Buying cheap things instantly often leads to short-term fun and long-term disappointment!
                     </div>
                   </motion.div>
                 )}
@@ -159,8 +159,8 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
                     exit={{ opacity: 0, x: -20 }}
                   >
                     <div className="text-4xl mb-3">🧹💵💪</div>
-                    <h4 className="font-display font-bold text-slate-800 text-lg mb-2">Week 1: Hard Work and Patience</h4>
-                    <p className="text-sm text-slate-600 leading-relaxed">
+                    <h4 className="font-display font-bold text-slate-800 text-xl md:text-2xl mb-2">Week 1: Hard Work and Patience</h4>
+                    <p className="text-base sm:text-lg md:text-xl text-slate-700 leading-relaxed font-medium">
                       You skipped the whistle! Instead, you helped clean the living room and organize your toys. You added another $1.50 to your savings. You are still wishing for a toy, but you stay strong!
                     </p>
                   </motion.div>
@@ -174,8 +174,8 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
                     exit={{ opacity: 0, x: -20 }}
                   >
                     <div className="text-4xl mb-3">🐖📈💵</div>
-                    <h4 className="font-display font-bold text-slate-800 text-lg mb-2">Week 2: Halfway there!</h4>
-                    <p className="text-sm text-slate-600 leading-relaxed">
+                    <h4 className="font-display font-bold text-slate-800 text-xl md:text-2xl mb-2">Week 2: Halfway there!</h4>
+                    <p className="text-base sm:text-lg md:text-xl text-slate-700 leading-relaxed font-medium">
                       Your savings pig is growing heavy! You now have $3.50. You visit the toy store just to look at the Galactic Robot on the shelf. The wait is tough, but you can see the finish line!
                     </p>
                   </motion.div>
@@ -189,12 +189,12 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
                     exit={{ opacity: 0, x: -20 }}
                   >
                     <div className="text-4xl mb-3">🤖✨🔥👑</div>
-                    <h4 className="font-display font-bold text-slate-800 text-lg mb-2">Week 3: Victory! The Robot is Yours!</h4>
-                    <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                    <h4 className="font-display font-bold text-slate-800 text-xl md:text-2xl mb-2">Week 3: Victory! The Robot is Yours!</h4>
+                    <p className="text-base sm:text-lg md:text-xl text-slate-700 leading-relaxed font-medium mb-4">
                       SUCCESS! You reached $5.00! You buy the glorious laser-flashing Galactic Robot. It looks incredible, plays music, and stays strong on your shelf forever. You are super proud of yourself!
                     </p>
-                    <div className="bg-emerald-100 border border-emerald-200 rounded-xl p-3 text-xs text-emerald-800 font-semibold flex items-center gap-2">
-                      <CheckCircle2 size={16} className="text-emerald-600" /> Lesson: Delaying gratification and waiting for a superior goal brings lasting joy and self-control!
+                    <div className="bg-emerald-100 border border-emerald-200 rounded-xl p-3.5 text-sm md:text-base text-emerald-800 font-semibold flex items-center gap-2">
+                      <CheckCircle2 size={18} className="text-emerald-600 shrink-0" /> Lesson: Delaying gratification and waiting for a superior goal brings lasting joy and self-control!
                     </div>
                   </motion.div>
                 )}
@@ -206,7 +206,7 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
             <button
               id="btn-toytradeoff-reset"
               onClick={handleReset}
-              className="text-xs font-bold text-slate-500 hover:underline"
+              className="text-sm font-bold text-slate-500 hover:text-slate-800 hover:underline p-1"
             >
               ↩️ Try other path
             </button>
@@ -215,9 +215,9 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
               <button
                 id="btn-toytradeoff-nextstep"
                 onClick={handleNextStep}
-                className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-900 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md transition-all active:scale-95"
+                className="flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white font-display font-bold px-5 py-2.5 rounded-xl text-sm md:text-base shadow-md transition-all active:scale-95"
               >
-                Continue Story <ArrowRight size={14} />
+                Continue Story <ArrowRight size={16} />
               </button>
             ) : (
               <div className="flex items-center gap-2">

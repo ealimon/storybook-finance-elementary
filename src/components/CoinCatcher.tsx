@@ -105,11 +105,11 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
             </span>
           </div>
           <h2 className="text-2xl md:text-3xl font-display text-slate-800 mt-1">Coin Counter &amp; Matcher</h2>
-          <p className="text-sm sm:text-xs text-slate-600">Click on coins to match the target amount and add them to your Piggy Bank!</p>
+          <p className="text-base sm:text-lg text-slate-700 font-medium mt-1">Click on coins to match the target amount and add them to your Piggy Bank!</p>
         </div>
         <div className="flex items-center gap-2 bg-yellow-50 px-4 py-2 rounded-2xl border-2 border-yellow-200 shrink-0">
           <Star className="text-yellow-500 fill-yellow-400" size={24} />
-          <span className="font-display font-bold text-slate-800 text-sm">Win 5 Stars per scenario!</span>
+          <span className="font-display font-bold text-slate-800 text-sm sm:text-base">Win 5 Stars per scenario!</span>
         </div>
       </div>
 
@@ -234,17 +234,17 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
                     className={`flex flex-col items-center justify-center p-3 rounded-xl border-b-4 hover:brightness-105 active:translate-y-1 transition-all cursor-grab active:cursor-grabbing shadow-sm touch-none select-none ${coin.color}`}
                   >
                     <span className="text-3xl filter drop-shadow-sm pointer-events-none">{coin.image}</span>
-                    <span className="font-display font-bold mt-1 text-sm pointer-events-none">{coin.name}</span>
-                    <span className="text-xs opacity-90 font-mono font-bold pointer-events-none">{coin.label}</span>
+                    <span className="font-display font-bold mt-1 text-sm sm:text-base pointer-events-none">{coin.name}</span>
+                    <span className="text-xs sm:text-sm opacity-90 font-mono font-extrabold pointer-events-none">{coin.label}</span>
                   </motion.div>
                 ))}
               </div>
             </div>
 
-            <div className="mt-4 bg-white p-3 rounded-xl border border-lime-200 text-xs text-slate-600 flex items-start gap-2">
-              <HelpCircle size={16} className="text-lime-600 flex-shrink-0 mt-0.5" />
-              <div>
-                <strong>Quick Tip:</strong> 4 Quarters make 1 Dollar ($1.00). 10 Dimes also make 1 Dollar!
+            <div className="mt-4 bg-white p-3.5 rounded-2xl border-2 border-lime-200 text-sm sm:text-base text-slate-700 flex items-start gap-2.5 shadow-sm">
+              <HelpCircle size={20} className="text-lime-600 flex-shrink-0 mt-0.5" />
+              <div className="leading-snug">
+                <strong className="text-slate-900 font-bold">Quick Tip:</strong> 4 Quarters make 1 Dollar ($1.00). 10 Dimes also make 1 Dollar!
               </div>
             </div>
           </div>
@@ -254,23 +254,25 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
             {/* Target Amount banner */}
             <div className="bg-white rounded-2xl p-4 shadow-sm flex justify-between items-center border border-slate-200 pointer-events-none">
               <div>
-                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Target Amount</span>
-                <div className="text-3xl font-mono font-bold text-slate-900">
+                <span className="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider block">Target Amount</span>
+                <div className="text-3xl sm:text-4xl font-mono font-bold text-slate-900">
                   ${targetAmount.toFixed(2)}
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Your Current Count</span>
-                <div className="text-3xl font-mono font-bold text-lime-600">
+                <span className="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider block">Your Current Count</span>
+                <div className="text-3xl sm:text-4xl font-mono font-bold text-lime-600">
                   ${currentSum.toFixed(2)}
                 </div>
               </div>
             </div>
 
             {/* Active Coin Area */}
-            <div data-piggy="counter" className="my-6 flex flex-wrap gap-3 justify-center items-center min-h-[120px] bg-white rounded-2xl p-4 shadow-inner border border-slate-100">
+            <div data-piggy="counter" className="my-6 flex flex-wrap gap-3 justify-center items-center min-h-[120px] bg-white rounded-2xl p-5 shadow-inner border border-slate-100">
               {selectedCoins.length === 0 ? (
-                <p className="text-slate-400 text-sm italic font-display pointer-events-none">📥 Drag coins from the left or click them into your Piggy Counter!</p>
+                <p className="text-slate-500 text-base sm:text-lg font-medium italic font-display pointer-events-none text-center px-4">
+                  📥 Drag coins from the left or click them into your Piggy Counter!
+                </p>
               ) : (
                 <AnimatePresence>
                   {selectedCoins.map((coin) => (
@@ -303,15 +305,15 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
                 <button
                   id="btn-coin-reset"
                   onClick={handleReset}
-                  className="flex items-center gap-2 bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95 cursor-pointer"
+                  className="flex items-center gap-2 bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 py-2.5 rounded-xl text-sm md:text-base font-bold transition-all active:scale-95 cursor-pointer"
                 >
-                  <RefreshCw size={16} /> Reset Coins
+                  <RefreshCw size={18} /> Reset Coins
                 </button>
               </div>
 
               {isAllCompleted ? (
-                <div className="bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-sm">
-                  <CheckCircle size={18} className="text-emerald-600 shrink-0" />
+                <div className="bg-emerald-100 border border-emerald-300 text-emerald-800 text-sm sm:text-base font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-sm">
+                  <CheckCircle size={20} className="text-emerald-600 shrink-0" />
                   <span>Module 1 Mastered! Gold Stars Reward Claimed! 🏆</span>
                 </div>
               ) : success ? (
@@ -329,13 +331,13 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
                   </div>
                   <div>
                     <p className="text-xs text-emerald-100 font-bold uppercase tracking-wider">Excellent Math Skills!</p>
-                    <span className="text-sm font-display font-bold text-white flex items-center gap-1.5 mt-0.5">
+                    <span className="text-sm md:text-base font-display font-bold text-white flex items-center gap-1.5 mt-0.5">
                       {level === TARGETS.length - 1 ? 'Claim Reward & Finish Module 🏆' : 'Claim Reward & Next Scenario ➡️'}
                     </span>
                   </div>
                 </motion.button>
               ) : (
-                <div className="text-xs font-bold text-slate-500">
+                <div className="text-sm md:text-base font-bold text-slate-600">
                   {currentSum < targetAmount
                     ? `Need $${(targetAmount - currentSum).toFixed(2)} more!`
                     : `Whoops, that is $${(currentSum - targetAmount).toFixed(2)} too much!`}

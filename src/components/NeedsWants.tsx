@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Check, AlertCircle, RefreshCw, Star, Info, Heart, Gift, ArrowRight } from 'lucide-react';
 import { NeedWantItem } from '../types';
+import { playSoftChime, playSoftBoop, playCoinSound } from '../utils/soundEffects';
 
 interface NeedsWantsProps {
   onAddStars: (stars: number) => void;
@@ -48,6 +49,12 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
     if (completed || !activeItem) return;
 
     const isCorrect = activeItem.type === category;
+
+    if (isCorrect) {
+      playSoftChime();
+    } else {
+      playSoftBoop();
+    }
 
     setLastFeedback({
       isCorrect,
@@ -104,11 +111,11 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
             Module 2: Smart Choices
           </span>
           <h2 className="text-2xl md:text-3xl font-display text-slate-800 mt-1">Needs vs. Wants Sorting Board</h2>
-          <p className="text-sm text-slate-600">Drag or click to classify items into essential Needs or fun Wants!</p>
+          <p className="text-base sm:text-lg text-slate-700 font-medium mt-1">Drag or click to classify items into essential Needs or fun Wants!</p>
         </div>
         <div className="flex items-center gap-2 mt-3 md:mt-0 bg-yellow-50 px-4 py-2 rounded-2xl border-2 border-yellow-200">
           <Star className="text-yellow-500 fill-yellow-400" size={24} />
-          <span className="font-display font-bold text-slate-700">Win 10 Stars!</span>
+          <span className="font-display font-bold text-slate-700 text-sm sm:text-base">Win 10 Stars!</span>
         </div>
       </div>
 
@@ -177,20 +184,20 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
 
                 {explanation ? (
                   <div className="flex flex-col items-center">
-                    <div className={`p-3 rounded-xl text-xs font-semibold mb-3 border ${
+                    <div className={`p-3.5 rounded-xl text-sm sm:text-base font-bold mb-3 border ${
                       lastFeedback?.isCorrect 
                         ? 'bg-green-100 text-green-800 border-green-200' 
                         : 'bg-amber-100 text-amber-800 border-amber-200'
                     }`}>
                       {lastFeedback?.text}
                     </div>
-                    <p className="text-xs text-slate-500 italic px-2 mb-4">
+                    <p className="text-sm sm:text-base text-slate-700 italic px-2 mb-4 leading-relaxed font-medium">
                       {explanation}
                     </p>
                     <button
                       id="btn-needswants-next"
                       onClick={handleNext}
-                      className="bg-lime-500 hover:bg-lime-600 text-white font-display font-bold px-6 py-2 rounded-xl text-sm shadow-md transition-all active:scale-95 cursor-pointer"
+                      className="bg-lime-500 hover:bg-lime-600 text-white font-display font-bold px-6 py-2.5 rounded-xl text-base shadow-md transition-all active:scale-95 cursor-pointer"
                     >
                       Next Item 🚀
                     </button>
@@ -200,16 +207,16 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
                     <button
                       id="btn-classify-need"
                       onClick={() => handleClassification('need')}
-                      className="flex-1 flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold p-3 rounded-xl shadow-md border-b-4 border-emerald-700 transition-all active:scale-95 active:translate-y-1 cursor-pointer"
+                      className="flex-1 flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold p-3.5 rounded-xl shadow-md border-b-4 border-emerald-700 transition-all active:scale-95 active:translate-y-1 cursor-pointer text-base sm:text-lg"
                     >
-                      <Heart size={18} /> Need
+                      <Heart size={20} /> Need
                     </button>
                     <button
                       id="btn-classify-want"
                       onClick={() => handleClassification('want')}
-                      className="flex-1 flex items-center justify-center gap-2 bg-purple-500 hover:bg-purple-600 text-white font-display font-bold p-3 rounded-xl shadow-md border-b-4 border-purple-700 transition-all active:scale-95 active:translate-y-1 cursor-pointer"
+                      className="flex-1 flex items-center justify-center gap-2 bg-purple-500 hover:bg-purple-600 text-white font-display font-bold p-3.5 rounded-xl shadow-md border-b-4 border-purple-700 transition-all active:scale-95 active:translate-y-1 cursor-pointer text-base sm:text-lg"
                     >
-                      <Gift size={18} /> Want
+                      <Gift size={20} /> Want
                     </button>
                   </div>
                 )}
