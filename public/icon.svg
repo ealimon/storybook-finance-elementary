@@ -55,13 +55,13 @@
     </filter>
   </defs>
 
-  <!-- iOS App Icon Squircle Background -->
-  <rect width="1024" height="1024" rx="230" fill="url(#goldBg)"/>
-  <rect width="1024" height="1024" rx="230" fill="url(#topGlow)"/>
+  <!-- Apple App Store Solid Background (Full-bleed 1024x1024 square with NO rounded corners and NO transparency) -->
+  <rect width="1024" height="1024" fill="url(#goldBg)"/>
+  <rect width="1024" height="1024" fill="url(#topGlow)"/>
 
-  <!-- High-end App Icon Bevel / Outer Rim (matching reference dark boundary & inner reflection) -->
-  <rect x="24" y="24" width="976" height="976" rx="210" fill="none" stroke="#1c1917" stroke-width="28" stroke-opacity="0.95"/>
-  <rect x="42" y="42" width="940" height="940" rx="195" fill="none" stroke="#ffffff" stroke-width="12" stroke-opacity="0.35"/>
+  <!-- High-end App Icon Bevel / Framing (fully opaque, no transparency) -->
+  <rect x="24" y="24" width="976" height="976" fill="none" stroke="#1c1917" stroke-width="24" stroke-opacity="0.95"/>
+  <rect x="42" y="42" width="940" height="940" fill="none" stroke="#ffffff" stroke-width="10" stroke-opacity="0.35"/>
 
   <!-- Ground Ambient Shadow under Owl Mascot -->
   <ellipse cx="512" cy="840" rx="260" ry="42" fill="#78350f" fill-opacity="0.25"/>

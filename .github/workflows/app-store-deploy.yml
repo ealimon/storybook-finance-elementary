@@ -117,12 +117,18 @@ jobs:
               }
             }
 
-            // Setup Native iOS AppIcon in xcassets
+            // Setup Native iOS AppIcon in xcassets (Strictly 24-bit Opaque RGB with NO ALPHA channel)
             const iconSetDir = "ios/App/App/Assets.xcassets/AppIcon.appiconset";
             if (fs.existsSync(iconSetDir)) {
               try {
-                fs.copyFileSync("public/app-store-icon-1024.png", `${iconSetDir}/AppIcon.png`);
-                fs.copyFileSync("public/app-store-icon-1024.png", `${iconSetDir}/AppIcon-512@2x.png`);
+                const sharp = require("sharp");
+                await sharp("public/app-store-icon-1024.png")
+                  .flatten({ background: "#f59e0b" })
+                  .removeAlpha()
+                  .png({ hasAlpha: false })
+                  .toFile(`${iconSetDir}/AppIcon.png`);
+                fs.copyFileSync(`${iconSetDir}/AppIcon.png`, `${iconSetDir}/AppIcon-512@2x.png`);
+
                 const iconJsonPath = `${iconSetDir}/Contents.json`;
                 const singleSizeContents = {
                   images: [
@@ -139,7 +145,7 @@ jobs:
                   }
                 };
                 fs.writeFileSync(iconJsonPath, JSON.stringify(singleSizeContents, null, 2));
-                console.log("✅ Updated native iOS AppIcon.appiconset with 1024x1024 Owl App Icon");
+                console.log("✅ Updated native iOS AppIcon.appiconset with strictly opaque 1024x1024 Owl App Icon (no alpha)");
               } catch (err) {
                 console.log("AppIcon setup note:", err.message);
               }
@@ -239,7 +245,7 @@ jobs:
               "  <key>destination</key>",
               "  <string>upload</string>",
               "  <key>method</key>",
-              "  <string>app-store</string>",
+              "  <string>app-store-connect</string>",
               "  <key>teamID</key>",
               "  <string>EYQARSHNW2</string>",
               "  <key>signingStyle</key>",

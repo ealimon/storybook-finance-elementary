@@ -58,13 +58,13 @@ const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 10
     </filter>
   </defs>
 
-  <!-- iOS App Icon Squircle Background -->
-  <rect width="1024" height="1024" rx="230" fill="url(#goldBg)"/>
-  <rect width="1024" height="1024" rx="230" fill="url(#topGlow)"/>
+  <!-- Apple App Store Solid Background (Full-bleed 1024x1024 square with NO rounded corners and NO transparency) -->
+  <rect width="1024" height="1024" fill="url(#goldBg)"/>
+  <rect width="1024" height="1024" fill="url(#topGlow)"/>
 
-  <!-- High-end App Icon Bevel / Outer Rim (matching reference dark boundary & inner reflection) -->
-  <rect x="24" y="24" width="976" height="976" rx="210" fill="none" stroke="#1c1917" stroke-width="28" stroke-opacity="0.95"/>
-  <rect x="42" y="42" width="940" height="940" rx="195" fill="none" stroke="#ffffff" stroke-width="12" stroke-opacity="0.35"/>
+  <!-- High-end App Icon Bevel / Framing (fully opaque, no transparency) -->
+  <rect x="24" y="24" width="976" height="976" fill="none" stroke="#1c1917" stroke-width="24" stroke-opacity="0.95"/>
+  <rect x="42" y="42" width="940" height="940" fill="none" stroke="#ffffff" stroke-width="10" stroke-opacity="0.35"/>
 
   <!-- Ground Ambient Shadow under Owl Mascot -->
   <ellipse cx="512" cy="840" rx="260" ry="42" fill="#78350f" fill-opacity="0.25"/>
@@ -162,31 +162,39 @@ console.log('✅ Generated public/icon.svg');
 async function generatePngs() {
   const svgBuffer = Buffer.from(svgContent);
 
-  // 1. Apple App Store 1024x1024 icon
+  // 1. Apple App Store 1024x1024 icon (STRICTLY NO ALPHA / 24-bit OPAQUE RGB)
   await sharp(svgBuffer)
     .resize(1024, 1024)
-    .png()
+    .flatten({ background: '#f59e0b' })
+    .removeAlpha()
+    .png({ hasAlpha: false, palette: false })
     .toFile('public/app-store-icon-1024.png');
-  console.log('✅ Generated public/app-store-icon-1024.png (1024x1024)');
+  console.log('✅ Generated public/app-store-icon-1024.png (1024x1024, completely opaque)');
 
   // 2. iOS Apple Touch Icon (180x180 for iPhone/iPad Home Screen & Safari)
   await sharp(svgBuffer)
     .resize(180, 180)
-    .png()
+    .flatten({ background: '#f59e0b' })
+    .removeAlpha()
+    .png({ hasAlpha: false })
     .toFile('public/apple-touch-icon.png');
   console.log('✅ Generated public/apple-touch-icon.png (180x180)');
 
   // 3. PWA & Web App 512x512
   await sharp(svgBuffer)
     .resize(512, 512)
-    .png()
+    .flatten({ background: '#f59e0b' })
+    .removeAlpha()
+    .png({ hasAlpha: false })
     .toFile('public/icon-512.png');
   console.log('✅ Generated public/icon-512.png (512x512)');
 
   // 4. PWA & Web App 192x192
   await sharp(svgBuffer)
     .resize(192, 192)
-    .png()
+    .flatten({ background: '#f59e0b' })
+    .removeAlpha()
+    .png({ hasAlpha: false })
     .toFile('public/icon-192.png');
   console.log('✅ Generated public/icon-192.png (192x192)');
 }
