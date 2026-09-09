@@ -121,13 +121,8 @@ jobs:
             const iconSetDir = "ios/App/App/Assets.xcassets/AppIcon.appiconset";
             if (fs.existsSync(iconSetDir)) {
               try {
-                const sharp = require("sharp");
-                await sharp("public/app-store-icon-1024.png")
-                  .flatten({ background: "#f59e0b" })
-                  .removeAlpha()
-                  .png({ hasAlpha: false })
-                  .toFile(`${iconSetDir}/AppIcon.png`);
-                fs.copyFileSync(`${iconSetDir}/AppIcon.png`, `${iconSetDir}/AppIcon-512@2x.png`);
+                fs.copyFileSync("public/app-store-icon-1024.png", `${iconSetDir}/AppIcon.png`);
+                fs.copyFileSync("public/app-store-icon-1024.png", `${iconSetDir}/AppIcon-512@2x.png`);
 
                 const iconJsonPath = `${iconSetDir}/Contents.json`;
                 const singleSizeContents = {
