@@ -24,6 +24,7 @@ import ReceiptMatcher from './components/ReceiptMatcher';
 import DonationStation from './components/DonationStation';
 import SmartSaverQuiz from './components/SmartSaverQuiz';
 import ModuleWorksheet, { printDirectWorksheet } from './components/ModuleWorksheet';
+import OwlLogo from './components/OwlLogo';
 
 import { UserProfile } from './types';
 import { playPopSound, playCoinSound, playFanfareSound, toggleMute, getMuteState } from './utils/soundEffects';
@@ -308,12 +309,7 @@ export default function App() {
             className="flex items-center gap-2.5 cursor-pointer group"
           >
             <div className="w-11 h-11 rounded-2xl overflow-hidden border-3 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:scale-105 transition-all bg-amber-400 shrink-0">
-              <img 
-                src="/icon.svg" 
-                alt="Storybook Finance Owl Icon" 
-                className="w-full h-full object-cover" 
-                referrerPolicy="no-referrer" 
-              />
+              <OwlLogo className="w-full h-full" />
             </div>
             <div>
               <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 block leading-none">
