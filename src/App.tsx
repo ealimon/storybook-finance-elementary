@@ -197,7 +197,7 @@ export default function App() {
   const [currentScreen, setCurrentScreen] = useState<'playground' | 'module'>('playground');
   const [activeModuleId, setActiveModuleId] = useState<string>('coin_matching');
   const [viewingWorksheet, setViewingWorksheet] = useState<boolean>(false);
-  const [gradeFilter, setGradeFilter] = useState<'ALL' | '2-3' | '3-4' | '4-5' | 'WORKSHEETS'>('ALL');
+  const [gradeFilter, setGradeFilter] = useState<'ALL' | '2-3' | '3-4' | '4-5'>('ALL');
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [showCurriculumMap, setShowCurriculumMap] = useState<boolean>(false);
 
@@ -286,7 +286,7 @@ export default function App() {
 
   // Filtered list of modules
   const displayedModules = MODULES_LIST.filter(mod => {
-    if (gradeFilter === 'ALL' || gradeFilter === 'WORKSHEETS') return true;
+    if (gradeFilter === 'ALL') return true;
     if (gradeFilter === '2-3') return mod.gradeLevel.includes('2–3');
     if (gradeFilter === '3-4') return mod.gradeLevel.includes('3–4');
     if (gradeFilter === '4-5') return mod.gradeLevel.includes('4–5') || mod.gradeLevel.includes('3–5');
@@ -307,8 +307,13 @@ export default function App() {
             onClick={backToPlayground}
             className="flex items-center gap-2.5 cursor-pointer group"
           >
-            <div className="w-11 h-11 rounded-2xl bg-amber-400 border-3 border-black flex items-center justify-center text-2xl shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:scale-105 transition-all">
-              🦉
+            <div className="w-11 h-11 rounded-2xl overflow-hidden border-3 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:scale-105 transition-all bg-amber-400 shrink-0">
+              <img 
+                src="/icon.svg" 
+                alt="Storybook Finance Owl Icon" 
+                className="w-full h-full object-cover" 
+                referrerPolicy="no-referrer" 
+              />
             </div>
             <div>
               <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 block leading-none">
@@ -374,7 +379,6 @@ export default function App() {
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
             {[
               { id: 'ALL', label: 'ALL GAMES' },
-              { id: 'WORKSHEETS', label: '🖨️ PRINTABLE WORKSHEETS' },
               { id: '2-3', label: 'GRADE 2–3' },
               { id: '3-4', label: 'GRADE 3–4' },
               { id: '4-5', label: 'GRADE 4–5' }

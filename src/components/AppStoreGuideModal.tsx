@@ -58,7 +58,10 @@ export default function AppStoreGuideModal({ isOpen, onClose }: AppStoreGuideMod
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-xs font-bold uppercase tracking-wider bg-lime-100 text-lime-800 px-3 py-1 rounded-full">
-                  Automated App Store CI/CD Ready
+                  iPad-Only App Store Ready
+                </span>
+                <span className="text-xs font-bold bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full font-mono">
+                  Device Family: 2 (iPad)
                 </span>
                 <span className="text-xs font-bold bg-sky-100 text-sky-800 px-2.5 py-1 rounded-full font-mono">
                   ID: com.limon.storybookeducation
@@ -73,6 +76,57 @@ export default function AppStoreGuideModal({ isOpen, onClose }: AppStoreGuideMod
               <p className="text-sm text-slate-600">
                 Your application has been configured with native iOS wrappers, safe-area viewport support, and Apple web app manifests.
               </p>
+            </div>
+          </div>
+
+          {/* Official Apple App Icon Showcase */}
+          <div className="bg-amber-50/80 border-2 border-amber-200 rounded-2xl p-4 sm:p-5 mb-6 flex flex-col sm:flex-row items-center sm:items-start gap-4">
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl overflow-hidden shadow-lg border-2 border-amber-300 shrink-0 bg-amber-400 group">
+              <img 
+                src="/icon.svg" 
+                alt="Apple App Icon Preview" 
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform" 
+                referrerPolicy="no-referrer"
+              />
+            </div>
+            <div className="flex-1 text-center sm:text-left">
+              <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
+                <span className="text-xs font-bold uppercase tracking-wider bg-amber-200/80 text-amber-900 px-2.5 py-0.5 rounded-full">
+                  Official App Icon
+                </span>
+                <span className="text-xs font-mono font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded">
+                  1024 × 1024 px Ready
+                </span>
+              </div>
+              <h3 className="font-display font-extrabold text-slate-900 text-lg sm:text-xl mt-1">
+                Storybook Finance Mascot App Icon
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+                Featuring the golden owl mascot with large expressive eyes, friendly storybook styling, and iOS squircle framing. Configured for App Store Connect distribution, TestFlight, and iPhone/iPad home screens.
+              </p>
+              <div className="flex items-center justify-center sm:justify-start gap-2 mt-3 flex-wrap">
+                <a
+                  href="/app-store-icon-1024.png"
+                  download="storybook-finance-icon-1024.png"
+                  className="text-xs font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 px-3.5 py-1.5 rounded-xl border border-amber-600 shadow-xs flex items-center gap-1.5 cursor-pointer transition-colors"
+                >
+                  <span>📥 Download 1024x1024 PNG</span>
+                </a>
+                <a
+                  href="/icon.svg"
+                  download="storybook-finance-icon.svg"
+                  className="text-xs font-bold bg-white hover:bg-slate-100 text-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 shadow-xs flex items-center gap-1.5 cursor-pointer transition-colors"
+                >
+                  <span>Vector SVG</span>
+                </a>
+                <a
+                  href="/apple-touch-icon.png"
+                  download="apple-touch-icon.png"
+                  className="text-xs font-bold bg-white hover:bg-slate-100 text-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 shadow-xs flex items-center gap-1.5 cursor-pointer transition-colors"
+                >
+                  <span>180x180 Touch Icon</span>
+                </a>
+              </div>
             </div>
           </div>
 
@@ -195,13 +249,13 @@ export default function AppStoreGuideModal({ isOpen, onClose }: AppStoreGuideMod
             {/* Step 3 */}
             <div className="border-2 border-slate-200 rounded-2xl p-4 bg-slate-50">
               <div className="flex justify-between items-center mb-1.5">
-                <span className="font-bold text-xs uppercase text-slate-500">Step 3: Test on iPhone Simulator &amp; Archive in Xcode</span>
+                <span className="font-bold text-xs uppercase text-slate-500">Step 3: Test on iPad Simulator &amp; Archive in Xcode</span>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
                 In Xcode:
               </p>
               <ul className="list-disc list-inside text-xs text-slate-600 space-y-1 mt-1">
-                <li>Select your connected iPhone or an iOS Simulator (e.g., iPhone 16 Pro) and hit <strong>Run (▶)</strong> to test.</li>
+                <li>Select your connected iPad or an iPad Simulator (e.g., iPad Pro 11" or 13" M4) and hit <strong>Run (▶)</strong> to test.</li>
                 <li>Under <strong>Signing &amp; Capabilities</strong>, select your Apple Developer Team (<code>EYQARSHNW2</code>).</li>
                 <li>Go to <strong>Product &gt; Archive</strong>, then click <strong>Distribute App</strong> to upload to App Store Connect!</li>
               </ul>
@@ -212,7 +266,7 @@ export default function AppStoreGuideModal({ isOpen, onClose }: AppStoreGuideMod
           <div className="bg-amber-50/80 border-2 border-amber-200 rounded-2xl p-4 sm:p-5 mb-6">
             <h3 className="font-display font-bold text-amber-950 text-base mb-2 flex items-center gap-2">
               <ShieldCheck className="text-amber-700" size={20} />
-              Apple App Store Review Checklist (Kids Category):
+              Apple App Store Review Checklist (Kids Category - iPad Only):
             </h3>
             <ul className="text-xs text-amber-900 space-y-1.5 list-disc list-inside leading-relaxed">
               <li>
@@ -225,7 +279,7 @@ export default function AppStoreGuideModal({ isOpen, onClose }: AppStoreGuideMod
                 <strong>Privacy Policy:</strong> Provide a public URL to your privacy policy in App Store Connect (mandatory for all kids apps).
               </li>
               <li>
-                <strong>Screenshots Required:</strong> 6.7" iPhone display (1290 × 2796 px) and 12.9" iPad Pro display (2048 × 2732 px).
+                <strong>Screenshots Required (iPad Only):</strong> Only 12.9" / 13" iPad Pro display screenshots (2048 × 2732 px or 2732 × 2048 in landscape) are required. No iPhone screenshots are needed since the app is designated for iPad only.
               </li>
               <li>
                 <strong>1024×1024 App Icon:</strong> Provided without transparency (Apple applies the squircle mask automatically).

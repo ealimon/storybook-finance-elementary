@@ -7,12 +7,13 @@ This project (**Storybook Financial Literacy**) has been pre-configured with **C
 ## 1. Pre-configured Settings in this Codebase
 
 - **Capacitor Core & iOS Engine:** `@capacitor/core`, `@capacitor/ios`, and `@capacitor/cli` installed, alongside `@capacitor/share`, `@capacitor/filesystem`, and `@capgo/capacitor-printer`.
+- **Target Platform:** iPad-Only (`TARGETED_DEVICE_FAMILY = "2"` in Xcode), optimized for classrooms and elementary tablet learning.
 - **Bundle Identifier:** `com.limon.storybookeducation` (configured in `capacitor.config.ts` and automated workflow).
 - **Apple Developer Team ID:** `EYQARSHNW2`.
 - **App Name:** `Storybook Financial Literacy`.
 - **Automated Cloud CI/CD:** GitHub Actions workflow pre-installed at `.github/workflows/app-store-deploy.yml`.
 - **iOS Safe Areas:** Support for iPhone notch, Dynamic Island, and home indicator bar with `viewport-fit=cover` in `index.html` and `env(safe-area-inset-*)` in CSS.
-- **App Icon & Web Manifest:** SVG app icon (`public/icon.svg`) and PWA web app manifest (`public/manifest.json`).
+- **App Icon & Web Manifest:** Official golden owl mascot App Icon (`public/icon.svg`), App Store 1024x1024 PNG (`public/app-store-icon-1024.png`), iOS Apple Touch Icon 180x180 (`public/apple-touch-icon.png`), and PWA web app manifest (`public/manifest.json`).
 - **NPM Helper Scripts:**
   - `npm run cap:build` — Compiles the Vite web app and synchronizes the native iOS project.
   - `npm run cap:sync` — Syncs web assets to the iOS wrapper.
@@ -79,9 +80,8 @@ Since this app is built for elementary students (Grades 2–5):
    - The app does not include any third-party behavioral advertisements or external trackers, satisfying COPPA and Apple child protection policies.
 2. **Privacy Policy URL:**
    - Apple requires a publicly accessible Privacy Policy link for all apps in the Kids Category.
-3. **App Store Screenshots Required:**
-   - **6.7" iPhone:** 1290 × 2796 pixels (e.g., iPhone 15/16 Pro Max screenshot from Xcode Simulator using `Cmd + S`).
-   - **12.9" iPad Pro:** 2048 × 2732 pixels.
+3. **App Store Screenshots Required (iPad Only):**
+   - **12.9" / 13" iPad Pro:** 2048 × 2732 pixels (or 2732 × 2048 in landscape). You can capture this directly from the Xcode iPad Simulator with `Cmd + S`. (Since the app is designated for iPad only, no iPhone screenshots are requested by Apple).
 4. **App Store Icon:**
    - 1024 × 1024 px PNG with no transparency (Apple applies the squircle rounded corners automatically).
 

@@ -1,4 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="100%" height="100%">
+import fs from 'fs';
+import sharp from 'sharp';
+
+const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="100%" height="100%">
   <defs>
     <!-- Background Golden Yellow Gradient matching reference -->
     <linearGradient id="goldBg" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -149,4 +152,43 @@
     </g>
 
   </g>
-</svg>
+</svg>`;
+
+// Write the primary SVG to public/icon.svg
+fs.writeFileSync('public/icon.svg', svgContent.trim());
+console.log('✅ Generated public/icon.svg');
+
+// Render standard Apple App and web PNG icon sizes using sharp
+async function generatePngs() {
+  const svgBuffer = Buffer.from(svgContent);
+
+  // 1. Apple App Store 1024x1024 icon
+  await sharp(svgBuffer)
+    .resize(1024, 1024)
+    .png()
+    .toFile('public/app-store-icon-1024.png');
+  console.log('✅ Generated public/app-store-icon-1024.png (1024x1024)');
+
+  // 2. iOS Apple Touch Icon (180x180 for iPhone/iPad Home Screen & Safari)
+  await sharp(svgBuffer)
+    .resize(180, 180)
+    .png()
+    .toFile('public/apple-touch-icon.png');
+  console.log('✅ Generated public/apple-touch-icon.png (180x180)');
+
+  // 3. PWA & Web App 512x512
+  await sharp(svgBuffer)
+    .resize(512, 512)
+    .png()
+    .toFile('public/icon-512.png');
+  console.log('✅ Generated public/icon-512.png (512x512)');
+
+  // 4. PWA & Web App 192x192
+  await sharp(svgBuffer)
+    .resize(192, 192)
+    .png()
+    .toFile('public/icon-192.png');
+  console.log('✅ Generated public/icon-192.png (192x192)');
+}
+
+generatePngs().catch(console.error);

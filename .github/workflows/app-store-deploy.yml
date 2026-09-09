@@ -98,8 +98,11 @@ jobs:
               if (!plist.includes("ITSAppUsesNonExemptEncryption")) {
                 plist = plist.replace("</dict>", "    <key>ITSAppUsesNonExemptEncryption</key>\n    <false/>\n</dict>");
               }
+              if (!plist.includes("UIRequiresFullScreen")) {
+                plist = plist.replace("</dict>", "    <key>UIRequiresFullScreen</key>\n    <true/>\n</dict>");
+              }
               fs.writeFileSync(plistPath, plist);
-              console.log("✅ Configured Info.plist with ITSAppUsesNonExemptEncryption = false");
+              console.log("✅ Configured Info.plist with ITSAppUsesNonExemptEncryption = false and UIRequiresFullScreen = true");
             }
 
             const capJsonPath = "ios/App/App/capacitor.config.json";
@@ -111,6 +114,34 @@ jobs:
                 console.log("✅ Configured ios capacitor.config.json appId = com.limon.storybook-finance");
               } catch (e) {
                 console.log("Capacitor JSON note:", e.message);
+              }
+            }
+
+            // Setup Native iOS AppIcon in xcassets
+            const iconSetDir = "ios/App/App/Assets.xcassets/AppIcon.appiconset";
+            if (fs.existsSync(iconSetDir)) {
+              try {
+                fs.copyFileSync("public/app-store-icon-1024.png", `${iconSetDir}/AppIcon.png`);
+                fs.copyFileSync("public/app-store-icon-1024.png", `${iconSetDir}/AppIcon-512@2x.png`);
+                const iconJsonPath = `${iconSetDir}/Contents.json`;
+                const singleSizeContents = {
+                  images: [
+                    {
+                      filename: "AppIcon.png",
+                      idiom: "universal",
+                      platform: "ios",
+                      size: "1024x1024"
+                    }
+                  ],
+                  info: {
+                    author: "xcode",
+                    version: 1
+                  }
+                };
+                fs.writeFileSync(iconJsonPath, JSON.stringify(singleSizeContents, null, 2));
+                console.log("✅ Updated native iOS AppIcon.appiconset with 1024x1024 Owl App Icon");
+              } catch (err) {
+                console.log("AppIcon setup note:", err.message);
               }
             }
           '
