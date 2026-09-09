@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Star, CheckCircle, RefreshCw, Sparkles, HelpCircle, AlertCircle, ArrowRight, Calculator, Volume2, ShoppingBag, Check, X, Info } from 'lucide-react';
+import { playBeepSound } from '../utils/soundEffects';
 
 interface ReceiptMatcherProps {
   onAddStars: (stars: number) => void;
@@ -136,21 +137,7 @@ export default function ReceiptMatcher({ onAddStars, onNextModule }: ReceiptMatc
 
   // Play audio beep sound safely
   const playBeep = () => {
-    try {
-      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(880, ctx.currentTime);
-      gain.gain.setValueAtTime(0.1, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.15);
-    } catch {
-      // Audio fallback
-    }
+    playBeepSound();
   };
 
   const handleScanItem = (idx: number) => {

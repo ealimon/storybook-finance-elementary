@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Star, ArrowRight, RefreshCw, Sparkles, Volume2, VolumeX, HandHeart, ShoppingBag, PiggyBank, Calendar, CheckCircle } from 'lucide-react';
+import { playCoinSound as playGlobalCoinSound } from '../utils/soundEffects';
 
 interface ThreeJarsProps {
   onAddStars: (stars: number) => void;
@@ -48,26 +49,7 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
   // Audio sound effect
   const playCoinSound = () => {
     if (!soundEnabled) return;
-    try {
-      const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(987.77, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(1318.51, ctx.currentTime + 0.1);
-
-      gain.gain.setValueAtTime(0.2, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start();
-      osc.stop(ctx.currentTime + 0.25);
-    } catch {
-      // ignore
-    }
+    playGlobalCoinSound();
   };
 
   // Switch active month
