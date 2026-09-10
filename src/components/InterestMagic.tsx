@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Star, Flame, Award, ShieldCheck, RefreshCw, Sparkles, Sprout, ArrowRight } from 'lucide-react';
+import { playCoinSound, playPopSound, playFanfareSound } from '../utils/soundEffects';
 
 interface InterestMagicProps {
   onAddStars: (stars: number) => void;
@@ -45,6 +46,7 @@ export default function InterestMagic({ onAddStars, onNextModule }: InterestMagi
 
   const claimReward = () => {
     if (!starsAwarded) {
+      playFanfareSound();
       onAddStars(10);
       setStarsAwarded(true);
     }
@@ -85,7 +87,10 @@ export default function InterestMagic({ onAddStars, onNextModule }: InterestMagi
                     <button
                       key={val}
                       id={`btn-deposit-${val}`}
-                      onClick={() => setDeposit(val)}
+                      onClick={() => {
+                        playCoinSound();
+                        setDeposit(val);
+                      }}
                       className={`flex-1 font-mono font-bold py-2.5 rounded-xl border text-base transition-all cursor-pointer ${
                         deposit === val
                           ? 'bg-yellow-500 border-yellow-600 text-white shadow-xs font-black'
@@ -110,7 +115,10 @@ export default function InterestMagic({ onAddStars, onNextModule }: InterestMagi
                   min="1"
                   max="30"
                   value={years}
-                  onChange={(e) => setYears(parseInt(e.target.value))}
+                  onChange={(e) => {
+                    playPopSound();
+                    setYears(parseInt(e.target.value));
+                  }}
                   className="w-full accent-yellow-500 cursor-pointer h-2.5 bg-slate-200 rounded-lg"
                 />
                 <div className="flex justify-between text-xs sm:text-sm text-slate-500 font-bold mt-1.5 uppercase">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CheckSquare, Square, Star, DollarSign, RefreshCw, Trophy, Sparkles, ArrowRight, Clock, Hourglass, Zap, HeartHandshake, Smile } from 'lucide-react';
 import { Chore } from '../types';
+import { playCoinSound, playPopSound, playFanfareSound } from '../utils/soundEffects';
 
 interface ChoreBoardProps {
   wallet: number;
@@ -27,9 +28,11 @@ export default function ChoreBoard({ wallet, onAddMoney, onAddStars, onNextModul
       if (chore.id === id) {
         const nextState = !chore.completed;
         if (nextState) {
+          playCoinSound();
           // Add chore payout to the active wallet!
           onAddMoney(chore.payout);
         } else {
+          playPopSound();
           // Subtract (undo)
           onAddMoney(-chore.payout);
         }
@@ -55,12 +58,14 @@ export default function ChoreBoard({ wallet, onAddMoney, onAddStars, onNextModul
   const remainingPlayMinutes = Math.max(0, 300 - totalMinutesWorked); // 5 hours default play time minus work
 
   const handleResetDays = () => {
+    playPopSound();
     setChores(CHORES_POOL.map(c => ({ ...c, completed: false })));
     setStarsAwarded(false);
   };
 
   const claimBonus = () => {
     if (isAllCompleted && !starsAwarded) {
+      playFanfareSound();
       onAddStars(12);
       onAddMoney(2.00); // Daily bonus payout
       setStarsAwarded(true);

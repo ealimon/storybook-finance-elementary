@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Star, Award, CheckCircle2, XCircle, ArrowRight, RefreshCw, Trophy, Sparkles, Download, Printer, Shuffle, Loader2 } from 'lucide-react';
 import { QuizQuestion } from '../types';
 import { buildCertificateHtml, triggerPrint } from '../utils/printService';
+import { playPopSound, playSoftChime, playSoftBoop, playFanfareSound } from '../utils/soundEffects';
 
 interface SmartSaverQuizProps {
   onAddStars: (stars: number) => void;
@@ -163,6 +164,7 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
   const [isPrinting, setIsPrinting] = useState(false);
 
   const handleShuffleNewQuestions = () => {
+    playPopSound();
     setQuestions(prepareRotatedQuestions(QUESTION_BANK, 5));
     setCurrentIdx(0);
     setSelectedOpt(null);
@@ -180,22 +182,28 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
     setIsAnswered(true);
     
     if (optIdx === activeQuestion.correctAnswer) {
+      playSoftChime();
       setScore(score + 1);
+    } else {
+      playSoftBoop();
     }
   };
 
   const handleNext = () => {
+    playPopSound();
     setSelectedOpt(null);
     setIsAnswered(false);
     if (currentIdx < questions.length - 1) {
       setCurrentIdx(currentIdx + 1);
     } else {
+      playFanfareSound();
       setQuizFinished(true);
     }
   };
 
   const claimQuizReward = () => {
     if (!starsClaimed) {
+      playFanfareSound();
       const bonusStars = score * 5;
       onAddStars(bonusStars);
       setStarsClaimed(true);

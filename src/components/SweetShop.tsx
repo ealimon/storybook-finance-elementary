@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ShoppingBag, Star, Trash2, CheckCircle, RefreshCw, AlertTriangle, ArrowRight } from 'lucide-react';
 import { SweetShopItem } from '../types';
+import { playPopSound, playCoinSound, playFanfareSound, playSoftBoop, playSoftChime } from '../utils/soundEffects';
 
 interface SweetShopProps {
   onAddStars: (stars: number) => void;
@@ -37,10 +38,17 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
     } else {
       setCart([...cart, { item, quantity: 1 }]);
     }
+    const newTotal = roundedSpent + item.price;
+    if (newTotal > budget) {
+      playSoftBoop();
+    } else {
+      playPopSound();
+    }
   };
 
   const handleRemoveFromCart = (itemId: string) => {
     if (checkedOut) return;
+    playPopSound();
     const existing = cart.find(c => c.item.id === itemId);
     if (!existing) return;
 
@@ -52,20 +60,26 @@ export default function SweetShop({ onAddStars, onAddMoney, onNextModule }: Swee
   };
 
   const handleClearCart = () => {
+    playPopSound();
     setCart([]);
     setCheckedOut(false);
     setStarsAwarded(false);
   };
 
   const handleCheckout = () => {
-    if (cart.length === 0 || isOverBudget) return;
+    if (cart.length === 0 || isOverBudget) {
+      playSoftBoop();
+      return;
+    }
     const change = Math.round((budget - roundedSpent) * 100) / 100;
     setCheckoutChange(change);
     setCheckedOut(true);
+    playCoinSound();
   };
 
   const claimReward = () => {
     if (!starsAwarded) {
+      playFanfareSound();
       onAddStars(8);
       // Give the remaining change to the virtual wallet! Encourages kids to see that saving budget means more wallet money!
       onAddMoney(checkoutChange);

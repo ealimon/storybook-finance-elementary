@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Heart, Star, CheckCircle, HandHeart, ArrowRight } from 'lucide-react';
+import { playCoinSound, playPopSound, playFanfareSound, playSoftChime } from '../utils/soundEffects';
 
 interface DonationStationProps {
   wallet?: number;
@@ -30,6 +31,7 @@ export default function DonationStation({ wallet = 10, onAddStars, onAddMoney, o
 
   const handleDonateCoins = (coins: number) => {
     if (animating || coins > remainingAllowance) return;
+    playCoinSound();
     setAnimating(true);
 
     setTimeout(() => {
@@ -38,9 +40,11 @@ export default function DonationStation({ wallet = 10, onAddStars, onAddMoney, o
         [selectedCause.id]: Math.round((prev[selectedCause.id] + coins) * 100) / 100
       }));
       setAnimating(false);
+      playSoftChime();
 
       // Award 5 stars upon first donation of at least $1 to any cause!
       if (!starsAwarded[selectedCause.id]) {
+        playFanfareSound();
         onAddStars(5);
         setStarsAwarded(prev => ({ ...prev, [selectedCause.id]: true }));
       }
@@ -48,6 +52,7 @@ export default function DonationStation({ wallet = 10, onAddStars, onAddMoney, o
   };
 
   const handleReset = () => {
+    playPopSound();
     setDonations({ puppies: 0, meals: 0, forest: 0 });
     setStarsAwarded({ puppies: false, meals: false, forest: false });
   };
@@ -111,7 +116,10 @@ export default function DonationStation({ wallet = 10, onAddStars, onAddMoney, o
                   <button
                     key={cause.id}
                     id={`btn-select-cause-${cause.id}`}
-                    onClick={() => setSelectedCause(cause)}
+                    onClick={() => {
+                      playPopSound();
+                      setSelectedCause(cause);
+                    }}
                     className={`w-full text-left p-3.5 rounded-2xl border-2 transition-all flex justify-between items-center bg-white cursor-pointer ${
                       isSelected
                         ? 'border-rose-400 font-bold shadow-md ring-2 ring-rose-200 scale-[1.01]'

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, Trophy, HelpCircle, CheckCircle, RefreshCw, Star } from 'lucide-react';
+import { playCoinSound, playPopSound, playFanfareSound, playSoftChime } from '../utils/soundEffects';
 
 interface CoinCatcherProps {
   wallet: number;
@@ -36,6 +37,7 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
 
   const handleAddCoin = (coin: typeof COINS[0]) => {
     if (success || isAllCompleted) return;
+    playCoinSound();
     const newId = Date.now() + Math.random();
     const newCoins = [...selectedCoins, { id: newId, value: coin.value, name: coin.name, image: coin.image }];
     setSelectedCoins(newCoins);
@@ -43,12 +45,14 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
     setCurrentSum(newSum);
 
     if (Math.abs(newSum - targetAmount) < 0.001) {
+      playSoftChime();
       setSuccess(true);
     }
   };
 
   const handleRemoveCoin = (id: number, value: number) => {
     if (success || isAllCompleted) return;
+    playPopSound();
     const filtered = selectedCoins.filter(c => c.id !== id);
     setSelectedCoins(filtered);
     const newSum = Math.round((currentSum - value) * 100) / 100;
@@ -56,12 +60,14 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
   };
 
   const handleReset = () => {
+    playPopSound();
     setSelectedCoins([]);
     setCurrentSum(0);
     setSuccess(false);
   };
 
   const handlePlayAgain = () => {
+    playPopSound();
     setLevel(0);
     setSelectedCoins([]);
     setCurrentSum(0);
@@ -71,6 +77,7 @@ export default function CoinCatcher({ wallet, onAddMoney, onAddStars, onNextModu
   };
 
   const claimReward = () => {
+    playFanfareSound();
     if (!starsAwarded) {
       onAddMoney(targetAmount);
       onAddStars(5);

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ShieldAlert, Star, Trophy, ArrowRight, CornerDownRight, CheckCircle2 } from 'lucide-react';
+import { playPopSound, playFanfareSound, playSoftChime } from '../utils/soundEffects';
 
 interface ToyTradeoffProps {
   onAddStars: (stars: number) => void;
@@ -13,23 +14,27 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
   const [starsAwarded, setStarsAwarded] = useState(false);
 
   const handleChoosePath = (path: 'A' | 'B') => {
+    playPopSound();
     setSelectedPath(path);
     setStep(1);
   };
 
   const handleNextStep = () => {
+    playPopSound();
     if (step < 3) {
       setStep(step + 1);
     }
   };
 
   const handleReset = () => {
+    playPopSound();
     setSelectedPath(null);
     setStep(0);
   };
 
   const claimReward = () => {
     if (!starsAwarded) {
+      playFanfareSound();
       onAddStars(10);
       setStarsAwarded(true);
     }
