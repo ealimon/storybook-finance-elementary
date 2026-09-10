@@ -607,44 +607,44 @@ export default function ThreeJars({ onAddStars, onAddMoney, onNextModule }: Thre
         <motion.div
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="bg-gradient-to-r from-emerald-500 via-teal-600 to-emerald-600 text-white p-5 rounded-2xl shadow-lg border-2 border-emerald-300 my-5 flex flex-wrap items-center justify-between gap-3"
+          className="bg-gradient-to-r from-emerald-500 via-teal-600 to-emerald-600 text-white p-6 rounded-3xl shadow-xl border-2 border-emerald-300 my-5 flex flex-wrap items-center justify-between gap-4"
         >
-          <div className="flex items-center gap-3">
-            <div className="bg-white text-emerald-700 p-2.5 rounded-2xl font-bold text-3xl shadow-inner">
+          <div className="flex items-center gap-4">
+            <div className="bg-white text-emerald-700 p-3.5 rounded-2xl font-bold text-3xl sm:text-4xl shadow-inner shrink-0">
               🎓
             </div>
             <div>
-              <h4 className="font-display font-extrabold text-lg flex items-center gap-1.5">
-                Full 12-Month Plan Completed! <Sparkles size={20} className="text-yellow-300" />
+              <h4 className="font-display font-extrabold text-xl sm:text-2xl flex items-center gap-2">
+                Full 12-Month Plan Completed! <Sparkles size={24} className="text-yellow-300" />
               </h4>
-              <p className="text-xs text-emerald-100 max-w-xl">
-                By budgeting $5 each month for 12 months ($60 total), you saved <strong className="text-white font-mono">${totalSave.toFixed(2)}</strong>, budgeted <strong className="text-white font-mono">${totalSpend.toFixed(2)}</strong> for treats, and donated <strong className="text-white font-mono">${totalGive.toFixed(2)}</strong> to help others!
+              <p className="text-base sm:text-lg text-emerald-50 max-w-2xl mt-1.5 leading-relaxed font-medium">
+                By budgeting $5 each month for 12 months ($60 total), you saved <strong className="text-white font-mono font-bold">${totalSave.toFixed(2)}</strong>, budgeted <strong className="text-white font-mono font-bold">${totalSpend.toFixed(2)}</strong> for treats, and donated <strong className="text-white font-mono font-bold">${totalGive.toFixed(2)}</strong> to help others!
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             {!starsAwarded ? (
               <button
                 id="btn-threejars-claim-reward"
                 onClick={claimReward}
-                className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-xs px-4 py-2.5 rounded-xl shadow-md border-b-2 border-yellow-600 cursor-pointer animate-bounce flex items-center gap-1"
+                className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-sm sm:text-base px-5 py-3 rounded-xl shadow-md border-b-2 border-yellow-600 cursor-pointer animate-bounce flex items-center gap-1.5"
               >
                 <span>Claim 10 Gold Stars 🌟</span>
               </button>
             ) : (
               <>
-                <span className="bg-emerald-800/90 text-white text-xs font-bold px-3 py-2 rounded-xl border border-emerald-400">
+                <span className="bg-emerald-800/90 text-white text-sm font-bold px-4 py-2.5 rounded-xl border border-emerald-400">
                   10 Stars Earned! 🌟
                 </span>
                 {onNextModule && (
                   <button
                     id="btn-threejars-next-module"
                     onClick={onNextModule}
-                    className="flex items-center gap-1.5 bg-white text-emerald-800 hover:bg-emerald-50 font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-200 cursor-pointer animate-bounce"
+                    className="flex items-center gap-2 bg-white text-emerald-800 hover:bg-emerald-50 font-display font-bold px-5 py-3 rounded-xl text-sm shadow-md border-b-2 border-emerald-200 cursor-pointer animate-bounce"
                   >
                     <span>NEXT: Chore Board Builder</span>
-                    <ArrowRight size={14} />
+                    <ArrowRight size={16} />
                   </button>
                 )}
               </>
