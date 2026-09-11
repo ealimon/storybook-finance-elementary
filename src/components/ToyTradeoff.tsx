@@ -48,7 +48,7 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
             Module 7: Delaying gratification
           </span>
           <h2 className="text-2xl md:text-3xl font-display text-slate-800 mt-1">The Great Toy Trade-off</h2>
-          <p className="text-sm text-slate-600">Choose your saving path and see what happens down the road. Will you buy now or wait?</p>
+          <p className="text-base sm:text-lg md:text-xl text-slate-700 font-medium mt-1 leading-relaxed">Choose your saving path and see what happens down the road. Will you buy now or wait?</p>
         </div>
         <div className="flex items-center gap-2 mt-3 md:mt-0 bg-yellow-50 px-4 py-2 rounded-2xl border-2 border-yellow-200">
           <Star className="text-yellow-500 fill-yellow-400" size={24} />
@@ -96,7 +96,7 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
         </div>
       ) : (
         <div className="bg-slate-50 rounded-3xl p-6 border border-slate-200">
-          <div className="flex justify-between text-xs sm:text-sm text-slate-500 font-bold mb-4 uppercase tracking-wider">
+          <div className="flex justify-between text-sm sm:text-base text-slate-600 font-bold mb-4 uppercase tracking-wider">
             <span>Your Chosen Path: {selectedPath === 'A' ? 'Path A (Instant Whistle)' : 'Path B (Patient Robot)'}</span>
             <span>Step {step} of 3</span>
           </div>
@@ -211,7 +211,7 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
             <button
               id="btn-toytradeoff-reset"
               onClick={handleReset}
-              className="text-sm font-bold text-slate-500 hover:text-slate-800 hover:underline p-1"
+              className="text-sm sm:text-base font-bold text-slate-600 hover:text-slate-900 hover:underline p-1 cursor-pointer"
             >
               ↩️ Try other path
             </button>
@@ -220,9 +220,9 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
               <button
                 id="btn-toytradeoff-nextstep"
                 onClick={handleNextStep}
-                className="flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white font-display font-bold px-5 py-2.5 rounded-xl text-sm md:text-base shadow-md transition-all active:scale-95"
+                className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-display font-bold px-6 py-3 rounded-2xl text-base sm:text-lg shadow-md transition-all active:scale-95 cursor-pointer"
               >
-                Continue Story <ArrowRight size={16} />
+                Continue Story <ArrowRight size={18} />
               </button>
             ) : (
               <div className="flex items-center gap-2">
