@@ -372,42 +372,43 @@ export function buildCertificateHtml(options: PrintCertificateOptions): string {
       border-bottom: 2px solid #fde68a;
       padding-bottom: 12px;
       margin-bottom: 24px;
-      font-size: 13px;
+      font-size: 16px;
       font-weight: 800;
       letter-spacing: 2px;
       color: #b45309;
       font-family: monospace;
     }
     .certifies-tag {
-      font-size: 12px;
+      font-size: 16px;
       text-transform: uppercase;
       letter-spacing: 2px;
       color: #78716c;
-      font-weight: bold;
+      font-weight: 800;
     }
     .student-name {
-      font-size: 36px;
+      font-size: 44px;
       font-weight: 900;
       color: #1e293b;
-      margin: 14px auto;
-      border-bottom: 2px dashed #cbd5e1;
-      padding-bottom: 6px;
+      margin: 16px auto;
+      border-bottom: 3px dashed #cbd5e1;
+      padding-bottom: 8px;
       display: inline-block;
-      min-width: 280px;
+      min-width: 320px;
       font-style: italic;
     }
     .description {
-      font-size: 14px;
-      color: #475569;
+      font-size: 18px;
+      color: #334155;
       line-height: 1.6;
-      max-width: 600px;
-      margin: 0 auto 28px;
+      max-width: 680px;
+      margin: 0 auto 30px;
+      font-weight: 600;
     }
     .footer-row {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      margin-top: 24px;
+      margin-top: 28px;
     }
     .col {
       text-align: left;
@@ -416,24 +417,24 @@ export function buildCertificateHtml(options: PrintCertificateOptions): string {
       text-align: right;
     }
     .label {
-      font-size: 10px;
+      font-size: 13px;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: #94a3b8;
-      font-weight: bold;
+      color: #64748b;
+      font-weight: 800;
       display: block;
     }
     .val {
-      font-size: 13px;
+      font-size: 17px;
       font-weight: bold;
-      color: #334155;
+      color: #1e293b;
     }
     .seal {
       background: #f59e0b;
       color: #451a03;
       font-weight: 900;
-      font-size: 14px;
-      padding: 8px 18px;
+      font-size: 17px;
+      padding: 10px 22px;
       border-radius: 9999px;
       border: 2px solid #d97706;
       letter-spacing: 0.5px;

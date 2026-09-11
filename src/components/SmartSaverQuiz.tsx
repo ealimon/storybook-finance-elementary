@@ -232,44 +232,44 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
   };
 
   return (
-    <div className="bg-white rounded-3xl p-6 shadow-xl border-4 border-lime-200">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-3">
+    <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border-4 border-lime-200">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-3">
         <div>
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs font-bold uppercase tracking-wider bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <span className="text-sm sm:text-base font-extrabold uppercase tracking-wider bg-yellow-100 text-yellow-900 border border-yellow-300 px-4 py-1.5 rounded-full">
               Module 9: Quiz &amp; Certificate
             </span>
-            <span className="text-xs font-bold bg-indigo-100 text-indigo-900 px-2.5 py-1 rounded-full flex items-center gap-1 border border-indigo-200">
-              <Shuffle size={12} /> Auto-Rotated Questions ({QUESTION_BANK.length} Pool)
+            <span className="text-sm sm:text-base font-bold bg-indigo-100 text-indigo-900 px-3.5 py-1.5 rounded-full flex items-center gap-1.5 border border-indigo-200">
+              <Shuffle size={16} /> Auto-Rotated Questions ({QUESTION_BANK.length} Pool)
             </span>
           </div>
-          <h2 className="text-2xl md:text-3xl font-display text-slate-800 mt-1">Smart Saver Trivia &amp; Degree</h2>
-          <p className="text-sm text-slate-600">Questions rotate automatically on each try to help test and strengthen your financial literacy!</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-slate-900 mt-2 tracking-tight">Smart Saver Trivia &amp; Degree</h2>
+          <p className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800 mt-2 leading-relaxed">Questions rotate automatically on each try to help test and strengthen your financial literacy!</p>
         </div>
         
-        <div className="flex items-center gap-2 mt-2 md:mt-0">
+        <div className="flex items-center gap-3 mt-2 md:mt-0 flex-wrap">
           <button
             onClick={handleShuffleNewQuestions}
-            className="flex items-center gap-1.5 text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-3 py-2 rounded-xl hover:bg-indigo-100 transition-colors cursor-pointer"
+            className="flex items-center gap-2 text-base sm:text-lg font-bold text-indigo-800 bg-indigo-50 border-2 border-indigo-200 px-4 py-2.5 rounded-xl hover:bg-indigo-100 transition-colors cursor-pointer"
             title="Load a fresh set of randomized trivia questions"
           >
-            <Shuffle size={14} /> New Question Set
+            <Shuffle size={18} /> New Question Set
           </button>
-          <div className="flex items-center gap-2 bg-yellow-50 px-4 py-2 rounded-2xl border-2 border-yellow-200">
-            <Trophy className="text-yellow-500 fill-yellow-400 animate-soft-bounce" size={22} />
-            <span className="font-display font-bold text-slate-700 text-xs sm:text-sm">Win up to 25 Stars!</span>
+          <div className="flex items-center gap-2 bg-yellow-50 px-4 py-2.5 rounded-2xl border-2 border-yellow-300 shadow-sm">
+            <Trophy className="text-yellow-500 fill-yellow-400 animate-soft-bounce" size={26} />
+            <span className="font-display font-black text-slate-800 text-base sm:text-lg">Win up to 25 Stars!</span>
           </div>
         </div>
       </div>
 
       {!quizFinished ? (
-        <div className="bg-slate-50 rounded-3xl p-5 border-2 border-slate-200">
+        <div className="bg-slate-50 rounded-3xl p-6 sm:p-8 border-3 border-slate-200">
           {/* Progress gauge */}
-          <div className="flex justify-between text-xs text-slate-500 font-bold mb-3 uppercase">
+          <div className="flex justify-between text-base sm:text-lg text-slate-700 font-extrabold mb-3 uppercase tracking-wide">
             <span>Question {currentIdx + 1} of {questions.length}</span>
             <span>Current Score: {score} Correct</span>
           </div>
-          <div className="w-full bg-slate-200 rounded-full h-2.5 mb-6 overflow-hidden">
+          <div className="w-full bg-slate-200 rounded-full h-3.5 mb-7 overflow-hidden">
             <div 
               className="bg-yellow-400 h-full rounded-full transition-all duration-300" 
               style={{ width: `${((currentIdx + 1) / questions.length) * 100}%` }}
@@ -277,12 +277,12 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
           </div>
 
           {/* Question text */}
-          <h3 className="font-display font-black text-slate-900 text-xl sm:text-2xl md:text-3xl mb-6 leading-tight">
+          <h3 className="font-display font-black text-slate-950 text-2xl sm:text-3xl md:text-4xl mb-7 leading-snug">
             {activeQuestion.question}
           </h3>
 
           {/* Option buttons */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-7">
             {activeQuestion.options.map((option, idx) => {
               const isSelected = selectedOpt === idx;
               const isCorrect = idx === activeQuestion.correctAnswer;
@@ -290,7 +290,7 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
               let optionStyle = 'bg-white border-slate-200 hover:border-yellow-400 hover:bg-yellow-50/50';
               if (isAnswered) {
                 if (isCorrect) {
-                  optionStyle = 'bg-green-100 border-green-500 text-green-950 font-black ring-2 ring-green-300';
+                  optionStyle = 'bg-green-100 border-green-500 text-green-950 font-black ring-3 ring-green-300';
                 } else if (isSelected) {
                   optionStyle = 'bg-red-100 border-red-400 text-red-950 font-bold';
                 } else {
@@ -304,14 +304,14 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
                   id={`btn-quiz-option-${idx}`}
                   onClick={() => handleSelectOption(idx)}
                   disabled={isAnswered}
-                  className={`w-full text-left p-4 sm:p-5 rounded-2xl border-3 transition-all flex justify-between items-center cursor-pointer shadow-sm ${optionStyle}`}
+                  className={`w-full text-left p-5 sm:p-6 rounded-2xl border-3 transition-all flex justify-between items-center cursor-pointer shadow-sm ${optionStyle}`}
                 >
-                  <span className="text-sm sm:text-base md:text-lg font-bold leading-snug">{option}</span>
+                  <span className="text-lg sm:text-xl md:text-2xl font-bold leading-snug">{option}</span>
                   {isAnswered && isCorrect && (
-                    <CheckCircle2 className="text-green-600 flex-shrink-0 ml-3" size={24} />
+                    <CheckCircle2 className="text-green-600 shrink-0 ml-3" size={28} />
                   )}
                   {isAnswered && isSelected && !isCorrect && (
-                    <XCircle className="text-red-500 flex-shrink-0 ml-3" size={24} />
+                    <XCircle className="text-red-500 shrink-0 ml-3" size={28} />
                   )}
                 </button>
               );
@@ -324,78 +324,82 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-4 sm:p-5 text-sm sm:text-base text-yellow-950 flex flex-col gap-2 mb-5 shadow-sm"
+                className="bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-5 sm:p-6 text-base sm:text-lg md:text-xl text-yellow-950 flex flex-col gap-2.5 mb-6 shadow-sm"
               >
-                <div className="flex items-center gap-1.5 font-black text-amber-900 text-base">
-                  <Sparkles size={16} /> Wise Owl Explanation:
+                <div className="flex items-center gap-2 font-black text-amber-950 text-lg sm:text-xl">
+                  <Sparkles size={22} /> Wise Owl Explanation:
                 </div>
-                <p className="leading-relaxed font-medium">{activeQuestion.explanation}</p>
+                <p className="leading-relaxed font-semibold">{activeQuestion.explanation}</p>
               </motion.div>
             )}
           </AnimatePresence>
 
           {/* Controls */}
-          <div className="flex justify-between items-center pt-3 border-t border-slate-200">
-            <span className="text-xs sm:text-sm text-slate-500 font-bold italic">
+          <div className="flex justify-between items-center pt-4 border-t border-slate-200 gap-3 flex-wrap">
+            <span className="text-sm sm:text-base text-slate-600 font-bold italic">
               💡 Option choices &amp; question order are randomly shuffled on every round!
             </span>
             {isAnswered && (
               <button
                 id="btn-quiz-next"
                 onClick={handleNext}
-                className="flex items-center gap-2 bg-slate-900 hover:bg-black text-white font-display font-black px-6 sm:px-8 py-3 rounded-2xl text-sm sm:text-base shadow-md transition-all active:scale-95 cursor-pointer ml-auto"
+                className="flex items-center gap-2 bg-slate-900 hover:bg-black text-white font-display font-black px-7 sm:px-9 py-3.5 rounded-2xl text-base sm:text-lg shadow-md transition-all active:scale-95 cursor-pointer ml-auto"
               >
-                {currentIdx === questions.length - 1 ? 'Finish Quiz 🎓' : 'Next Question'} <ArrowRight size={16} />
+                {currentIdx === questions.length - 1 ? 'Finish Quiz 🎓' : 'Next Question'} <ArrowRight size={20} />
               </button>
             )}
           </div>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-8">
           {/* Completion summary */}
-          <div className="bg-yellow-50 border-2 border-yellow-200 rounded-3xl p-5 text-center">
-            <Trophy size={48} className="text-yellow-500 mx-auto animate-soft-bounce mb-2" />
-            <h3 className="font-display font-bold text-slate-800 text-xl">Congratulations, Junior Expert!</h3>
-            <p className="text-xs text-slate-500 mt-1">
-              You scored <strong className="font-mono text-sm text-yellow-700">{score} / {questions.length}</strong> correct on this randomized trivia set!
+          <div className="bg-yellow-50 border-3 border-yellow-300 rounded-3xl p-6 sm:p-8 text-center shadow-sm">
+            <Trophy size={64} className="text-yellow-500 mx-auto animate-soft-bounce mb-3" />
+            <h3 className="font-display font-black text-slate-900 text-3xl sm:text-4xl md:text-5xl tracking-tight">
+              Congratulations, Junior Expert!
+            </h3>
+            <p className="text-xl sm:text-2xl text-slate-700 font-bold mt-2.5 leading-relaxed">
+              You scored <strong className="font-mono text-2xl sm:text-3xl text-yellow-800 font-black">{score} / {questions.length}</strong> correct on this randomized trivia set!
             </p>
 
-            <div className="mt-4 max-w-xs mx-auto">
-              <label className="text-xs text-slate-500 font-bold uppercase block mb-1">Enter Student Name:</label>
+            <div className="mt-6 max-w-md mx-auto">
+              <label className="text-base sm:text-lg text-slate-700 font-black uppercase tracking-wider block mb-2">
+                Enter Student Name:
+              </label>
               <input
                 id="input-student-name"
                 type="text"
                 value={studentName}
                 onChange={(e) => setStudentName(e.target.value)}
                 placeholder="Enter Student Name"
-                className="w-full bg-white border border-slate-300 rounded-xl px-3 py-1.5 text-center text-sm font-semibold text-slate-800 focus:border-yellow-400 focus:outline-none"
+                className="w-full bg-white border-2 border-slate-300 rounded-2xl px-5 py-3 text-center text-xl sm:text-2xl font-bold text-slate-900 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-300 focus:outline-none shadow-xs"
               />
             </div>
 
             {!starsClaimed ? (
-              <div className="flex flex-col items-center justify-center gap-2 mt-4">
-                <span className="text-xs font-bold text-amber-900 bg-amber-100 px-3 py-1 rounded-full border border-amber-300">
+              <div className="flex flex-col items-center justify-center gap-3 mt-6">
+                <span className="text-base sm:text-lg font-black text-amber-950 bg-amber-100 px-5 py-2 rounded-full border border-amber-300 shadow-xs">
                   👉 Step 1: Claim your graduation stars!
                 </span>
                 <button
                   id="btn-quiz-claim"
                   onClick={claimQuizReward}
-                  className="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-xs px-6 py-2.5 rounded-xl shadow-md border-b-2 border-yellow-600 animate-bounce cursor-pointer"
+                  className="bg-yellow-400 hover:bg-yellow-500 text-slate-950 font-display font-black text-xl sm:text-2xl px-8 py-4 rounded-2xl shadow-lg border-b-4 border-yellow-600 animate-bounce cursor-pointer transition-all active:translate-y-0.5"
                 >
                   Claim {score * 5} Stars 🌟
                 </button>
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center gap-2 mt-4">
-                <span className="text-xs text-yellow-800 bg-yellow-200 px-4 py-1.5 rounded-xl font-bold border border-yellow-300">
+              <div className="flex flex-col items-center justify-center gap-3 mt-6">
+                <span className="text-base sm:text-lg text-yellow-950 bg-yellow-200 px-5 py-2.5 rounded-2xl font-black border border-yellow-300 shadow-xs">
                   🎉 {score * 5} Stars Claimed! Graduation Certificate Unlocked! 📜
                 </span>
                 <button
                   id="btn-quiz-restart"
                   onClick={handleShuffleNewQuestions}
-                  className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-md transition-all cursor-pointer"
+                  className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-2xl text-base sm:text-lg font-bold shadow-md transition-all cursor-pointer"
                 >
-                  <Shuffle size={14} /> Take Quiz Again (New Rotated Questions)
+                  <Shuffle size={18} /> Take Quiz Again (New Rotated Questions)
                 </button>
               </div>
             )}
@@ -404,71 +408,71 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
           {/* PRINTABLE DIPLOMA PANEL */}
           <div 
             id="certified-diploma" 
-            className="border-8 border-double border-yellow-500 bg-amber-50 p-6 rounded-2xl shadow-md text-center max-w-lg mx-auto relative overflow-hidden"
+            className="border-8 border-double border-yellow-500 bg-amber-50 p-6 sm:p-10 rounded-3xl shadow-lg text-center max-w-2xl mx-auto relative overflow-hidden"
           >
             {/* Wax seal watermark */}
-            <div className="absolute right-4 bottom-4 opacity-15 text-7xl select-none">
+            <div className="absolute right-4 bottom-4 opacity-15 text-8xl select-none">
               ⭐📜
             </div>
 
-            <div className="flex justify-between items-center border-b border-yellow-200 pb-2 mb-4">
-              <span className="text-xs font-mono text-yellow-700 font-bold tracking-widest">STORYBOOK FINANCE</span>
-              <Award className="text-yellow-600" size={24} />
-              <span className="text-xs font-mono text-yellow-700 font-bold tracking-widest">JUNIOR EXCEL</span>
+            <div className="flex justify-between items-center border-b-2 border-yellow-300 pb-3 mb-6">
+              <span className="text-sm sm:text-base font-mono text-yellow-900 font-extrabold tracking-widest uppercase">STORYBOOK FINANCE</span>
+              <Award className="text-yellow-600" size={32} />
+              <span className="text-sm sm:text-base font-mono text-yellow-900 font-extrabold tracking-widest uppercase">JUNIOR EXCEL</span>
             </div>
 
-            <span className="text-xs uppercase font-bold text-slate-400 tracking-widest">This Certifies That</span>
-            <h4 className="font-display font-bold text-slate-800 text-2xl my-2 border-b-2 border-dashed border-slate-300 pb-1 max-w-xs mx-auto italic font-serif">
+            <span className="text-sm sm:text-base uppercase font-extrabold text-slate-500 tracking-widest block mb-1">This Certifies That</span>
+            <h4 className="font-display font-black text-slate-900 text-3xl sm:text-4xl md:text-5xl my-3 border-b-2 border-dashed border-slate-400 pb-2 max-w-md mx-auto italic font-serif">
               {studentName}
             </h4>
-            <p className="text-xs text-slate-600 px-6 leading-relaxed">
-              has completed the interactive modules in money basics, smart savings, compound interest sprouts, delayed gratification choices, and receipt math calculations, scoring <strong className="font-mono text-amber-700">{score}/{questions.length}</strong>!
+            <p className="text-base sm:text-lg md:text-xl text-slate-800 px-4 sm:px-8 leading-relaxed font-semibold mt-3">
+              has completed the interactive modules in money basics, smart savings, compound interest sprouts, delayed gratification choices, and receipt math calculations, scoring <strong className="font-mono text-amber-800 font-black">{score}/{questions.length}</strong>!
             </p>
 
-            <div className="mt-6 flex justify-between items-end">
+            <div className="mt-8 pt-4 border-t border-yellow-200 flex justify-between items-end flex-wrap gap-4">
               <div className="text-left">
-                <span className="text-[10px] uppercase text-slate-400 block font-bold">Award Date</span>
-                <span className="font-mono text-xs text-slate-700 font-semibold">August 8, 2026</span>
+                <span className="text-xs sm:text-sm uppercase text-slate-500 block font-black tracking-wider">Award Date</span>
+                <span className="font-mono text-base sm:text-lg text-slate-900 font-bold">August 8, 2026</span>
               </div>
-              <div className="bg-yellow-500 text-yellow-950 font-display font-bold text-xs px-3 py-1.5 rounded-full shadow-sm">
+              <div className="bg-yellow-400 text-yellow-950 font-display font-black text-base sm:text-lg px-5 py-2 rounded-full shadow-sm border border-yellow-500">
                 Certified Saver ⭐
               </div>
               <div className="text-right">
-                <span className="text-[10px] uppercase text-slate-400 block font-bold">Authorized Teacher</span>
-                <span className="font-serif italic text-xs text-slate-700">Wise Owl 🦉</span>
+                <span className="text-xs sm:text-sm uppercase text-slate-500 block font-black tracking-wider">Authorized Teacher</span>
+                <span className="font-serif italic text-base sm:text-lg text-slate-900 font-bold">Wise Owl 🦉</span>
               </div>
             </div>
           </div>
 
           {/* Certificate actions */}
           {starsClaimed ? (
-            <div className="flex flex-col items-center gap-2">
-              <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-300">
+            <div className="flex flex-col items-center gap-3">
+              <span className="text-base sm:text-lg font-black text-emerald-950 bg-emerald-100 px-5 py-2 rounded-full border border-emerald-300">
                 👉 Step 2: Print your certificate or continue!
               </span>
-              <div className="flex flex-wrap gap-3 justify-center items-center">
+              <div className="flex flex-wrap gap-3.5 justify-center items-center">
                 <button
                   id="btn-print-certificate"
                   onClick={handlePrint}
                   disabled={isPrinting}
-                  className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-900 disabled:bg-slate-500 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md transition-all cursor-pointer"
+                  className="flex items-center gap-2 bg-slate-900 hover:bg-black disabled:bg-slate-500 text-white font-display font-black px-6 py-3.5 rounded-2xl text-base sm:text-lg shadow-md transition-all cursor-pointer"
                 >
-                  {isPrinting ? <Loader2 size={14} className="animate-spin" /> : <Printer size={14} />}
+                  {isPrinting ? <Loader2 size={18} className="animate-spin" /> : <Printer size={18} />}
                   <span>{isPrinting ? 'Opening Print...' : 'Print Certificate'}</span>
                 </button>
                 {onNextModule && (
                   <button
                     id="btn-quiz-next-module"
                     onClick={onNextModule}
-                    className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-4 py-2 rounded-xl text-xs shadow-md border-b-2 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce cursor-pointer"
+                    className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-black px-7 py-3.5 rounded-2xl text-base sm:text-lg shadow-md border-b-4 border-emerald-700 active:translate-y-0.5 transition-all cursor-pointer"
                   >
-                    <span>NEXT: Magic Money Sprout 🌱</span> <ArrowRight size={14} />
+                    <span>NEXT: Magic Money Sprout 🌱</span> <ArrowRight size={18} />
                   </button>
                 )}
               </div>
             </div>
           ) : (
-            <p className="text-xs text-slate-500 italic text-center">
+            <p className="text-base sm:text-lg text-slate-600 italic text-center font-bold">
               Claim your stars above to unlock your print certificate!
             </p>
           )}

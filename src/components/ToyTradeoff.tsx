@@ -48,7 +48,7 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
             Module 7: Delaying gratification
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-slate-900 mt-1 tracking-tight">The Great Toy Trade-off</h2>
-          <p className="text-xl sm:text-2xl md:text-3xl text-slate-800 font-bold mt-2.5 leading-relaxed">
+          <p className="text-2xl sm:text-3xl md:text-4xl text-slate-900 font-extrabold mt-3 leading-relaxed">
             Choose your saving path and see what happens down the road. Will you buy now or wait?
           </p>
         </div>
@@ -66,7 +66,7 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
             onClick={() => handleChoosePath('A')}
             className="group text-left bg-rose-50 border-4 border-dashed border-rose-200 rounded-3xl p-6 sm:p-8 hover:border-rose-400 transition-all active:scale-98 cursor-pointer"
           >
-            <div className="text-6xl mb-4 animate-soft-bounce">🎈🔊</div>
+            <div className="text-6xl mb-4 animate-soft-bounce">🎈🎺</div>
             <h3 className="font-display text-2xl sm:text-3xl md:text-4xl text-rose-950 font-extrabold mb-3">
               Path A: Buy Whistle NOW!
             </h3>
@@ -113,7 +113,7 @@ export default function ToyTradeoff({ onAddStars, onNextModule }: ToyTradeoffPro
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
                   >
-                    <div className="text-6xl mb-4">🗣️🔊🎈</div>
+                    <div className="text-6xl mb-4">🎈🎺🎶</div>
                     <h4 className="font-display font-black text-slate-950 text-3xl sm:text-4xl md:text-5xl mb-4">Day 1: Instant Noise!</h4>
                     <p className="text-xl sm:text-2xl md:text-3xl text-slate-800 leading-relaxed font-semibold">
                       You bought the $1.00 whistle! You run around the house making loud "Screech! Toot!" noises. It is super fun for about 10 minutes, although your parents look a little tired.
