@@ -77,11 +77,6 @@ function withAudio(callback: (ctx: AudioContext) => void) {
 
 export function toggleMute(): boolean {
   isMuted = !isMuted;
-  if (isMuted && typeof window !== 'undefined' && 'speechSynthesis' in window) {
-    try {
-      window.speechSynthesis.cancel();
-    } catch {}
-  }
   return isMuted;
 }
 
@@ -91,11 +86,6 @@ export function getMuteState(): boolean {
 
 export function setMuteState(muted: boolean): void {
   isMuted = muted;
-  if (isMuted && typeof window !== 'undefined' && 'speechSynthesis' in window) {
-    try {
-      window.speechSynthesis.cancel();
-    } catch {}
-  }
 }
 
 // Soft tactile button pop
@@ -282,22 +272,5 @@ export function playCashRegisterSound() {
     osc2.start(now + 0.06);
     osc2.stop(now + 0.36);
   });
-}
-
-// Friendly speech synthesizer for item scanning & math prompts (fully supported on iOS Safari / iPad)
-export function speakText(text: string) {
-  if (isMuted) return;
-  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
-  try {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1.0;
-    utterance.pitch = 1.1; // cheerful, friendly pitch for young learners
-    utterance.volume = 1.0;
-    window.speechSynthesis.speak(utterance);
-  } catch (err) {
-    console.warn('Speech synthesis error:', err);
-  }
 }
 

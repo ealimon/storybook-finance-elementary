@@ -104,24 +104,24 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
   };
 
   return (
-    <div className="bg-white rounded-3xl p-6 shadow-xl border-4 border-lime-200">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+    <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border-4 border-lime-200">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-3">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider bg-orange-100 text-orange-800 px-3 py-1 rounded-full">
+          <span className="text-sm sm:text-base font-extrabold uppercase tracking-wider bg-orange-100 text-orange-900 border border-orange-300 px-4 py-1.5 rounded-full inline-block mb-1">
             Module 2: Smart Choices
           </span>
-          <h2 className="text-2xl md:text-3xl font-display text-slate-800 mt-1">Needs vs. Wants Sorting Board</h2>
-          <p className="text-base sm:text-lg text-slate-700 font-medium mt-1">Drag or click to classify items into essential Needs or fun Wants!</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-slate-900 mt-1 tracking-tight">Needs vs. Wants Sorting Board</h2>
+          <p className="text-xl sm:text-2xl md:text-3xl text-slate-800 font-bold mt-2 leading-relaxed">Drag or tap below to classify items into essential Needs or fun Wants!</p>
         </div>
-        <div className="flex items-center gap-2 mt-3 md:mt-0 bg-yellow-50 px-4 py-2 rounded-2xl border-2 border-yellow-200">
-          <Star className="text-yellow-500 fill-yellow-400" size={24} />
-          <span className="font-display font-bold text-slate-700 text-sm sm:text-base">Win 10 Stars!</span>
+        <div className="flex items-center gap-2 mt-2 md:mt-0 bg-yellow-50 px-4 py-2.5 rounded-2xl border-2 border-yellow-300 shadow-sm">
+          <Star className="text-yellow-500 fill-yellow-400" size={26} />
+          <span className="font-display font-black text-slate-800 text-base sm:text-lg">Win 10 Stars!</span>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
         {/* Active Item Card */}
-        <div className="md:col-span-4 flex flex-col justify-center items-center bg-slate-50 rounded-2xl p-6 border-2 border-slate-200 min-h-[300px]">
+        <div className="md:col-span-5 flex flex-col justify-center items-center bg-slate-50 rounded-3xl p-6 sm:p-8 border-3 border-slate-200 min-h-[340px]">
           <AnimatePresence mode="wait">
             {!completed && activeItem ? (
               <motion.div
@@ -173,50 +173,50 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
                 className="w-full flex flex-col items-center text-center touch-none cursor-grab active:cursor-grabbing select-none"
               >
                 {!explanation && (
-                  <span className="text-sm sm:text-base font-bold text-amber-900 bg-amber-100 px-4 py-2 rounded-full mb-3 shadow-xs border-2 border-amber-300 animate-pulse">
+                  <span className="text-base sm:text-lg font-black text-amber-950 bg-amber-100 px-5 py-2.5 rounded-full mb-4 shadow-xs border-2 border-amber-300 animate-pulse">
                     🖐️ Drag card to a Bin or tap below!
                   </span>
                 )}
-                <div className={`w-28 h-28 rounded-3xl flex items-center justify-center text-5xl shadow-md border-2 mb-3 ${activeItem.color}`}>
+                <div className={`w-32 h-32 rounded-3xl flex items-center justify-center text-6xl shadow-md border-3 mb-4 ${activeItem.color}`}>
                   {activeItem.icon}
                 </div>
-                <h3 className="font-display text-xl text-slate-800 font-bold mb-4">{activeItem.name}</h3>
+                <h3 className="font-display text-2xl sm:text-3xl text-slate-900 font-black mb-4">{activeItem.name}</h3>
 
                 {explanation ? (
-                  <div className="flex flex-col items-center">
-                    <div className={`p-3.5 rounded-xl text-sm sm:text-base font-bold mb-3 border ${
+                  <div className="flex flex-col items-center w-full">
+                    <div className={`p-4 rounded-2xl text-base sm:text-lg md:text-xl font-black mb-3 border-2 w-full ${
                       lastFeedback?.isCorrect 
-                        ? 'bg-green-100 text-green-800 border-green-200' 
-                        : 'bg-amber-100 text-amber-800 border-amber-200'
+                        ? 'bg-green-100 text-green-950 border-green-300' 
+                        : 'bg-amber-100 text-amber-950 border-amber-300'
                     }`}>
                       {lastFeedback?.text}
                     </div>
-                    <p className="text-sm sm:text-base text-slate-700 italic px-2 mb-4 leading-relaxed font-medium">
+                    <p className="text-base sm:text-lg md:text-xl text-slate-800 italic px-2 mb-5 leading-relaxed font-semibold">
                       {explanation}
                     </p>
                     <button
                       id="btn-needswants-next"
                       onClick={handleNext}
-                      className="bg-lime-500 hover:bg-lime-600 text-white font-display font-bold px-6 py-2.5 rounded-xl text-base shadow-md transition-all active:scale-95 cursor-pointer"
+                      className="bg-lime-500 hover:bg-lime-600 text-white font-display font-black px-8 py-3.5 rounded-2xl text-lg sm:text-xl shadow-md transition-all active:scale-95 cursor-pointer"
                     >
                       Next Item 🚀
                     </button>
                   </div>
                 ) : (
-                  <div className="flex gap-3 w-full">
+                  <div className="flex gap-4 w-full">
                     <button
                       id="btn-classify-need"
                       onClick={() => handleClassification('need')}
-                      className="flex-1 flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold p-3.5 rounded-xl shadow-md border-b-4 border-emerald-700 transition-all active:scale-95 active:translate-y-1 cursor-pointer text-base sm:text-lg"
+                      className="flex-1 flex items-center justify-center gap-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-black p-4 rounded-2xl shadow-md border-b-4 border-emerald-700 transition-all active:scale-95 active:translate-y-1 cursor-pointer text-lg sm:text-xl"
                     >
-                      <Heart size={20} /> Need
+                      <Heart size={24} className="fill-white" /> Need
                     </button>
                     <button
                       id="btn-classify-want"
                       onClick={() => handleClassification('want')}
-                      className="flex-1 flex items-center justify-center gap-2 bg-purple-500 hover:bg-purple-600 text-white font-display font-bold p-3.5 rounded-xl shadow-md border-b-4 border-purple-700 transition-all active:scale-95 active:translate-y-1 cursor-pointer text-base sm:text-lg"
+                      className="flex-1 flex items-center justify-center gap-2.5 bg-purple-500 hover:bg-purple-600 text-white font-display font-black p-4 rounded-2xl shadow-md border-b-4 border-purple-700 transition-all active:scale-95 active:translate-y-1 cursor-pointer text-lg sm:text-xl"
                     >
-                      <Gift size={20} /> Want
+                      <Gift size={24} className="fill-white" /> Want
                     </button>
                   </div>
                 )}
@@ -227,41 +227,41 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
                 animate={{ scale: 1, opacity: 1 }}
                 className="text-center py-6"
               >
-                <div className="text-5xl mb-3">🎓🌟</div>
-                <h3 className="font-display text-2xl text-slate-800 font-bold">Amazing job!</h3>
-                <p className="text-sm text-slate-500 mb-6">You successfully sorted all items in this module.</p>
+                <div className="text-6xl mb-4">🎓🌟</div>
+                <h3 className="font-display text-3xl sm:text-4xl text-slate-900 font-black">Amazing job!</h3>
+                <p className="text-lg sm:text-xl font-bold text-slate-600 mb-6 mt-2">You successfully sorted all items in this module.</p>
                 
                 {starsAwarded ? (
-                  <div className="flex flex-col items-center gap-3">
-                    <span className="text-sm font-bold text-emerald-800 bg-emerald-100 px-4 py-1.5 rounded-full border border-emerald-300">
+                  <div className="flex flex-col items-center gap-4">
+                    <span className="text-base sm:text-lg font-black text-emerald-900 bg-emerald-100 px-5 py-2.5 rounded-full border border-emerald-300">
                       🎉 10 Stars Claimed! Smart Shopper Badge Unlocked!
                     </span>
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                       <button
                         id="btn-needswants-reset"
                         onClick={handleReset}
-                        className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-600 px-4 py-2 rounded-xl text-sm font-bold border border-slate-200 cursor-pointer"
+                        className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 px-5 py-3 rounded-2xl text-base font-black border border-slate-300 cursor-pointer"
                       >
-                        <RefreshCw size={14} /> Play Again
+                        <RefreshCw size={18} /> Play Again
                       </button>
                       {onNextModule && (
                         <button
                           id="btn-needswants-next-module"
                           onClick={onNextModule}
-                          className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold px-6 py-3 rounded-2xl text-base shadow-lg border-b-4 border-emerald-700 active:translate-y-0.5 transition-all animate-bounce cursor-pointer"
+                          className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-black px-7 py-3.5 rounded-2xl text-lg shadow-lg border-b-4 border-emerald-700 active:translate-y-0.5 transition-all cursor-pointer"
                         >
-                          <span>NEXT: Sweet Shop Spend</span> <ArrowRight size={18} />
+                          <span>NEXT: Sweet Shop Spend</span> <ArrowRight size={20} />
                         </button>
                       )}
                     </div>
                   </div>
                 ) : (
-                  <div className="flex flex-col items-center justify-center gap-2">
-                    <span className="text-xs font-bold text-purple-900">👉 Step 1: Claim your reward!</span>
+                  <div className="flex flex-col items-center justify-center gap-3">
+                    <span className="text-base sm:text-lg font-black text-purple-950">👉 Step 1: Claim your reward!</span>
                     <button
                       id="btn-needswants-claim-reward"
                       onClick={claimReward}
-                      className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-display font-bold px-6 py-3 rounded-xl text-md shadow-lg border-b-4 border-yellow-700 animate-bounce cursor-pointer"
+                      className="bg-yellow-500 hover:bg-yellow-600 text-slate-950 font-display font-black px-7 py-3.5 rounded-2xl text-lg sm:text-xl shadow-lg border-b-4 border-yellow-700 animate-bounce cursor-pointer"
                     >
                       Claim 10 Stars 🌟
                     </button>
@@ -273,54 +273,54 @@ export default function NeedsWants({ onAddStars, onNextModule }: NeedsWantsProps
         </div>
 
         {/* Bins Column */}
-        <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="md:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Needs Bin */}
-          <div data-bin="need" className="bg-emerald-50 border-4 border-dashed border-emerald-300 rounded-3xl p-4 sm:p-5 flex flex-col min-h-[300px] transition-all hover:bg-emerald-100/60">
-            <h4 className="font-display text-lg sm:text-xl text-emerald-800 font-bold mb-3 flex items-center gap-2 border-b-2 border-emerald-100 pb-2.5 pointer-events-none">
-              <Heart className="fill-emerald-400 text-emerald-600" size={22} /> 
+          <div data-bin="need" className="bg-emerald-50 border-4 border-dashed border-emerald-300 rounded-3xl p-5 sm:p-6 flex flex-col min-h-[340px] transition-all hover:bg-emerald-100/60">
+            <h4 className="font-display text-xl sm:text-2xl text-emerald-900 font-black mb-3.5 flex items-center gap-2.5 border-b-2 border-emerald-200 pb-2.5 pointer-events-none">
+              <Heart className="fill-emerald-400 text-emerald-600" size={26} /> 
               Essential Needs ({needsBin.length})
             </h4>
-            <div className="grid grid-cols-2 gap-2 overflow-y-auto max-h-[220px] p-1 pointer-events-none">
+            <div className="grid grid-cols-1 gap-2.5 overflow-y-auto max-h-[250px] p-1 pointer-events-none">
               {needsBin.map((item, idx) => (
                 <div
                   key={`${item.id}-${idx}`}
-                  className="flex items-center gap-2 p-2.5 bg-white rounded-xl border border-emerald-100 shadow-sm"
+                  className="flex items-center gap-3 p-3 bg-white rounded-xl border border-emerald-200 shadow-xs"
                 >
-                  <span className="text-xl sm:text-2xl">{item.icon}</span>
-                  <span className="text-xs sm:text-sm font-bold text-slate-800">{item.name}</span>
-                  <Check size={16} className="text-emerald-500 ml-auto" />
+                  <span className="text-2xl sm:text-3xl">{item.icon}</span>
+                  <span className="text-base sm:text-lg font-black text-slate-900">{item.name}</span>
+                  <Check size={20} className="text-emerald-600 ml-auto" />
                 </div>
               ))}
               {needsBin.length === 0 && (
-                <p className="col-span-2 text-sm sm:text-base text-emerald-800 font-bold italic font-display text-center my-auto p-4 sm:p-5 border-2 border-dashed border-emerald-300 rounded-2xl bg-white/80 leading-relaxed shadow-2xs">
+                <p className="text-base sm:text-lg text-emerald-900 font-black italic font-display text-center my-auto p-5 border-2 border-dashed border-emerald-300 rounded-2xl bg-white/90 leading-relaxed shadow-xs">
                   📥 Drop "Needs" here! <br />
-                  <span className="text-xs sm:text-sm text-emerald-700 font-semibold">(Things we need to survive)</span>
+                  <span className="text-sm sm:text-base text-emerald-800 font-bold">(Things we need to survive)</span>
                 </p>
               )}
             </div>
           </div>
 
           {/* Wants Bin */}
-          <div data-bin="want" className="bg-purple-50 border-4 border-dashed border-purple-300 rounded-3xl p-4 sm:p-5 flex flex-col min-h-[300px] transition-all hover:bg-purple-100/60">
-            <h4 className="font-display text-lg sm:text-xl text-purple-800 font-bold mb-3 flex items-center gap-2 border-b-2 border-purple-100 pb-2.5 pointer-events-none">
-              <Gift className="fill-purple-400 text-purple-600" size={22} /> 
+          <div data-bin="want" className="bg-purple-50 border-4 border-dashed border-purple-300 rounded-3xl p-5 sm:p-6 flex flex-col min-h-[340px] transition-all hover:bg-purple-100/60">
+            <h4 className="font-display text-xl sm:text-2xl text-purple-900 font-black mb-3.5 flex items-center gap-2.5 border-b-2 border-purple-200 pb-2.5 pointer-events-none">
+              <Gift className="fill-purple-400 text-purple-600" size={26} /> 
               Fun Wants ({wantsBin.length})
             </h4>
-            <div className="grid grid-cols-2 gap-2 overflow-y-auto max-h-[220px] p-1 pointer-events-none">
+            <div className="grid grid-cols-1 gap-2.5 overflow-y-auto max-h-[250px] p-1 pointer-events-none">
               {wantsBin.map((item, idx) => (
                 <div
                   key={`${item.id}-${idx}`}
-                  className="flex items-center gap-2 p-2.5 bg-white rounded-xl border border-purple-100 shadow-sm"
+                  className="flex items-center gap-3 p-3 bg-white rounded-xl border border-purple-200 shadow-xs"
                 >
-                  <span className="text-xl sm:text-2xl">{item.icon}</span>
-                  <span className="text-xs sm:text-sm font-bold text-slate-800">{item.name}</span>
-                  <Check size={16} className="text-purple-500 ml-auto" />
+                  <span className="text-2xl sm:text-3xl">{item.icon}</span>
+                  <span className="text-base sm:text-lg font-black text-slate-900">{item.name}</span>
+                  <Check size={20} className="text-purple-600 ml-auto" />
                 </div>
               ))}
               {wantsBin.length === 0 && (
-                <p className="col-span-2 text-sm sm:text-base text-purple-800 font-bold italic font-display text-center my-auto p-4 sm:p-5 border-2 border-dashed border-purple-300 rounded-2xl bg-white/80 leading-relaxed shadow-2xs">
+                <p className="text-base sm:text-lg text-purple-900 font-black italic font-display text-center my-auto p-5 border-2 border-dashed border-purple-300 rounded-2xl bg-white/90 leading-relaxed shadow-xs">
                   📥 Drop "Wants" here! <br />
-                  <span className="text-xs sm:text-sm text-purple-700 font-semibold">(Fun things we can live without)</span>
+                  <span className="text-sm sm:text-base text-purple-800 font-bold">(Fun things we can live without)</span>
                 </p>
               )}
             </div>
