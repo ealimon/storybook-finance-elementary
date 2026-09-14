@@ -78,11 +78,34 @@ Since this app is built for elementary students (Grades 2–5):
 1. **Kids Category Declaration (App Store Review Guideline 1.3):**
    - In App Store Connect, set the Age Rating and specify the **Kids Category (Ages 6–8 and 9–11)**.
    - The app does not include any third-party behavioral advertisements or external trackers, satisfying COPPA and Apple child protection policies.
-2. **Privacy Policy URL:**
+   - **Parental Gate for AirPrint / Printing:** Any action that opens the iOS print dialog (AirPrint) or resets student progress is strictly protected behind a randomized adult word-math Parental Gate modal (`ParentalGateModal.tsx`). This completely fulfills Apple Guideline 1.3 requirements for Kids Category apps.
+
+2. **Guideline 1.3 Resolution Response for App Review:**
+   When responding to Apple App Review regarding Guideline 1.3 and the AirPrint dialog, copy and paste:
+   ```text
+   Dear Apple App Review Team,
+
+   Thank you for your feedback regarding Guideline 1.3 (Kids Category). 
+
+   In the updated build, we have implemented an Apple-compliant Parental Gate (`ParentalGateModal`) that guards all document printing (AirPrint worksheets and graduation certificates) as well as data reset actions:
+
+   1. How the Parental Gate Works:
+      - When a user taps "Print Worksheet", "Print Certificate", or "Reset Progress", the app presents an adult verification modal: "Parental Permission - Grown-Ups Only".
+      - The gate requires solving a randomized, word-spelled arithmetic problem (e.g., "What is forty-seven plus twenty-eight?" or "Multiply eight by seven").
+      - Only upon correctly solving the problem does the app proceed to invoke the AirPrint print preview sheet.
+      - If an incorrect answer is given, the gate immediately regenerates a new randomized question to prevent guessing.
+
+   2. Inability to Disable:
+      - The parental gate cannot be disabled or bypassed anywhere in the application.
+
+   Thank you for reviewing our updated build.
+   ```
+
+3. **Privacy Policy URL:**
    - Apple requires a publicly accessible Privacy Policy link for all apps in the Kids Category.
-3. **App Store Screenshots Required (iPad Only):**
+4. **App Store Screenshots Required (iPad Only):**
    - **12.9" / 13" iPad Pro:** 2048 × 2732 pixels (or 2732 × 2048 in landscape). You can capture this directly from the Xcode iPad Simulator with `Cmd + S`. (Since the app is designated for iPad only, no iPhone screenshots are requested by Apple).
-4. **App Store Icon:**
+5. **App Store Icon:**
    - 1024 × 1024 px PNG with no transparency (Apple applies the squircle rounded corners automatically).
 
 ---

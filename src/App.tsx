@@ -25,6 +25,7 @@ import DonationStation from './components/DonationStation';
 import SmartSaverQuiz from './components/SmartSaverQuiz';
 import ModuleWorksheet, { printDirectWorksheet } from './components/ModuleWorksheet';
 import OwlLogo from './components/OwlLogo';
+import { ParentalGateModal } from './components/ParentalGateModal';
 
 import { UserProfile } from './types';
 import { playPopSound, playCoinSound, playFanfareSound, toggleMute, getMuteState } from './utils/soundEffects';
@@ -269,16 +270,21 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const [showResetParentalGate, setShowResetParentalGate] = useState<boolean>(false);
+
   const resetProgress = () => {
-    if (window.confirm('Reset stars and completed activities?')) {
-      updateProfile(prev => ({
-        ...prev,
-        stars: 0,
-        completedModules: [],
-        wallet: 5.00
-      }));
-      playPopSound();
-    }
+    setShowResetParentalGate(true);
+  };
+
+  const executeResetProgress = () => {
+    setShowResetParentalGate(false);
+    updateProfile(prev => ({
+      ...prev,
+      stars: 0,
+      completedModules: [],
+      wallet: 5.00
+    }));
+    playPopSound();
   };
 
   const activeModule = MODULES_LIST.find(m => m.id === activeModuleId) || MODULES_LIST[0];
@@ -623,18 +629,16 @@ export default function App() {
             </button>
             <button
               id="btn-module-tab-worksheet"
-              onClick={async () => {
+              onClick={() => {
                 playPopSound();
                 if (!viewingWorksheet) {
                   setViewingWorksheet(true);
-                }
-                // If worksheet is already active, trigger its handler to preserve any student name/answers entered
-                const printBtn = document.getElementById('btn-print-action') as HTMLButtonElement | null;
-                if (printBtn && viewingWorksheet) {
-                  printBtn.click();
                 } else {
-                  // Direct standalone print: builds and prints the pristine worksheet HTML without relying on DOM
-                  await printDirectWorksheet(activeModule.id);
+                  // If worksheet is already active, trigger its handler which safely opens the Parental Gate
+                  const printBtn = document.getElementById('btn-print-action') as HTMLButtonElement | null;
+                  if (printBtn) {
+                    printBtn.click();
+                  }
                 }
               }}
               className={`flex-1 font-display font-black text-sm sm:text-base py-3 px-4 rounded-2xl border-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer flex items-center justify-center gap-2 ${
@@ -644,7 +648,7 @@ export default function App() {
               }`}
             >
               <Printer size={18} />
-              <span>PRINT {activeModule.title} WORKSHEET</span>
+              <span>{viewingWorksheet ? `PRINT ${activeModule.title} WORKSHEET` : `VIEW ${activeModule.title} WORKSHEET`}</span>
             </button>
           </div>
 
@@ -774,6 +778,13 @@ export default function App() {
         </main>
       )}
 
+      {/* Apple Kids Category Compliant Parental Gate for Resetting Progress */}
+      <ParentalGateModal
+        isOpen={showResetParentalGate}
+        actionTitle="reset all stars, coins, and learning progress"
+        onSuccess={executeResetProgress}
+        onCancel={() => setShowResetParentalGate(false)}
+      />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { Star, Award, CheckCircle2, XCircle, ArrowRight, RefreshCw, Trophy, Spar
 import { QuizQuestion } from '../types';
 import { buildCertificateHtml, triggerPrint } from '../utils/printService';
 import { playPopSound, playSoftChime, playSoftBoop, playFanfareSound } from '../utils/soundEffects';
+import { ParentalGateModal } from './ParentalGateModal';
 
 interface SmartSaverQuizProps {
   onAddStars: (stars: number) => void;
@@ -210,7 +211,14 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
     }
   };
 
-  const handlePrint = async () => {
+  const [showParentalGate, setShowParentalGate] = useState<boolean>(false);
+
+  const handlePrint = () => {
+    setShowParentalGate(true);
+  };
+
+  const executePrintCertificate = async () => {
+    setShowParentalGate(false);
     setIsPrinting(true);
     try {
       const html = buildCertificateHtml({
@@ -479,6 +487,14 @@ export default function SmartSaverQuiz({ onAddStars, onNextModule }: SmartSaverQ
 
         </div>
       )}
+
+      {/* Apple Kids Category Compliant Parental Gate for AirPrint Certificate */}
+      <ParentalGateModal
+        isOpen={showParentalGate}
+        actionTitle="open printer options to print your graduation certificate"
+        onSuccess={executePrintCertificate}
+        onCancel={() => setShowParentalGate(false)}
+      />
     </div>
   );
 }

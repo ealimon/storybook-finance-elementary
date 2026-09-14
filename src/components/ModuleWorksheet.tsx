@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Printer, BookOpen, CheckCircle, HelpCircle, Sparkles, Loader2 } from 'lucide-react';
+import { Printer, BookOpen, CheckCircle, HelpCircle, Sparkles, Loader2, ShieldCheck } from 'lucide-react';
 import { buildWorksheetHtml, triggerPrint } from '../utils/printService';
+import { ParentalGateModal } from './ParentalGateModal';
 
 interface Question {
   question: string;
@@ -729,7 +730,14 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
     }));
   };
 
-  const handlePrint = async () => {
+  const [showParentalGate, setShowParentalGate] = useState<boolean>(false);
+
+  const handlePrint = () => {
+    setShowParentalGate(true);
+  };
+
+  const executePrint = async () => {
+    setShowParentalGate(false);
     setIsPrinting(true);
     try {
       const currentAnswers: Record<string | number, string> = {};
@@ -1117,6 +1125,14 @@ export default function ModuleWorksheet({ moduleId, onClose }: ModuleWorksheetPr
           </div>
         </div>
       </div>
+
+      {/* Apple Kids Category Compliant Parental Gate for AirPrint */}
+      <ParentalGateModal
+        isOpen={showParentalGate}
+        actionTitle="open printer options to print this worksheet"
+        onSuccess={executePrint}
+        onCancel={() => setShowParentalGate(false)}
+      />
     </div>
   );
 }
