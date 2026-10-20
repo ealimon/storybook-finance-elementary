@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.limon.storybookfinance',
+  appId: 'com.limon.storybook-finance',
   appName: 'Storybook Finance Suite',
   webDir: 'dist',
   server: {

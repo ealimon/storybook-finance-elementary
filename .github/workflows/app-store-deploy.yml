@@ -85,6 +85,7 @@ jobs:
               content = content.replace(/PRODUCT_BUNDLE_IDENTIFIER\s*=\s*[^;]+;/g, "PRODUCT_BUNDLE_IDENTIFIER = com.limon.storybook-finance;");
               content = content.replace(/IPHONEOS_DEPLOYMENT_TARGET\s*=\s*[0-9.]+;/g, "IPHONEOS_DEPLOYMENT_TARGET = 16.0;");
               content = content.replace(/TARGETED_DEVICE_FAMILY\s*=\s*[^;]+;/g, "TARGETED_DEVICE_FAMILY = \"2\";");
+              content = content.replace(/MARKETING_VERSION\s*=\s*[^;]+;/g, "MARKETING_VERSION = 1.1;");
               content = content.replace(/CURRENT_PROJECT_VERSION\s*=\s*[0-9.]+;/g, "CURRENT_PROJECT_VERSION = ${{ github.run_number }};");
               content = content.replace(/DEVELOPMENT_TEAM\s*=\s*[^;]+;/g, "DEVELOPMENT_TEAM = EYQARSHNW2;");
               fs.writeFileSync(pbxPath, content);

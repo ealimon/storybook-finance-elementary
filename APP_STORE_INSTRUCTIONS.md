@@ -8,7 +8,7 @@ This project (**Storybook Financial Literacy**) has been pre-configured with **C
 
 - **Capacitor Core & iOS Engine:** `@capacitor/core`, `@capacitor/ios`, and `@capacitor/cli` installed, alongside `@capacitor/share`, `@capacitor/filesystem`, and `@capgo/capacitor-printer`.
 - **Target Platform:** iPad-Only (`TARGETED_DEVICE_FAMILY = "2"` in Xcode), optimized for classrooms and elementary tablet learning.
-- **Bundle Identifier:** `com.limon.storybookeducation` (configured in `capacitor.config.ts` and automated workflow).
+- **Bundle Identifier:** `com.limon.storybook-finance` (configured in `capacitor.config.ts` and automated workflow).
 - **Apple Developer Team ID:** `EYQARSHNW2`.
 - **App Name:** `Storybook Financial Literacy`.
 - **Automated Cloud CI/CD:** GitHub Actions workflow pre-installed at `.github/workflows/app-store-deploy.yml`.
@@ -65,7 +65,7 @@ npx cap open ios
 2. Select the **App** target, then click the **Signing & Capabilities** tab:
    - Check **"Automatically manage signing"**.
    - Under **Team**, select your Apple Developer account (`EYQARSHNW2`).
-   - The Bundle Identifier will show: `com.limon.storybookeducation`.
+   - The Bundle Identifier will show: `com.limon.storybook-finance`.
 3. Select an iOS Simulator (e.g. **iPhone 16 Pro** or **iPad Air**) or connect your physical iPhone.
 4. Press **Run (▶)** to test the native application.
 

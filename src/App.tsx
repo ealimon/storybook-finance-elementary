@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Volume2,
@@ -13,17 +13,17 @@ import {
 } from 'lucide-react';
 
 // Import all 10 custom game modules
-import CoinCatcher from './components/CoinCatcher';
-import NeedsWants from './components/NeedsWants';
-import ThreeJars from './components/ThreeJars';
-import SweetShop from './components/SweetShop';
-import ChoreBoard from './components/ChoreBoard';
-import InterestMagic from './components/InterestMagic';
-import ToyTradeoff from './components/ToyTradeoff';
-import ReceiptMatcher from './components/ReceiptMatcher';
-import DonationStation from './components/DonationStation';
-import SmartSaverQuiz from './components/SmartSaverQuiz';
-import ModuleWorksheet, { printDirectWorksheet } from './components/ModuleWorksheet';
+const CoinCatcher = lazy(() => import('./components/CoinCatcher'));
+const NeedsWants = lazy(() => import('./components/NeedsWants'));
+const ThreeJars = lazy(() => import('./components/ThreeJars'));
+const SweetShop = lazy(() => import('./components/SweetShop'));
+const ChoreBoard = lazy(() => import('./components/ChoreBoard'));
+const InterestMagic = lazy(() => import('./components/InterestMagic'));
+const ToyTradeoff = lazy(() => import('./components/ToyTradeoff'));
+const ReceiptMatcher = lazy(() => import('./components/ReceiptMatcher'));
+const DonationStation = lazy(() => import('./components/DonationStation'));
+const SmartSaverQuiz = lazy(() => import('./components/SmartSaverQuiz'));
+const ModuleWorksheet = lazy(() => import('./components/ModuleWorksheet'));
 import OwlLogo from './components/OwlLogo';
 import { ParentalGateModal } from './components/ParentalGateModal';
 
@@ -181,7 +181,7 @@ export default function App() {
       name: 'Young Investor',
       avatar: '🦉',
       wallet: 5.00,
-      stars: 15,
+      stars: 0,
       completedModules: [],
       choreEarnings: 0,
       savingsGoal: {
@@ -289,7 +289,7 @@ export default function App() {
 
   const activeModule = MODULES_LIST.find(m => m.id === activeModuleId) || MODULES_LIST[0];
   const completedCount = profile.completedModules.length;
-  const isCertificateUnlocked = completedCount >= 5 || profile.stars >= 30;
+  const isCertificateUnlocked = completedCount >= 5;
 
   // Filtered list of modules
   const displayedModules = MODULES_LIST.filter(mod => {
@@ -310,9 +310,11 @@ export default function App() {
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-2 flex-wrap sm:flex-nowrap">
           
           {/* Logo & Portal Branding */}
-          <div 
+          <button
+            type="button"
+            aria-label="Back to home"
             onClick={backToPlayground}
-            className="flex items-center gap-2.5 cursor-pointer group"
+            className="flex items-center gap-2.5 cursor-pointer group text-left"
           >
             <div className="w-11 h-11 rounded-2xl overflow-hidden border-3 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:scale-105 transition-all bg-amber-400 shrink-0">
               <OwlLogo className="w-full h-full" />
@@ -325,7 +327,7 @@ export default function App() {
                 Storybook Finance
               </h1>
             </div>
-          </div>
+          </button>
 
           {/* Action & Stats Pills */}
           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
@@ -498,10 +500,9 @@ export default function App() {
                 <div
                   key={mod.id}
                   id={`card-module-${mod.id}`}
-                  onClick={() => openModule(mod.id, false)}
                   className={`${mod.bgColor} border-4 border-black rounded-3xl p-5 sm:p-6 lg:p-7 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:shadow-[7px_7px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all flex flex-col justify-between cursor-pointer group`}
                 >
-                  <div className="cursor-pointer">
+                  <div>
                     {/* Category Label Pill & Grade Badge */}
                     <div className="flex items-center justify-between gap-2 mb-3.5">
                       <span className="bg-black text-white px-3.5 py-1.5 rounded-xl font-display font-black text-xs sm:text-sm tracking-wider uppercase">
@@ -520,7 +521,7 @@ export default function App() {
                     </div>
 
                     {/* Icon + Title + Description (Clickable Area) */}
-                    <div className="flex items-start gap-4 sm:gap-5 mb-5">
+                    <button type="button" onClick={() => openModule(mod.id, false)} aria-label={`Play ${mod.title}`} className="flex items-start gap-4 sm:gap-5 mb-5 text-left w-full cursor-pointer">
                       <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white border-3 sm:border-4 border-black flex items-center justify-center text-3xl sm:text-4xl shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] shrink-0 group-hover:scale-105 transition-transform">
                         {mod.emoji}
                       </div>
@@ -532,7 +533,7 @@ export default function App() {
                           {mod.description}
                         </p>
                       </div>
-                    </div>
+                    </button>
                   </div>
 
                   {/* WonderKids Action Buttons: WORKSHEET (left) & LET'S PLAY (right) */}
@@ -655,6 +656,7 @@ export default function App() {
           {/* ======================================================================= */}
           {/* THE FULL GAME WORKSPACE (100% WIDTH CANVAS FOR IPAD PERFECTION!) */}
           {/* ======================================================================= */}
+          <Suspense fallback={<div className="py-16 text-center font-display font-black text-xl text-slate-600" role="status">Loading… ⏳</div>}>
           <AnimatePresence mode="wait">
             {viewingWorksheet ? (
               <motion.div
@@ -748,6 +750,7 @@ export default function App() {
               </motion.div>
             )}
           </AnimatePresence>
+          </Suspense>
 
           {/* BOTTOM QUICK NAV BUTTONS */}
           <div className="pt-4 pb-8 flex items-center justify-between gap-3 no-print">
